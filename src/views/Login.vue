@@ -1,14 +1,7 @@
 <template>
-    <div class="login-container">
-        <h1>Bem-vindo(a) de volta!</h1>
+  <header class="navbar">
+    <div class="navbar_marca">
+      <img class="navbar_logo" src="">
     </div>
+  </header>
 </template>
-
-
-<style scoped>
-</style>
-<script>
-export default {
-    name: 'Login'
-}
-</script>
