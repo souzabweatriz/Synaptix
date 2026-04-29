@@ -2,7 +2,7 @@
     <div class="shell">
         <aside class="sidebar">
             <div class="logotipo">
-                <img class="logo" src="../assets/LogoTipo.svg">
+                <img class="logo" src="/logo.png">
             </div>
             <nav class="menu">
                 <RouterLink to="/Dashboard/Funcionarios" class="menu-item" active-class="active">
@@ -141,7 +141,7 @@
 </style>
  
 <script setup>
-import { useSupabase } from '../composables/useSupabase'
+import { useSupabase } from '../src/composables/useSupabase.js'
 import { useRouter } from 'vue-router'
 import { RouterLink, RouterView } from 'vue-router'
 const { supabase } = useSupabase()
@@ -149,7 +149,7 @@ const router = useRouter()
 async function sair() {
     try {
         await supabase.auth.signOut()
-        router.push('/Login')
+        router.push('/login')
     }
     catch (err) {
         console.error('Erro ao fazer logout:', err)
