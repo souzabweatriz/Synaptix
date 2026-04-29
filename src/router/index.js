@@ -19,29 +19,30 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(r => r.meta.requiresAuth)
-  
+
   const { data: { session } } = await supabase.auth.getSession()
   if (requiresAuth && !session) {
     next('/Login')
   } else {
     next()
-  const requiresAuth = to.matched.some(r => r.meta && r.meta.requiresAuth)
+    const requiresAuth = to.matched.some(r => r.meta && r.meta.requiresAuth)
 
-  if (!requiresAuth) {
-    return next()
-  }
-
-  try {
-    const { data: { session } } = await supabase.auth.getSession()
-
-    if (!session) {
-      return next({ name: 'login' })
+    if (!requiresAuth) {
+      return next()
     }
 
-    next()
-  } catch (error) {
-    console.error('Erro ao verificar sessão:', error)
-    next({ name: 'login' })
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+
+      if (!session) {
+        return next({ name: 'login' })
+      }
+
+      next()
+    } catch (error) {
+      console.error('Erro ao verificar sessão:', error)
+      next({ name: 'login' })
+    }
   }
 })
 export default router
