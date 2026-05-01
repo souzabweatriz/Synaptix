@@ -2,7 +2,7 @@
     <div class="shell">
         <aside class="sidebar">
             <div class="logotipo">
-                <img class="logo" src="/logo.png">
+                <img class="logo" src="../public/Images/logo.png">
             </div>
             <nav class="menu">
                 <RouterLink to="/Dashboard/Funcionarios" class="menu-item" active-class="active">
