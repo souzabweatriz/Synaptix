@@ -3,26 +3,38 @@ import { supabase } from '../composables/useSupabase'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Inventario from '../views/Inventario.vue'
+import Adicionar from '../views/Adicionar.vue'
+import EmUso from '../views/EmUso.vue'
+import Retirada from '../views/Retirada.vue'
+import Relatorio from '../views/Relatorio.vue'
 
 const routes = [
+
+  {
+    path: '/Dashboard', component: Dashboard,
+    meta: { requiresAuth: true },
+    children: [
+      { path: 'Dashboard', component: Dashboard },
+      { path: 'Inventario', component: Inventario },
+      { path: 'Adicionar', component: Adicionar },
+      { path: 'EmUso', component: EmUso },
+      { path: 'Retirada', component: Retirada },
+      { path: 'Relatorios', component: Relatorio },
+    ]
+  },
+
   {
     path: '/',
     name: 'home',
     component: Home,
   },
+
   {
     path: '/login',
     name: 'login',
     component: Login,
-  },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: Dashboard,
-    meta: {
-      requiresAuth: true,
-    },
-  },
+  },  
 ]
 
 const router = createRouter({
