@@ -28,7 +28,7 @@ const router = useRouter();
     justify-content: space-between;
     width: 100%;
     height: 4.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.423);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.423);
 }
 
 .header-content {
