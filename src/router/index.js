@@ -15,7 +15,7 @@ const routes = [
     path: '/Dashboard', component: Dashboard,
     meta: { requiresAuth: true },
     children: [
-      { path: 'Dashboard', component: Dashboard },
+      { path: '', redirect: '/Dashboard/Inventario' },
       { path: 'Inventario', component: Inventario },
       { path: 'Adicionar', component: Adicionar },
       { path: 'EmUso', component: EmUso },

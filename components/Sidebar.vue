@@ -1,13 +1,10 @@
 <template>
   <div class="shell">
-    <aside class="sidebar">
 
-      <!-- LOGO -->
+    <aside class="sidebar">
       <div class="logotipo">
         <img class="logo" src="/logo-sf.png" alt="logo" />
       </div>
-
-      <!-- MENU -->
       <nav class="menu">
         <RouterLink to="/Dashboard/Inventario" class="menu-item" active-class="active">
           <img class="icon" src="/inventario.png" />
@@ -44,7 +41,6 @@
           <span>Configurações</span>
         </RouterLink>
 
-        <!-- SAIR -->
         <button @click="sair" class="menu-item botao-sair">
           <img class="icon" src="/sair.png" />
           <span>Sair</span>
@@ -70,8 +66,24 @@
   </div>
 </template>
 
-<style scoped>
+<script setup>
+import { useRouter } from 'vue-router';
+import { useSupabase } from '../src/composables/useSupabase';
 
+const router = useRouter();
+const { supabase } = useSupabase();
+
+async function sair() {
+  try {
+    await supabase.auth.signOut();
+    router.push('/Login');
+  } catch (error) {
+    console.error('Erro ao sair:', error);
+  }
+}
+</script>
+
+<style scoped>
 .shell {
   display: flex;
   height: 100vh;
@@ -93,27 +105,28 @@
 .logotipo {
   display: flex;
   justify-content: center;
-  padding: 16px;
+  padding: 1.5rem;
 }
 
 .logo {
-  width: 80px;
+  width: 6rem;
 }
 
 /* MENU */
 .menu {
   display: flex;
+  padding-bottom: 8rem;
   flex-direction: column;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 20px;
+  gap: 0.625rem;
+  padding: 0.875rem 1.25rem;
   text-decoration: none;
   color: #666;
-  font-size: 14px;
+  font-size: 0.875rem;
   transition: 0.3s;
   border: none;
   background: transparent;
@@ -126,8 +139,8 @@
 
 /* ÍCONE */
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   transition: 0.3s;
 }
 
@@ -153,37 +166,37 @@
 .user {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 15px;
+  gap: 0.625rem;
+  padding: 1.25rem;
   background: linear-gradient(90deg, #330136, #93039C);
   color: white;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .user img {
   border-radius: 50%;
-  width: 40px;
+  width: 2.5rem;
 }
 
 .user p {
   margin: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .dot {
-  height: 6px;
-  width: 6px;
+  height: 0.375rem;
+  width: 0.375rem;
   background: #00ff6a;
   border-radius: 50%;
   display: inline-block;
-  margin-right: 4px;
+  margin-right: 0.25rem;
 }
 
 /* CONTEÚDO */
 .conteudo {
   flex-grow: 1;
-  margin-left: 250px;
-  padding: 30px;
+  margin-left: 15.625rem;
+  background-color: #F8F9FA;
+  padding: 1.875rem;
 }
-
 </style>
