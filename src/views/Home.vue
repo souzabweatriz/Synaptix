@@ -52,16 +52,18 @@ import 'primeicons/primeicons.css';
 }
 
 .section {
+    margin-top: 0.5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 0 1rem 0 0;
+    gap: 3rem;
+    background-color: #FAFAFA;
 }
 
 .home-aside {
     display: flex;
-    margin-left: 1.5rem;
+    margin-top: 2rem;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
@@ -72,12 +74,14 @@ import 'primeicons/primeicons.css';
 
 .image-aside {
     margin-top: 4rem;
-    width: 50%;
+    width: 45%;
 }
 
+
 .title-aside {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 0.25rem;
+    width: 80%;
 }
 
 .title-aside span {
@@ -88,9 +92,11 @@ import 'primeicons/primeicons.css';
 }
 
 .subtitle-aside {
+    font-weight: 300;
     font-size: 1.2rem;
     color: black;
     margin-bottom: 0.25rem;
+    text-align: justify;
 }
 
 .subtitle-aside span {
@@ -102,7 +108,9 @@ import 'primeicons/primeicons.css';
     flex-wrap: wrap;
     gap: 0.85rem;
     width: 100%;
+    transform: translateY(0.5rem);
 }
+
 
 .card-items-aside {
     display: flex;
@@ -110,9 +118,16 @@ import 'primeicons/primeicons.css';
     justify-content: center;
     width: 20rem;
     height: 4rem;
-    border: 0.06rem solid #cc6670;
+    border: 0.1rem solid #cc6670;
     border-radius: 0.45rem;
     background: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-items-aside:hover {
+    transform: translateY(-0.35rem);
+    box-shadow: 0 0.7rem 1.4rem rgba(139, 47, 67, 0.16);
+    border-color: #8b2f43;
 }
 
 .card-items-aside i {
@@ -152,6 +167,11 @@ import 'primeicons/primeicons.css';
     color: #fff;
     font-size: 0.92rem;
     font-weight: 600;
+    cursor: pointer;
+}
+
+.button-aside:hover {
+    background: #ff5e35;
 }
 
 .button-aside + i {
@@ -166,10 +186,34 @@ import 'primeicons/primeicons.css';
     font-size: 0.85rem;
 }
 
+@media (max-width: 1024px) {
+    .home-aside {
+        width: 100%;
+        margin-top: 2rem;
+    }
+}
+
 @media (max-width: 640px) {
-    .section {
+    .home-aside{
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        justify-content: center;
+    }
+    .section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .items-aside {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 30rem;
+        align-items: center;
     }
 
     .home-aside {
@@ -179,7 +223,7 @@ import 'primeicons/primeicons.css';
     }
 
     .image-aside {
-        width: 100%;
+        width: 80%;
         margin-top: 1rem;
     }
 
@@ -188,7 +232,7 @@ import 'primeicons/primeicons.css';
     }
 
     .button-aside {
-        width: 100%;
+        width: 17rem;
     }
 }
 </style>
