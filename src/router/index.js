@@ -3,6 +3,7 @@ import { supabase } from '../composables/useSupabase'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Cadastro from '../views/Cadastro.vue'
 
 const routes = [
   {
@@ -16,12 +17,11 @@ const routes = [
     component: Login,
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: Dashboard,
-    meta: {
-      requiresAuth: true,
-    },
+    path: '/Dashboard', component: Dashboard,
+    // meta: { requiresAuth: true },
+    children: [
+      { path: 'Cadastro', component: Cadastro },
+    ]
   },
 ]
 

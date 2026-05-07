@@ -1,158 +1,198 @@
 <template>
-    <div class="shell">
-        <aside class="sidebar">
-            <div class="logotipo">
-                <img class="logo" src="/logo.png">
-            </div>
-            <nav class="menu">
-                <RouterLink to="/Dashboard/Funcionarios" class="menu-item" active-class="active">
-                    <span>Funcionários</span>
-                </RouterLink>
-                <RouterLink to="/Dashboard/Entregas" class="menu-item" active-class="active">
-                    <span>Entregas de EPI</span>
-                </RouterLink>
-                <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
-                    <span>Relatórios</span>
-                </RouterLink>
-            </nav>
-            <button @click="sair" class="botao-sair">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Sair</span>
-            </button>
-        </aside>
-        <main class="conteudo">
-            <RouterView />
-        </main>
-    </div>
+  <div class="shell">
+    <aside class="sidebar">
+ 
+      <!-- LOGO -->
+      <div class="logotipo">
+        <!-- <img class="logo" src="/public/logo-sf.png" alt="logo" /> -->
+      </div>
+ 
+      <!-- MENU -->
+      <nav class="menu">
+        <RouterLink to="/Dashboard/Dashboard" class="menu-item" active-class="active">
+          <!-- <img src="/public/dashboard.png" alt="dashboard"/> -->
+          <span>Dashboard</span>
+        </RouterLink>
+ 
+        <RouterLink to="/Dashboard/Inventario" class="menu-item" active-class="active">
+          <!-- <img class="icon" src="/public/inventario.png" alt="inventário"/> -->
+          <span>Inventário</span>
+        </RouterLink>
+ 
+        <RouterLink to="/Dashboard/Adicionar" class="menu-item" active-class="active">  
+          <!-- <img class="icon" src="/public/adicionar.png" alt="adicionar"/> -->
+          <span>Adicionar EPI</span>
+        </RouterLink>
+ 
+        <RouterLink to="/Dashboard/EmUso" class="menu-item" active-class="active">
+          <!-- <img class="icon" src="/public/em-uso.png" alt="em uso"/> -->
+          <span>EPIs em Uso</span>
+        </RouterLink>
+ 
+        <RouterLink to="/Dashboard/Retirada" class="menu-item" active-class="active">
+          <!-- <img class="icon" src="/public/retirada.png" alt="retirada"/> -->
+          <span>Registrar Retirada</span>
+        </RouterLink>
+ 
+        <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
+          <!-- <img class="icon" src="/public/relatorios.png"/> -->
+          <span>Relatórios</span>
+        </RouterLink>
+ 
+        <RouterLink to="/Dashboard/Perfil" class="menu-item" active-class="active">
+          <!-- <img class="icon" src="/public/perfil.png"/> -->
+          <span>Perfil</span>
+        </RouterLink>
+ 
+        <RouterLink to="/Dashboard/Configuracoes" class="menu-item" active-class="active">
+          <!-- <img class="icon" src="/public/configuracoes.png"/> -->
+          <span>Configurações</span>
+        </RouterLink>
+      </nav>
+ 
+      <!-- USUÁRIO + SAIR -->
+      <div class="footer">
+ 
+        <button @click="sair" class="botao-sair">
+          Sair
+        </button>
+ 
+        <div class="user">
+          <!-- <img src="/public/user.png" alt="user" /> -->
+          <div>
+            <strong>Julie Antrez</strong>
+            <p><span class="dot"></span> Conectado</p>
+          </div>
+        </div>
+      </div>
+ 
+    </aside>
+ 
+    <main class="conteudo">
+      <RouterView />
+    </main>
+  </div>
 </template>
  
 <style scoped>
-.shell {
-    display: flex;
-    height: 100vh;
+ 
+.logotipo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
-.sidebar {
-    display: flex;
-    gap: 1rem;
-    width: 15rem;
-    height: 100vh;
-    background-color: #0A3B59;
-    flex-direction: column;
-    position: fixed;
-    z-index: 1000;
-    overflow-y: auto;
+ 
+img.logo {
+  width: 5rem;
+  height: 2rem;
 }
-.logotipo{
-    display: flex;
-    background-color: #f2f2f2;
-    width: 15rem;
-}
-.logo {
-    width: 14rem;
-    padding-left: 1rem;
-}
-.menu {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
+ 
 .menu-item {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1rem;
-    color: #f2f2f2;
-    text-decoration: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding-right: 10rem;
 }
+ 
+.icon {
+  width: 1rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+}
+ 
+ 
+/* SIDEBAR */
+.sidebar {
+  width: 15rem;
+  height: 100vh;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.15);
+}
+ 
+ 
+/* MENU */
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+ 
+.menu-item {
+  padding: 14px 20px;
+  text-decoration: none;
+  color: #666;
+  font-size: 15px;
+  transition: 0.3s;
+}
+ 
 .menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  background: #eaeaea;
 }
+ 
+/* ITEM ATIVO (igual imagem) */
 .menu-item.active {
-    background-color: rgba(255, 255, 255, 0.2);
-    font-weight: 600;
-    border-left: 0.2rem solid #f2f2f2;
+  background: linear-gradient(90deg, #330136, #93039C);
+  color: white;
+  font-weight: 600;
 }
-.menu-item i {
-    font-size: 20px;
-    width: 24px;
-    text-align: center;
+ 
+/* FOOTER */
+.footer {
+  display: flex;
+  flex-direction: column;
 }
+ 
+/* USER */
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: linear-gradient(90deg, #330136, #93039C);
+  color: white;
+}
+ 
+.user img {
+  border-radius: 50%;
+}
+ 
+.user p {
+  margin: 0;
+  font-size: 12px;
+}
+ 
+.dot {
+  height: 8px;
+  width: 8px;
+  background: #00ff6a;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+ 
+/* BOTÃO SAIR */
 .botao-sair {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f2f2f2;
-    border: none;
-    height: 2.5rem;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    width: 100%;
+  background: transparent;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  color: #666;
+  font-weight: 600;
 }
+ 
 .botao-sair:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+  background: #eaeaea;
 }
-.botao-sair:active {
-    transform: scale(0.98);
-}
-.botao-sair i {
-    font-size: 18px;
-}
+ 
+/* CONTEÚDO */
 .conteudo {
-    flex-grow: 1;
-    margin-left: 250px;
-    padding: 30px;
-    overflow-y: auto;
-    background-color: #FFFFFF;
-}
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px;
-    }
-    .conteudo {
-        margin-left: 200px;
-        padding: 20px;
-    }
-    .logo {
-        font-size: 20px;
-        margin-bottom: 30px;
-    }
-    .menu-item {
-        padding: 12px 15px;
-        font-size: 14px;
-    }
-}
-@media (max-width: 480px) {
-    .sidebar {
-        width: 100%;
-        position: absolute;
-        height: auto;
-    }
-    .conteudo {
-        margin-left: 0;
-        padding: 15px;
-    }
+  flex-grow: 1;
+  margin-left: 250px;
+  padding: 30px;
+  background-color: #F8F9FA;
 }
 </style>
  
-<script setup>
-import { useSupabase } from '../src/composables/useSupabase.js'
-import { useRouter } from 'vue-router'
-import { RouterLink, RouterView } from 'vue-router'
-const { supabase } = useSupabase()
-const router = useRouter()
-async function sair() {
-    try {
-        await supabase.auth.signOut()
-        router.push('/login')
-    }
-    catch (err) {
-        console.error('Erro ao fazer logout:', err)
-    }
-}
-</script>
