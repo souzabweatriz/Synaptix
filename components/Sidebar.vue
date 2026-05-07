@@ -1,65 +1,73 @@
 <template>
   <div class="shell">
-
     <aside class="sidebar">
+ 
+      <!-- LOGO -->
       <div class="logotipo">
-        <img class="logo" src="/logo-sf.png" alt="logo" />
+        <!-- <img class="logo" src="/public/logo-sf.png" alt="logo" /> -->
       </div>
+ 
+      <!-- MENU -->
       <nav class="menu">
+        <RouterLink to="/Dashboard/Dashboard" class="menu-item" active-class="active">
+          <!-- <img src="/public/dashboard.png" alt="dashboard"/> -->
+          <span>Dashboard</span>
+        </RouterLink>
+ 
         <RouterLink to="/Dashboard/Inventario" class="menu-item" active-class="active">
-          <img class="icon" src="/inventario.png" />
+          <!-- <img class="icon" src="/public/inventario.png" alt="inventário"/> -->
           <span>Inventário</span>
         </RouterLink>
-
-        <RouterLink to="/Dashboard/Adicionar" class="menu-item" active-class="active">
-          <img class="icon" src="/adicionar.png" />
+ 
+        <RouterLink to="/Dashboard/Adicionar" class="menu-item" active-class="active">  
+          <!-- <img class="icon" src="/public/adicionar.png" alt="adicionar"/> -->
           <span>Adicionar EPI</span>
         </RouterLink>
-
+ 
         <RouterLink to="/Dashboard/EmUso" class="menu-item" active-class="active">
-          <img class="icon" src="/em-uso.png" />
+          <!-- <img class="icon" src="/public/em-uso.png" alt="em uso"/> -->
           <span>EPIs em Uso</span>
         </RouterLink>
-
+ 
         <RouterLink to="/Dashboard/Retirada" class="menu-item" active-class="active">
-          <img class="icon" src="/retirada.png" />
+          <!-- <img class="icon" src="/public/retirada.png" alt="retirada"/> -->
           <span>Registrar Retirada</span>
         </RouterLink>
-
+ 
         <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
-          <img class="icon" src="/relatorios.png" />
+          <!-- <img class="icon" src="/public/relatorios.png"/> -->
           <span>Relatórios</span>
         </RouterLink>
-
+ 
         <RouterLink to="/Dashboard/Perfil" class="menu-item" active-class="active">
-          <img class="icon" src="/perfil.png" />
+          <!-- <img class="icon" src="/public/perfil.png"/> -->
           <span>Perfil</span>
         </RouterLink>
-
+ 
         <RouterLink to="/Dashboard/Configuracoes" class="menu-item" active-class="active">
-          <img class="icon" src="/configuracoes.png" />
+          <!-- <img class="icon" src="/public/configuracoes.png"/> -->
           <span>Configurações</span>
         </RouterLink>
-
-        <button @click="sair" class="menu-item botao-sair">
-          <img class="icon" src="/sair.png" />
-          <span>Sair</span>
-        </button>
       </nav>
-
-      <!-- USER -->
+ 
+      <!-- USUÁRIO + SAIR -->
       <div class="footer">
+ 
+        <button @click="sair" class="botao-sair">
+          Sair
+        </button>
+ 
         <div class="user">
-          <img src="/user.png" />
+          <!-- <img src="/public/user.png" alt="user" /> -->
           <div>
             <strong>Julie Antrez</strong>
             <p><span class="dot"></span> Conectado</p>
           </div>
         </div>
       </div>
-
+ 
     </aside>
-
+ 
     <main class="conteudo">
       <RouterView />
     </main>
@@ -84,119 +92,124 @@ async function sair() {
 </script>
 
 <style scoped>
-.shell {
+ 
+.logotipo {
   display: flex;
-  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
-
+ 
+img.logo {
+  width: 5rem;
+  height: 2rem;
+}
+ 
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding-right: 10rem;
+}
+ 
+.icon {
+  width: 1rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+}
+ 
+ 
 /* SIDEBAR */
 .sidebar {
-  width: 250px;
+  width: 15rem;
   height: 100vh;
-  background: #fff;
+  background: #FFFFFF;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: fixed;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.15);
 }
-
-/* LOGO */
-.logotipo {
-  display: flex;
-  justify-content: center;
-  padding: 1.5rem;
-}
-
-.logo {
-  width: 6rem;
-}
-
+ 
+ 
 /* MENU */
 .menu {
   display: flex;
-  padding-bottom: 8rem;
   flex-direction: column;
 }
-
+ 
 .menu-item {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0.875rem 1.25rem;
+  padding: 14px 20px;
   text-decoration: none;
   color: #666;
-  font-size: 0.875rem;
+  font-size: 15px;
   transition: 0.3s;
-  border: none;
-  background: transparent;
-  cursor: pointer;
 }
-
+ 
 .menu-item:hover {
   background: #eaeaea;
 }
-
-/* ÍCONE */
-.icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  transition: 0.3s;
-}
-
-/* ATIVO (AQUI A MÁGICA) */
+ 
+/* ITEM ATIVO (igual imagem) */
 .menu-item.active {
   background: linear-gradient(90deg, #330136, #93039C);
   color: white;
   font-weight: 600;
 }
-
-/* deixa o ícone branco */
-.menu-item.active .icon {
-  filter: brightness(0) invert(1);
-}
-
+ 
 /* FOOTER */
 .footer {
   display: flex;
   flex-direction: column;
 }
-
+ 
 /* USER */
 .user {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 1.25rem;
+  gap: 10px;
+  padding: 15px;
   background: linear-gradient(90deg, #330136, #93039C);
   color: white;
-  font-size: 0.875rem;
 }
-
+ 
 .user img {
   border-radius: 50%;
-  width: 2.5rem;
 }
-
+ 
 .user p {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 12px;
 }
-
+ 
 .dot {
-  height: 0.375rem;
-  width: 0.375rem;
+  height: 8px;
+  width: 8px;
   background: #00ff6a;
   border-radius: 50%;
   display: inline-block;
-  margin-right: 0.25rem;
+  margin-right: 5px;
 }
-
+ 
+/* BOTÃO SAIR */
+.botao-sair {
+  background: transparent;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  color: #666;
+  font-weight: 600;
+}
+ 
+.botao-sair:hover {
+  background: #eaeaea;
+}
+ 
 /* CONTEÚDO */
 .conteudo {
   flex-grow: 1;
-  margin-left: 15.625rem;
+  margin-left: 250px;
+  padding: 30px;
   background-color: #F8F9FA;
-  padding: 1.875rem;
 }
 </style>
+ 
