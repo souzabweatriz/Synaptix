@@ -6,11 +6,26 @@ import Dashboard from '../views/Dashboard.vue'
 import Cadastro from '../views/Cadastro.vue'
 
 const routes = [
+
+  {
+    path: '/Dashboard', component: Dashboard,
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', redirect: '/Dashboard/Inventario' },
+      { path: 'Inventario', component: Inventario },
+      { path: 'Adicionar', component: Adicionar },
+      { path: 'EmUso', component: EmUso },
+      { path: 'Retirada', component: Retirada },
+      { path: 'Relatorios', component: Relatorio },
+    ]
+  },
+
   {
     path: '/',
     name: 'home',
     component: Home,
   },
+
   {
     path: '/login',
     name: 'login',

@@ -73,7 +73,24 @@
     </main>
   </div>
 </template>
- 
+
+<script setup>
+import { useRouter } from 'vue-router';
+import { useSupabase } from '../src/composables/useSupabase';
+
+const router = useRouter();
+const { supabase } = useSupabase();
+
+async function sair() {
+  try {
+    await supabase.auth.signOut();
+    router.push('/Login');
+  } catch (error) {
+    console.error('Erro ao sair:', error);
+  }
+}
+</script>
+
 <style scoped>
  
 .logotipo {
