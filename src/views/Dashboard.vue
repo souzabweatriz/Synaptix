@@ -43,8 +43,7 @@ import Sidebar from '../../components/Sidebar.vue'
 
 <style scoped>
 
-/* =========================
-   LAYOUT
+/* LAYOUT */
 
 .dashboard-layout {
   display: flex;
@@ -55,8 +54,7 @@ import Sidebar from '../../components/Sidebar.vue'
   background: #f8f9fa;
 }
 
-/* =========================
-   CONTEÚDO
+/* CONTEÚDO */
 
 .dashboard-content {
   flex: 1;
