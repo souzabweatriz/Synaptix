@@ -183,7 +183,6 @@ async function sair() {
   .footer {
     width: 100%;
   }
- 
   /* USER */
   .user {
     margin-top: 7.7rem;
