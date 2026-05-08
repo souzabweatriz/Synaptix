@@ -24,6 +24,8 @@ const routes = [
       { path: 'Relatorios', component: Relatorio },
       { path: 'Perfil', component: Perfil }
 
+      { path: 'Perfil', component: Perfil },
+      { path: 'Configuracoes', component: Configuracoes },
     ]
   },
 
