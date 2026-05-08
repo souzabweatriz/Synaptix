@@ -36,6 +36,7 @@
             </div>
             <img src="../../public/Images/homeImg.svg" alt="Imagem de controle de estoque" class="image-aside">
         </div>
+        
     </div>
 </template>
 
@@ -187,9 +188,37 @@ import 'primeicons/primeicons.css';
 }
 
 @media (max-width: 1024px) {
+    .section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
     .home-aside {
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-top: 2rem;
+        padding: 2rem;
+    }
+    .items-aside {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+    }   
+    .image-aside {
+        display: none;
+    }
+    .title-aside{
+        width: 80%;
+    }
+    .subtitle-aside{
+        width: 80%;
     }
 }
 
@@ -233,6 +262,129 @@ import 'primeicons/primeicons.css';
 
     .button-aside {
         width: 17rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .section {
+        gap: 1.5rem;
+        padding: 0 0.75rem;
+    }
+
+    .home-aside {
+        width: 100%;
+        padding: 1rem 0.5rem;
+        gap: 0.6rem;
+    }
+
+    .title-aside {
+        font-size: 2rem;
+        width: 100%;
+    }
+
+    .subtitle-aside {
+        font-size: 0.95rem;
+        width: 100%;
+        text-align: left;
+    }
+
+    .items-aside {
+        width: 100%;
+        gap: 0.6rem;
+    }
+
+    .card-items-aside {
+        width: 100%;
+        height: 3.5rem;
+    }
+
+    .card-items-aside i {
+        width: 2.5rem;
+        height: 2rem;
+        margin-left: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .title-items-aside {
+        font-size: 0.75rem;
+    }
+
+    .button-aside {
+        width: 100%;
+        height: 2.5rem;
+        font-size: 0.85rem;
+    }
+
+    .button-aside + i {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .section {
+        gap: 1rem;
+        padding: 0 0.5rem;
+        margin-top: 0.25rem;
+    }
+
+    .home-aside {
+        width: 100%;
+        padding: 0.75rem 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .title-aside {
+        font-size: 1.75rem;
+        width: 100%;
+        margin-bottom: 0.15rem;
+    }
+
+    .subtitle-aside {
+        font-size: 0.9rem;
+        width: 100%;
+        text-align: left;
+        line-height: 1.4;
+    }
+
+    .items-aside {
+        width: 100%;
+        gap: 0.5rem;
+        transform: translateY(0.25rem);
+    }
+
+    .card-items-aside {
+        width: 100%;
+        height: 3.2rem;
+        border-radius: 0.35rem;
+    }
+
+    .card-items-aside i {
+        width: 2.2rem;
+        height: 1.8rem;
+        margin-left: 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .title-items-aside {
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .button-aside {
+        width: 100%;
+        height: 2.3rem;
+        font-size: 0.8rem;
+        margin-top: 0.6rem;
+    }
+
+    .button-aside + i {
+        font-size: 0.7rem;
+        margin-left: 0.3rem;
+    }
+
+    .image-aside {
+        width: 100%;
+        margin-top: 0.75rem;
     }
 }
 </style>
