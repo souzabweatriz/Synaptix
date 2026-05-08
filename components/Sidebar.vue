@@ -46,13 +46,13 @@
 
       <!-- CONFIGURAÇÕES -->
       <RouterLink to="/Dashboard/Configuracoes" class="menu-item" active-class="active">
-        <img class="icon" src="/configuracoes.png" alt="" />
+        <img class="icon" src="/configuracoes.png"/>
         <span>Configurações</span>
       </RouterLink>
 
       <!-- SAIR -->
       <button @click="sair" class="menu-item botao-sair">
-        <img class="icon" src="/sair.png" alt="" />
+        <img class="icon" src="/sair.png"/>
         <span>Sair</span>
       </button>
 
@@ -183,7 +183,6 @@ async function sair() {
   .footer {
     width: 100%;
   }
-
 
   /* USER */
   .user {
