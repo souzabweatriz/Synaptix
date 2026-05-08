@@ -8,6 +8,8 @@ import Adicionar from '../views/Adicionar.vue'
 import EmUso from '../views/EmUso.vue'
 import Retirada from '../views/Retirada.vue'
 import Relatorio from '../views/Relatorio.vue'
+import Perfil from '../views/Perfil.vue'
+import Configuracoes from '../views/Configuracoes.vue'
 
 const routes = [
 
@@ -21,6 +23,8 @@ const routes = [
       { path: 'EmUso', component: EmUso },
       { path: 'Retirada', component: Retirada },
       { path: 'Relatorios', component: Relatorio },
+      { path: 'Perfil', component: Perfil },
+      { path: 'Configuracoes', component: Configuracoes },
     ]
   },
 
