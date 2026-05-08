@@ -83,7 +83,7 @@
  
 <script setup>
 import { useRouter } from 'vue-router'
-import { useSupabase } from '..src/composables/useSupabase'
+import { useSupabase } from '../src/composables/useSupabase'
  
 const router = useRouter()
  
@@ -183,8 +183,6 @@ async function sair() {
   .footer {
     width: 100%;
   }
- 
-
   /* USER */
   .user {
     margin-top: 7.7rem;
