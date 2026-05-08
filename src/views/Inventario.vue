@@ -1,4 +1,6 @@
 <template>
+    <div class="home">
+    </div>
   <div class="home">
     <h1>Welcome to Synaptixxxxxxx</h1>
 

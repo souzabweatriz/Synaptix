@@ -77,48 +77,48 @@
  
       <!-- LOGO -->
       <div class="logotipo">
-        <!-- <img class="logo" src="/public/logo-sf.png" alt="logo" /> -->
+        <img class="logo" src="/public/logo-sf.png" alt="logo" />
       </div>
  
       <!-- MENU -->
       <nav class="menu">
         <RouterLink to="/Dashboard/Dashboard" class="menu-item" active-class="active">
-          <!-- <img src="/public/dashboard.png" alt="dashboard"/> -->
+          <img src="/public/dashboard.png" alt="dashboard"/>
           <span>Dashboard</span>
         </RouterLink>
  
         <RouterLink to="/Dashboard/Inventario" class="menu-item" active-class="active">
-          <!-- <img class="icon" src="/public/inventario.png" alt="inventário"/> -->
+          <img class="icon" src="/public/inventario.png" alt="inventário"/>
           <span>Inventário</span>
         </RouterLink>
  
         <RouterLink to="/Dashboard/Adicionar" class="menu-item" active-class="active">  
-          <!-- <img class="icon" src="/public/adicionar.png" alt="adicionar"/> -->
+          <img class="icon" src="/public/adicionar.png" alt="adicionar"/>
           <span>Adicionar EPI</span>
         </RouterLink>
  
         <RouterLink to="/Dashboard/EmUso" class="menu-item" active-class="active">
-          <!-- <img class="icon" src="/public/em-uso.png" alt="em uso"/> -->
+          <img class="icon" src="/public/em-uso.png" alt="em uso"/>
           <span>EPIs em Uso</span>
         </RouterLink>
  
         <RouterLink to="/Dashboard/Retirada" class="menu-item" active-class="active">
-          <!-- <img class="icon" src="/public/retirada.png" alt="retirada"/> -->
+          <img class="icon" src="/public/retirada.png" alt="retirada"/>
           <span>Registrar Retirada</span>
         </RouterLink>
  
         <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
-          <!-- <img class="icon" src="/public/relatorios.png"/> -->
+          <img class="icon" src="/public/relatorios.png"/>
           <span>Relatórios</span>
         </RouterLink>
  
         <RouterLink to="/Dashboard/Perfil" class="menu-item" active-class="active">
-          <!-- <img class="icon" src="/public/perfil.png"/> -->
+          <img class="icon" src="/public/perfil.png"/>
           <span>Perfil</span>
         </RouterLink>
  
         <RouterLink to="/Dashboard/Configuracoes" class="menu-item" active-class="active">
-          <!-- <img class="icon" src="/public/configuracoes.png"/> -->
+          <img class="icon" src="/public/configuracoes.png"/>
           <span>Configurações</span>
         </RouterLink>
       </nav>
@@ -131,7 +131,7 @@
         </button>
  
         <div class="user">
-          <!-- <img src="/public/user.png" alt="user" /> -->
+          <img src="/public/user.png" alt="user" />
           <div>
             <strong>Julie Antrez</strong>
             <p><span class="dot"></span> Conectado</p>
