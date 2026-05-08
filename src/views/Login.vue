@@ -131,7 +131,7 @@
 }
  
 .botao-entrar:hover:not(:disabled) {
-  background-color: #002D73;
+  background-color: #730000;
 }
  
 .botao-entrar:disabled {

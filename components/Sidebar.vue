@@ -1,202 +1,288 @@
 <template>
-  <div class="shell">
+  <aside class="sidebar">
 
-    <aside class="sidebar">
-      <div class="logotipo">
-        <img class="logo" src="/logo-sf.png" alt="logo" />
-      </div>
-      <nav class="menu">
-        <RouterLink to="/Dashboard/Inventario" class="menu-item" active-class="active">
-          <img class="icon" src="/inventario.png" />
-          <span>Inventário</span>
-        </RouterLink>
+    <!-- LOGO -->
+    <div class="logotipo">
+      <img class="logo" src="/logo-sf.png" alt="Logo Synaptix" />
+    </div>
 
-        <RouterLink to="/Dashboard/Adicionar" class="menu-item" active-class="active">
-          <img class="icon" src="/adicionar.png" />
-          <span>Adicionar EPI</span>
-        </RouterLink>
+    <!-- MENU -->
+    <nav class="menu">
+      <!-- INVENTÁRIO -->
+      <RouterLink to="/Dashboard/Inventario" class="menu-item" active-class="active">
+        <img class="icon" src="/inventario.png" alt="" />
+        <span>Inventário</span>
+      </RouterLink>
 
-        <RouterLink to="/Dashboard/EmUso" class="menu-item" active-class="active">
-          <img class="icon" src="/em-uso.png" />
-          <span>EPIs em Uso</span>
-        </RouterLink>
+      <!-- ADICIONAR -->
+      <RouterLink to="/Dashboard/Adicionar" class="menu-item" active-class="active">
+        <img class="icon" src="/adicionar.png" alt="" />
+        <span>Adicionar EPI</span>
+      </RouterLink>
 
-        <RouterLink to="/Dashboard/Retirada" class="menu-item" active-class="active">
-          <img class="icon" src="/retirada.png" />
-          <span>Registrar Retirada</span>
-        </RouterLink>
+      <!-- EM USO -->
+      <RouterLink to="/Dashboard/EmUso" class="menu-item" active-class="active">
+        <img class="icon" src="/em-uso.png" alt="" />
+        <span>EPIs em Uso</span>
+      </RouterLink>
 
-        <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
-          <img class="icon" src="/relatorios.png" />
-          <span>Relatórios</span>
-        </RouterLink>
+      <!-- RETIRADA -->
+      <RouterLink to="/Dashboard/Retirada" class="menu-item" active-class="active">
+        <img class="icon" src="/retirada.png" alt="" />
+        <span>Registrar Retirada</span>
+      </RouterLink>
 
-        <RouterLink to="/Dashboard/Perfil" class="menu-item" active-class="active">
-          <img class="icon" src="/perfil.png" />
-          <span>Perfil</span>
-        </RouterLink>
+      <!-- RELATÓRIOS -->
+      <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
+        <img class="icon" src="/relatorios.png" alt="" />
+        <span>Relatórios</span>
+      </RouterLink>
 
-        <RouterLink to="/Dashboard/Configuracoes" class="menu-item" active-class="active">
-          <img class="icon" src="/configuracoes.png" />
-          <span>Configurações</span>
-        </RouterLink>
+      <!-- PERFIL -->
+      <RouterLink to="/Dashboard/Perfil" class="menu-item" active-class="active">
+        <img class="icon" src="/perfil.png" alt="" />
+        <span>Perfil</span>
+      </RouterLink>
 
-        <button @click="sair" class="menu-item botao-sair">
-          <img class="icon" src="/sair.png" />
-          <span>Sair</span>
-        </button>
-      </nav>
+      <!-- CONFIGURAÇÕES -->
+      <RouterLink to="/Dashboard/Configuracoes" class="menu-item" active-class="active">
+        <img class="icon" src="/configuracoes.png" alt="" />
+        <span>Configurações</span>
+      </RouterLink>
 
-      <!-- USER -->
-      <div class="footer">
-        <div class="user">
-          <img src="/user.png" />
-          <div>
-            <strong>Julie Antrez</strong>
-            <p><span class="dot"></span> Conectado</p>
-          </div>
+      <!-- SAIR -->
+      <button @click="sair" class="menu-item botao-sair">
+        <img class="icon" src="/sair.png" alt="" />
+        <span>Sair</span>
+      </button>
+
+    </nav>
+
+    <!-- FOOTER -->
+    <div class="footer">
+
+      <div class="user">
+
+        <img src="/user.png" alt="Usuário" />
+
+        <div>
+
+          <strong>
+            Julie Antrez
+          </strong>
+
+          <p>
+            <span class="dot"></span>
+            Conectado
+          </p>
+
         </div>
+
       </div>
 
-    </aside>
+    </div>
 
-    <main class="conteudo">
-      <RouterView />
-    </main>
-  </div>
+  </aside>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { useSupabase } from '../src/composables/useSupabase';
+import { useRouter } from 'vue-router'
+import { useSupabase } from '../src/composables/useSupabase'
 
-const router = useRouter();
-const { supabase } = useSupabase();
+const router = useRouter()
+
+const { supabase } = useSupabase()
 
 async function sair() {
   try {
-    await supabase.auth.signOut();
-    router.push('/Login');
+
+    await supabase.auth.signOut()
+
+    router.push('/Login')
+
   } catch (error) {
-    console.error('Erro ao sair:', error);
+
+    console.error('Erro ao sair:', error)
+
   }
 }
 </script>
 
 <style scoped>
-.shell {
-  display: flex;
-  height: 100vh;
-}
+/* =========================
+   SIDEBAR
+========================= */
 
-/* SIDEBAR */
 .sidebar {
   width: 250px;
   height: 100vh;
-  background: #fff;
+
+  background: white;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: fixed;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.15);
+
+  overflow-y: auto;
+
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* LOGO */
+/* =========================
+   LOGO
+========================= */
+
 .logotipo {
   display: flex;
   justify-content: center;
+  align-items: center;
+
   padding: 1.5rem;
 }
 
 .logo {
-  width: 6rem;
+  width: 110px;
 }
 
-/* MENU */
+/* =========================
+   MENU
+========================= */
+
 .menu {
   display: flex;
-  padding-bottom: 8rem;
   flex-direction: column;
+
+  gap: 0.3rem;
+
+  margin-top: 1rem;
 }
+
+/* =========================
+   MENU ITEM
+========================= */
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.875rem 1.25rem;
-  text-decoration: none;
-  color: #666;
-  font-size: 0.875rem;
-  transition: 0.3s;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 14px 20px;
+
   border: none;
   background: transparent;
+
+  text-decoration: none;
+
+  color: #666;
+
+  font-size: 15px;
+  font-weight: 500;
+
   cursor: pointer;
-}
 
-.menu-item:hover {
-  background: #eaeaea;
-}
-
-/* ÍCONE */
-.icon {
-  width: 1.25rem;
-  height: 1.25rem;
   transition: 0.3s;
 }
 
-/* ATIVO (AQUI A MÁGICA) */
+/* HOVER */
+
+.menu-item:hover {
+  background: #eeeeee;
+}
+
+/* =========================
+   ITEM ATIVO
+========================= */
+
 .menu-item.active {
-  background: linear-gradient(90deg, #330136, #93039C);
+  background: linear-gradient(90deg,
+      #330136,
+      #93039c);
+
   color: white;
+
   font-weight: 600;
 }
 
-/* deixa o ícone branco */
+/* =========================
+   ÍCONES
+========================= */
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ÍCONE BRANCO */
+
 .menu-item.active .icon {
   filter: brightness(0) invert(1);
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
+
 .footer {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 
-/* USER */
+/* =========================
+   USER
+========================= */
+
 .user {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 1.25rem;
-  background: linear-gradient(90deg, #330136, #93039C);
+
+  gap: 12px;
+
+  padding: 20px;
+
+  background: linear-gradient(90deg,
+      #330136,
+      #93039c);
+
   color: white;
-  font-size: 0.875rem;
 }
 
 .user img {
+  width: 42px;
+  height: 42px;
+
   border-radius: 50%;
-  width: 2.5rem;
+}
+
+.user strong {
+  font-size: 15px;
 }
 
 .user p {
-  margin: 0;
-  font-size: 0.75rem;
+  margin-top: 4px;
+
+  font-size: 12px;
 }
+
+/* =========================
+   STATUS
+========================= */
 
 .dot {
-  height: 0.375rem;
-  width: 0.375rem;
-  background: #00ff6a;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 0.25rem;
-}
+  width: 6px;
+  height: 6px;
 
-/* CONTEÚDO */
-.conteudo {
-  flex-grow: 1;
-  margin-left: 15.625rem;
-  background-color: #F8F9FA;
-  padding: 1.875rem;
+  background: #00ff6a;
+
+  border-radius: 50%;
+
+  display: inline-block;
+
+  margin-right: 5px;
 }
 </style>
