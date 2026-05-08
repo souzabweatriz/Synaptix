@@ -83,7 +83,7 @@
  
 <script setup>
 import { useRouter } from 'vue-router'
-import { useSupabase } from '..src/composables/useSupabase'
+import { useSupabase } from '../src/composables/useSupabase'
  
 const router = useRouter()
  
