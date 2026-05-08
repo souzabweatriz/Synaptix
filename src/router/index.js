@@ -10,6 +10,7 @@ import Retirada from '../views/Retirada.vue'
 import Relatorio from '../views/Relatorio.vue'
 import Perfil from '../views/Perfil.vue'
 import Configuracoes from '../views/Configuracoes.vue'
+import Cadastro from '../views/Cadastro.vue'
 
 const routes = [
 
@@ -38,7 +39,14 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login,
-  },  
+  },
+  {
+    path: '/Dashboard', component: Dashboard,
+    // meta: { requiresAuth: true },
+    children: [
+      { path: 'Cadastro', component: Cadastro },
+    ]
+  },
 ]
 
 const router = createRouter({
@@ -47,23 +55,34 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  try {
-    const requiresAuth = to.matched.some(record => record.meta && record.meta.requiresAuth)
+  const requiresAuth = to.matched.some(r => r.meta.requiresAuth)
+
+  const { data: { session } } = await supabase.auth.getSession()
+  if (requiresAuth && !session) {
+    next('/Login')
+  } else {
+    next()
+    const requiresAuth = to.matched.some(r => r.meta && r.meta.requiresAuth)
 
     if (!requiresAuth) {
       return next()
     }
-
-    const { data: { session } } = await supabase.auth.getSession()
-
-    if (!session) {
-      return next({ name: 'login' })
+    if (!requiresAuth) {
+      return next()
     }
 
-    next()
-  } catch (error) {
-    console.error('Erro ao verificar sessão:', error)
-    next({ name: 'login' })
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+
+      if (!session) {
+        return next({ name: 'login' })
+      }
+
+      next()
+    } catch (error) {
+      console.error('Erro ao verificar sessão:', error)
+      next({ name: 'login' })
+    }
   }
 })
 
