@@ -1,138 +1,115 @@
 <template>
+
   <div class="inventario-page">
+
     <header class="top-section">
       <h1>Estoque de EPIs</h1>
     </header>
 
-    <section class="cards-grid">
+    <!-- GRID DOS CARDS -->
+
+    <div class="grid-cards">
+
       <div
-        class="epi-card"
         v-for="epi in epis"
         :key="epi.id"
+        class="card-epi"
       >
-        <div class="image-box">
-          <img :src="epi.imagem" :alt="epi.nome" />
+
+        <div class="card-image">
+
+          <img
+            :src="epi.imagem_url"
+            :alt="epi.nome_epi || 'EPI'"
+            loading="lazy"
+          />
+
         </div>
 
-        <div class="card-content">
-          <h3>{{ epi.nome }}</h3>
-          <span class="categoria">{{ epi.categoria }}</span>
+        <div class="card-body">
 
-          <div class="info-row">
-            <div class="info-item">
-              <span class="icon">✪</span>
+          <h3>{{ epi.nome_epi }}</h3>
 
-              <div>
-                <strong>{{ epi.cor }}</strong>
-                <p>(padrão)</p>
-              </div>
-            </div>
-
-            <div class="info-item">
-              <span class="icon">🗃</span>
-
-              <div>
-                <strong>Quantidade</strong>
-                <p class="estoque">{{ epi.quantidade }} disponíveis</p>
-              </div>
-            </div>
+          <div class="info">
+            <span>Categoria</span>
+            <strong>{{ epi.categoria }}</strong>
           </div>
 
-          <div class="info-item ajuste">
-            <span class="icon">Aa</span>
-
-            <div>
-              <strong>Padrão</strong>
-              <p>(alça ajustável)</p>
-            </div>
+          <div class="info">
+            <span>Cor</span>
+            <strong>{{ epi.cor }}</strong>
           </div>
 
-          <button class="select-btn">
-            Selecionar
-          </button>
+          <div class="info">
+            <span>Preço</span>
+            <strong>
+              R$
+              {{
+                Number(epi.preco || 0).toLocaleString(
+                  'pt-BR',
+                  {
+                    minimumFractionDigits: 2
+                  }
+                )
+              }}
+            </strong>
+
+          </div>
+
+          <div class="info">
+
+            <span>Qtd. Estoque</span>
+
+            <strong>
+              {{ epi.quantidade || 0 }} unidades
+            </strong>
+
+          </div>
+
         </div>
+
       </div>
-    </section>
+
+    </div>
+
   </div>
+
 </template>
 
 <script setup>
-const epis = [
-  {
-    id: 1,
-    nome: 'Óculos de Proteção Anti-Embaçante',
-    categoria: 'Óculos',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../oculos.png'
-  },
 
-  {
-    id: 2,
-    nome: 'Luvas de proteção',
-    categoria: 'Luvas',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../luvas.png',
-  },
+import { ref, onMounted } from 'vue'
+import { useSupabase } from '../composables/useSupabase'
 
-  {
-    id: 3,
-    nome: 'Máscara de Proteção (PFF2)',
-    categoria: 'Máscaras',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../mascara.png',
-  },
+const { supabase } = useSupabase()
 
-  {
-    id: 4,
-    nome: 'Protetor Auditivo Tipo Concha',
-    categoria: 'Protetores Auditivos',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../protetor-auditivo.png',
-  },
+const epis = ref([])
 
-  {
-    id: 5,
-    nome: 'Abafador de Ruído Tipo Concha',
-    categoria: 'Protetores Auditivos',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../abafador.png',
-  },
+const carregarEPIs = async () => {
 
-  {
-    id: 6,
-    nome: 'Bota de Segurança',
-    categoria: 'Calçados',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../bota.png',
-  },
+  const { data, error } = await supabase
+    .from('inventario')
+    .select('*')
 
-  {
-    id: 7,
-    nome: 'Colete de Alta Visibilidade',
-    categoria: 'Vestimenta',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../colete.png',
-  },
+  if (error) {
+    console.error(error)
+    return
+  }
 
-  {
-    id: 8,
-    nome: 'Respirador de Segurança',
-    categoria: 'Máscaras',
-    cor: 'Prata',
-    quantidade: 87,
-    imagem: '../respirador.png',
-  },
-]
+  epis.value = data
+}
+
+onMounted(() => {
+  carregarEPIs()
+})
+
 </script>
 
 <style scoped>
+
+.inventario-page {
+  padding: 1rem;
+}
 
 .top-section {
   margin-bottom: 25px;
@@ -144,150 +121,94 @@ const epis = [
   color: #2f3a4d;
 }
 
-.cards-grid {
+.grid-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+  gap: 24px;
 }
 
-/* CARD */
-
-.epi-card {
+.card-epi {
   background: #eadcf6;
-  border-radius: 14px;
-  padding: 14px;
+  border-radius: 16px;
+  overflow: hidden;
   box-shadow: 0px 5px 18px rgba(0, 0, 0, 0.18);
-
   transition: 0.2s;
 }
 
-.epi-card:hover {
+.card-epi:hover {
   transform: translateY(-4px);
 }
 
-.image-box {
+.card-image {
   width: 100%;
-  height: 170px;
+  height: 220px;
   background: white;
-  border-radius: 10px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  overflow: hidden;
 }
 
-.image-box img {
-  width: 140px;
-  height: 140px;
+.card-image img {
+  width: 160px;
+  height: 160px;
   object-fit: contain;
 }
 
-.card-content {
-  margin-top: 14px;
+.card-body {
+  padding: 18px;
 }
 
-.card-content h3 {
-  font-size: 14px;
+.card-body h3 {
+  font-size: 16px;
   color: #2d2d2d;
-  margin-bottom: 3px;
+  margin-bottom: 16px;
 }
 
-.categoria {
-  font-size: 12px;
-  color: #666;
-}
-
-.info-row {
+.info {
   display: flex;
   justify-content: space-between;
-  margin-top: 18px;
+  margin-bottom: 10px;
 }
 
-.info-item {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.info-item strong {
+.info span {
   font-size: 13px;
-  color: #1d1d1d;
-}
-
-.info-item p {
-  font-size: 11px;
   color: #555;
 }
 
-.icon {
-  font-size: 15px;
-  color: #111;
-  margin-top: 2px;
-}
-
-.estoque {
-  color: #00b524 !important;
-  font-weight: 600;
-}
-
-.ajuste {
-  margin-top: 10px;
-}
-
-.select-btn {
-  width: 100%;
-  height: 42px;
-
-  border: none;
-  border-radius: 8px;
-
-  margin-top: 18px;
-
-  background: linear-gradient(
-    90deg,
-    #4a004f,
-    #b300c7
-  );
-
-  color: white;
+.info strong {
   font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.select-btn:hover {
-  opacity: 0.9;
+  color: #111;
 }
 
 /* RESPONSIVO */
 
 @media (max-width: 1400px) {
-  .cards-grid {
+
+  .grid-cards {
     grid-template-columns: repeat(3, 1fr);
   }
+
 }
 
 @media (max-width: 1000px) {
-  .cards-grid {
+
+  .grid-cards {
     grid-template-columns: repeat(2, 1fr);
   }
+
 }
 
 @media (max-width: 700px) {
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
 
-  .inventario-page {
-    padding: 20px;
+  .grid-cards {
+    grid-template-columns: 1fr;
   }
 
   .top-section h1 {
     font-size: 30px;
   }
+
 }
+
 </style>
