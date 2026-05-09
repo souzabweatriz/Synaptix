@@ -88,7 +88,7 @@ const epis = ref([])
 const carregarEPIs = async () => {
 
   const { data, error } = await supabase
-    .from('inventario')
+    .from('epis')
     .select('*')
 
   if (error) {
