@@ -20,26 +20,27 @@
 
         <form @submit.prevent="salvar" class="main-form">
 
+          <div class="form-row">
           <div class="form-group">
             <label>Nome do EPI *</label>
             <input v-model="form.nome" type="text" required>
           </div>
 
           <div class="form-group">
+            <label>CA *</label>
+            <input v-model="form.ca" type="text" required>
+          </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group">
             <label>Categoria *</label>
             <input v-model="form.categoria" type="text" required>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label>Localização no estoque *</label>
-              <input v-model="form.localizacao" type="text">
-            </div>
-
-            <div class="form-group">
-              <label>Quantidade mínima *</label>
-              <input v-model="form.quantidade_minima" type="number">
-            </div>
+          <div class="form-group">
+            <label>Cor *</label>
+            <input v-model="form.cor" type="text">
+          </div>
           </div>
 
           <div class="form-row">
@@ -66,6 +67,11 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label>URL da Foto</label>
+            <input v-model="form.foto" type="text">
+          </div>
+
           <div class="action-bar">
             <button type="submit" class="btn btn-primary">
               {{ editandoId ? 'Salvar Alterações' : 'Salvar EPI' }}
@@ -84,7 +90,8 @@
           <thead>
             <tr>
               <th>Equipamento</th>
-              <th>C.A</th>
+              <th>Categoria</th>
+              <th>Quantidade de Estoque</th>
               <th>Descrição</th>
               <th class="text-center">Ações</th>
             </tr>
@@ -92,7 +99,8 @@
           <tbody>
             <tr v-for="(e, index) in epis" :key="e.id ?? index">
               <td><span class="text-bold">{{ e.nome }}</span></td>
-              <td><span class="badge-ca">{{ e.ca }}</span></td>
+              <td><span class="badge-ca">{{ e.categoria }}</span></td>
+              <td><span class="text-bold">{{ e.quantidade }}</span></td>
               <td>{{ e.descricao }}</td>
               <td class="text-center">
                 <button @click="prepararEdicao(e)" class="btn-action edit">Editar</button>
@@ -295,13 +303,14 @@ const epis = ref([]);
 const editandoId = ref(null);
 const defaultForm = () => ({
   nome: '',
+  ca: '',
   categoria: '',
-  localizacao: '',
-  quantidade_minima: 0,
+  cor: '',
   quantidade: 0,
   fornecedor: '',
   preco: 0,
-  descricao: ''
+  descricao: '',
+  foto: '',
 });
 const form = reactive(defaultForm());
 
@@ -349,12 +358,12 @@ const prepararEdicao = (e) => {
   Object.assign(form, {
     nome: e.nome ?? '',
     categoria: e.categoria ?? '',
-    localizacao: e.localizacao ?? '',
-    quantidade_minima: e.quantidade_minima ?? 0,
+    cor: e.cor ?? '',
     quantidade: e.quantidade ?? 0,
     fornecedor: e.fornecedor ?? '',
     preco: e.preco ?? 0,
-    descricao: e.descricao ?? ''
+    descricao: e.descricao ?? '',
+    foto: e.foto ?? '',
   });
 };
 
