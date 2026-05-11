@@ -1,6 +1,5 @@
 <template>
   <div class="layout-container">
-
     <header class="header-section">
       <h1>Cadastro de EPIs</h1>
       <p>Cadastre EPIs no estoque</p>
@@ -12,37 +11,40 @@
           <div class="icon-box">
             <img class="icon" src="/public/icone.svg" />
           </div>
+
           <div>
             <h3>{{ editandoId ? 'Editar Equipamento' : 'Informações do Equipamento' }}</h3>
             <p> Preencha todos os campos obrigatórios</p>
           </div>
+
         </div>
 
         <form @submit.prevent="salvar" class="main-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome do EPI *</label>
+              <input v-model="form.nome" type="text" required>
+            </div>
+
+            <div class="form-group">
+              <label>CA *</label>
+              <input v-model="form.ca" type="text" required>
+            </div>
+
+          </div>
 
           <div class="form-row">
-          <div class="form-group">
-            <label>Nome do EPI *</label>
-            <input v-model="form.nome" type="text" required>
-          </div>
+            <div class="form-group">
+              <label>Categoria *</label>
+              <input v-model="form.categoria" type="text" required>
+            </div>
 
-          <div class="form-group">
-            <label>CA *</label>
-            <input v-model="form.ca" type="text" required>
-          </div>
-          </div>
-          <div class="form-row">
-          <div class="form-group">
-            <label>Categoria *</label>
-            <input v-model="form.categoria" type="text" required>
-          </div>
+            <div class="form-group">
+              <label>Cor *</label>
+              <input v-model="form.cor" type="text">
+            </div>
 
-          <div class="form-group">
-            <label>Cor *</label>
-            <input v-model="form.cor" type="text">
           </div>
-          </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Quantidade em estoque *</label>
@@ -53,6 +55,7 @@
               <label>Fornecedor *</label>
               <input v-model="form.fornecedor" type="text">
             </div>
+
           </div>
 
           <div class="form-row">
@@ -65,6 +68,7 @@
               <label>Descrição/Observações</label>
               <input v-model="form.descricao" type="text">
             </div>
+
           </div>
 
           <div class="form-group">
@@ -73,15 +77,9 @@
           </div>
 
           <div class="action-bar">
-            <button type="submit" class="btn btn-primary">
-              {{ editandoId ? 'Salvar Alterações' : 'Salvar EPI' }}
-            </button>
-
-            <button type="button" @click="cancelarEdicao" class="btn btn-outline">
-              Limpar formulário
-            </button>
+            <button type="submit" class="btn btn-primary">{{ editandoId ? 'Salvar Alterações' : 'Salvar EPI' }}</button>
+            <button type="button" @click="cancelarEdicao" class="btn btn-outline">Limpar formulário</button>
           </div>
-
         </form>
       </section>
 
@@ -91,15 +89,18 @@
             <tr>
               <th>Equipamento</th>
               <th>Categoria</th>
-              <th>Quantidade de Estoque</th>
+              <th>CA</th>
+              <th>Qtde em Estoque</th>
               <th>Descrição</th>
               <th class="text-center">Ações</th>
             </tr>
           </thead>
+
           <tbody>
             <tr v-for="(e, index) in epis" :key="e.id ?? index">
               <td><span class="text-bold">{{ e.nome }}</span></td>
-              <td><span class="badge-ca">{{ e.categoria }}</span></td>
+              <td><span class="text-bold">{{ e.categoria }}</span></td>
+              <td><span class="badge-ca">{{ e.ca }}</span></td>
               <td><span class="text-bold">{{ e.quantidade }}</span></td>
               <td>{{ e.descricao }}</td>
               <td class="text-center">
@@ -125,16 +126,11 @@
   padding-bottom: 1rem;
 }
 
-.icon-box {
-  height: 3rem;
-  display: flex;
-}
-
 .header-section h1 {
-  color: #000000;
+  color: #332d48;
   font-weight: 600;
   font-size: 1.5rem;
-  margin: 0;
+  margin: 0rem;
 }
 
 .header-section p {
@@ -143,7 +139,7 @@
 }
 
 .card-form {
-  border-radius: 16px;
+  border-radius: 1rem;
   padding: 1rem;
   background: rgba(115, 0, 255, 0.1);
 }
@@ -157,10 +153,18 @@
   padding: 1rem;
 }
 
-.card-header h3 {
-  color: #0a3b59;
+.icon-box {
+  height: 3rem;
+  display: flex;
 }
 
+.card-header h3 {
+  color: #000000;
+}
+
+.card-header p {
+  color: #00000080;
+}
 
 .main-form {
   padding: 1rem;
@@ -184,22 +188,29 @@ label {
   font-weight: 600;
   color: #374151;
   padding-left: 0.5rem;
-  margin-bottom: 4px;
+  margin-bottom: 0.2rem;
 }
 
 input {
-  height: 42px;
-  border-radius: 999px;
+  height: 2.25rem;
+  border-radius: 1rem;
   border: none;
   padding: 0 1rem;
-  background: #ffffffcc;
-  backdrop-filter: blur(4px);
+  background: #ffffff;
+  backdrop-filter: blur(1rem);
   font-size: 0.95rem;
 }
 
 input:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #a855f7;
+  box-shadow: 0 0 0 0.1rem #93039C;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .btn {
@@ -214,49 +225,37 @@ input:focus {
   color: white;
   border: none;
   width: 30rem;
-  border-radius: 999px;
+  border-radius: 1rem;
   font-weight: 500;
 }
 
 .btn-outline {
-  border-radius: 999px;
+  border-radius: 1rem;
   background: transparent;
-  border: 1px solid #c4b5fd;
+  border: 0.1rem solid #6b21a8;
   width: 30rem;
   color: #6b21a8;
-}
-
-.action-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
 }
 
 .card-table {
   background: rgba(115, 0, 255, 0.1);
   margin-top: 1rem;
+  border-radius: 1rem;
   overflow: hidden;
 }
 
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  border-radius: 1rem;
-  border-color: #0a3b59;
-  border: solid 0.1rem;
 }
 
 .styled-table th {
-  background-color: #f2f2f2;
   height: 2.5rem;
   width: 15rem;
   text-align: center;
   font-size: 0.80rem;
-  color: #0a3b59;
+  background: rgba(115, 0, 255, 0.1);
   text-transform: uppercase;
-  border-color: #0a3b59;
-  border-block: solid 0.15rem;
 }
 
 .styled-table td {
@@ -266,7 +265,7 @@ input:focus {
 }
 
 .badge-ca {
-  background: #0d4c73;
+  background: #93039C;
   color: #f2f2f2;
   padding: 0.5rem 1rem;
   border-radius: 1rem;
@@ -274,16 +273,16 @@ input:focus {
 }
 
 .edit {
-  color: #0d4c73;
+  color: #5e1742;
   cursor: pointer;
   background: none;
   border: none;
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 1rem;
 }
 
 .delete {
-  color: #D94D1A;
+  color: #ff5e35;
   cursor: pointer;
   background: none;
   border: none;
@@ -312,11 +311,9 @@ const defaultForm = () => ({
   descricao: '',
   foto: '',
 });
+
 const form = reactive(defaultForm());
-
 const resetForm = () => Object.assign(form, defaultForm());
-
-// Busca os EPIs no banco
 const carregar = async () => {
   epis.value = [];
   const { data, error } = await supabase.from('epis').select('*').order('nome');
@@ -328,10 +325,8 @@ const carregar = async () => {
   epis.value = data || [];
 };
 
-// Salva ou Atualiza
 const salvar = async () => {
   const payload = { ...form };
-
   if (editandoId.value) {
     const { error } = await supabase.from('epis').update(payload).eq('id', editandoId.value);
     if (error) {
@@ -347,7 +342,6 @@ const salvar = async () => {
       return;
     }
   }
-
   cancelarEdicao();
   await carregar();
   alert('EPI salvo com sucesso!');
