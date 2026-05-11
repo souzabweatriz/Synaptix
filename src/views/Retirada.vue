@@ -3,8 +3,8 @@
   <div class="retirada-page">
 
     <header class="header-section">
-      <h1>Cadastro de EPIs</h1>
-      <p>Cadastre EPIs no estoque</p>
+      <h1>Registrar Retirada de EPIs</h1>
+      <p>Registre a retirada de EPIs do estoque</p>
     </header>
 
     <form class="form-retirada" @submit.prevent="registrarRetirada">
