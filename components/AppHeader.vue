@@ -6,7 +6,8 @@
             <nav class="nav-header">
                 <ul class="ul-header">
                     <router-link to="/" class="li-header" @click="isOpen = false">Início</router-link>
-                    <router-link to="/Funcionalidades" class="li-header" @click="isOpen = false">Funcionalidades</router-link>
+                    <router-link to="/Funcionalidades" class="li-header"
+                        @click="isOpen = false">Funcionalidades</router-link>
                     <router-link to="/Contato" class="li-header" @click="isOpen = false">Contato</router-link>
                 </ul>
             </nav>
@@ -24,7 +25,7 @@
             <router-link to="/" class="mobile-link" @click="isOpen = false">Início</router-link>
             <router-link to="/Funcionalidades" class="mobile-link" @click="isOpen = false">Funcionalidades</router-link>
             <router-link to="/Contato" class="mobile-link" @click="isOpen = false">Contato</router-link>
-            <button class="mobile-login" @click="() => { isOpen = false; router.push('/Login')}">Entrar</button>
+            <button class="mobile-login" @click="() => { isOpen = false; router.push('/Login') }">Entrar</button>
         </div>
     </header>
 </template>
@@ -34,27 +35,37 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const isOpen = ref(false);
+
 const toggleMenu = () => { isOpen.value = !isOpen.value };
 </script>
 
 
 <style scoped>
-
 .header-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
     height: 4.5rem;
+    padding: 0 2rem;
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.423);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+    overflow: visible;
 }
 
 .header-content {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
+    gap: 1.5rem;
 }
 
 .image-header {
@@ -69,7 +80,7 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     gap: 2rem;
 }
 
-.li-header{
+.li-header {
     text-decoration: none;
     color: #000;
     font-size: 1rem;
@@ -81,7 +92,7 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     color: #FF5E35;
 }
 
-.login-button{
+.login-button {
     width: 5.5rem;
     height: 2.2rem;
     background-color: #FF5E35;
@@ -98,14 +109,15 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
 }
 
 /* Menu toggle (mobile) */
-.menu-toggle{
+.menu-toggle {
     display: none;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0.5rem;
 }
-.menu-toggle .bar{
+
+.menu-toggle .bar {
     display: block;
     width: 1.6rem;
     height: 2px;
@@ -113,25 +125,40 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     margin: 4px 0;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
-.menu-toggle .bar.open:nth-child(1){ transform: translateY(6px) rotate(45deg); }
-.menu-toggle .bar.open:nth-child(2){ opacity: 0; }
-.menu-toggle .bar.open:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
 
-.mobile-nav{
+.menu-toggle .bar.open:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle .bar.open:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle .bar.open:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobile-nav {
     display: none;
     flex-direction: column;
     gap: 0.6rem;
     padding: 0.75rem 1rem 1.25rem 1rem;
     background: #fff;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
 }
-.mobile-link{
+
+.mobile-link {
     text-decoration: none;
     color: #111;
     font-weight: 600;
     padding: 0.5rem 0;
 }
-.mobile-login{
+
+.mobile-login {
     background: #FF5E35;
     color: #fff;
     border: none;
@@ -140,20 +167,116 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     width: 6rem;
 }
 
-@media (max-width: 640px){
-    .image-header{ width: 6rem; height: 2.2rem; margin-left: 0.5rem }
-    .ul-header{ display: none }
-    .menu-toggle{ display: block }
-    .login-button{ display: none }
-    .mobile-nav{ display: flex }
+@media (max-width: 1024px) {
+    .header-container {
+        padding: 0 1.25rem;
+    }
+
+    .header-content {
+        gap: 1rem;
+    }
+
+    .image-header {
+        width: 6.5rem;
+        height: 2.4rem;
+    }
+
+    .ul-header {
+        gap: 1.25rem;
+    }
+
+    .li-header {
+        font-size: 0.95rem;
+    }
+
+    .login-button {
+        width: 5rem;
+        height: 2rem;
+    }
 }
 
-@media (max-width: 375px){
-    .header-container{ height: auto }
-    .header-content{ padding: 0.5rem 0.75rem }
-    .image-header{ width: 5.2rem }
-    .mobile-nav{ padding-left: 0.75rem; padding-right: 0.75rem }
+@media (max-width: 900px) {
+    .header-container {
+        padding: 0 1rem;
+    }
+
+    .header-content {
+        gap: 0.75rem;
+    }
+
+    .image-header {
+        width: 6rem;
+        height: 2.2rem;
+    }
+
+    .ul-header {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .login-button {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: flex;
+    }
 }
 
+@media (max-width: 640px) {
+    .header-container {
+        height: auto;
+        padding: 0 0.75rem;
+        width: 50rem;
+    }
 
+    .header-content {
+        padding: 0.45rem 0;
+        width: 39rem;
+    }
+
+    .image-header {
+        width: 5.8rem;
+        height: 2.05rem;
+        margin-left: 0;
+    }
+
+    .mobile-nav {
+        padding-top: 0.65rem;
+        padding-bottom: 1rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .header-container {
+        height: auto;
+        width: 2rem;
+    }
+
+    .header-content {
+        padding: 0.35rem 0;
+        width: 1rem;
+    }
+
+    .image-header {
+        width: 5.2rem;
+        height: 1.9rem;
+    }
+
+    .menu-toggle {
+        padding: 0.35rem;
+    }
+
+    .mobile-nav {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .mobile-link {
+        padding: 0.35rem 0;
+    }
+}
 </style>
