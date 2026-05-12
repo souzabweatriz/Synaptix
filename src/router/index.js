@@ -8,6 +8,8 @@ import Adicionar from '../views/Adicionar.vue'
 import EmUso from '../views/EmUso.vue'
 import Retirada from '../views/Retirada.vue'
 import Relatorio from '../views/Relatorio.vue'
+import Perfil from '../views/Perfil.vue'
+import Configuracoes from '../views/Configuracoes.vue'
 
 const routes = [
 
@@ -21,6 +23,8 @@ const routes = [
       { path: 'EmUso', component: EmUso },
       { path: 'Retirada', component: Retirada },
       { path: 'Relatorios', component: Relatorio },
+      { path: 'Perfil', component: Perfil },
+      { path: 'Configuracoes', component: Configuracoes },
     ]
   },
 
@@ -31,10 +35,10 @@ const routes = [
   },
 
   {
-    path: '/login',
-    name: 'login',
+    path: '/Login',
+    name: 'Login',
     component: Login,
-  },  
+  },
 ]
 
 const router = createRouter({
@@ -43,23 +47,23 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some(r => r.meta?.requiresAuth)
+
+  if (!requiresAuth) {
+    return next()
+  }
+
   try {
-    const requiresAuth = to.matched.some(record => record.meta && record.meta.requiresAuth)
-
-    if (!requiresAuth) {
-      return next()
-    }
-
     const { data: { session } } = await supabase.auth.getSession()
 
     if (!session) {
-      return next({ name: 'login' })
+      return next('/Login')
     }
 
     next()
   } catch (error) {
     console.error('Erro ao verificar sessão:', error)
-    next({ name: 'login' })
+    next('/Login')
   }
 })
 
