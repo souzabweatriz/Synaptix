@@ -1,8 +1,8 @@
 <template>
     <div class="home">
         <AppHeader />
-        <div class="section">
-            <div class="home-aside">
+        <section class="section">
+            <aside class="home-aside">
                 <h1 class="title-aside">
                     Gerencie todo o seu estoque de <span>EPIs</span>
                 </h1>
@@ -30,19 +30,77 @@
                         <i class="pi pi-mobile"></i>
                         <h1 class="title-items-aside">Acesso mobile completo</h1>
                     </div>
-                    <button class="button-aside">Solicitar demonstração</button>
-                    <i class="pi pi-arrow-right"></i>
+                    <button class="button-aside">
+                        Solicitar demonstração
+                        <i class="pi pi-arrow-right"></i>
+                    </button>
+                </div>
+            </aside>
+            <img src="../../public/Images/homeImg.png" alt="Imagem de controle de estoque" class="image-aside">
+        </section>
+        <section class="features">
+            <div class="features-titles">
+                <p class="purple-p">Tecnologia que transforme o seu gerenciamento de EPIs</p>
+                <h1 class="title-features">Aproveite de todas as funcionalidades que irão facilitar o seu dia a dia</h1>
+            </div>
+            <div class="features-cards">
+                <Card />
+            </div>
+            <div class="features-section">
+                <div class="text-section">
+                    <h1 class="features-text">
+                        Sistema completo com tudo que a sua empresa precisa
+                    </h1>
+                </div>
+                <div class="features-image">
+                    <img class="image-feature" src="../../public/Images/homeFone.png" alt="">
                 </div>
             </div>
-            <img src="../../public/Images/homeImg.svg" alt="Imagem de controle de estoque" class="image-aside">
+        </section>
+        <div class="section-dashboard">
+            <div class="aside-dashboard">
+                <img src="../../public/Images/dashboard1.png" alt="Dashboard">
+                <div class="aside-row">
+                    <h1 class="title-dashboard">Rastreamento do seu estoque de EPIs</h1>
+                    <div class="subtitle-dashboard-one">
+                        Está sentido a falta de alguns equipamentos em seu estoque? Com o <span>Synaptix</span>, você
+                        consegue consultar o histórico de utilização de cada EPI e ver qual funcionário está utilizando
+                        ou
+                        se esqueceu de devolver.
+                    </div>
+                </div>
+            </div>
+            <div class="aside-dashboard-left">
+                <img src="../../public/Images/dashboard1.png" alt="Dashboard">
+                <div class="aside-row">
+                    <h1 class="title-dashboard">Inventário completo de EPIs</h1>
+                    <div class="subtitle-dashboard-two">
+                        Todos os produtos estarão devidamente cadastrados na aba “Inventário de EPIs’”. Nela, é possível
+                        obter a listagem de todos os EPIs cadastrados, o status de utilização, preço e a quantidade.
+                    </div>
+                </div>
+            </div>
+            <div class="aside-dashboard">
+                <img src="../../public/Images/dashboard1.png" alt="Dashboard">
+                <div class="aside-row">
+                    <h1 class="title-dashboard">Emissão de relatórios para análises</h1>
+                    <div class="subtitle-dashboard-three">
+                        É possível emitir relatórios específicos para cada necessidade, tudo dentro do gerenciador.
+                        Analise
+                        a movimentação mensal de EPIs, realize inventários, elabore uma checagem de preços por
+                        fornecedores
+                        e itens com baixo estoque.
+                    </div>
+                </div>
+            </div>
         </div>
-        
     </div>
 </template>
 
 <script setup>
 import AppHeader from '../../components/AppHeader.vue';
 import 'primeicons/primeicons.css';
+import Card from '../../components/Cards.vue';
 </script>
 
 <style scoped>
@@ -50,16 +108,171 @@ import 'primeicons/primeicons.css';
     width: 100%;
     display: flex;
     flex-direction: column;
+    padding-top: 4.5rem;
+}
+
+.features-section {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end
+}
+
+.subtitle-dashboard-one {
+    font-weight: 300;
+    font-size: 1.3rem;
+    padding: 2rem;
+    color: black;
+    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
+    width: 45rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15rem;
+    color: white;
+}
+
+.subtitle-dashboard-two {
+    font-weight: 300;
+    font-size: 1.3rem;
+    padding: 2rem;
+    color: black;
+    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
+    width: 45rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15rem;
+    color: white;
+}
+
+.subtitle-dashboard-three {
+    font-weight: 300;
+    font-size: 1.3rem;
+    padding: 2rem;
+    color: black;
+    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
+    width: 45rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15rem;
+    color: white;
+}
+
+
+.section-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.aside-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aside-dashboard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    gap: 1rem;
+}
+
+.aside-dashboard-left {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    gap: 1rem;
+}
+
+.image-feature {
+    width: 100%;
+}
+
+.text-section {
+    display: flex;
+    width: 50%;
+}
+
+.features-text {
+    display: flex;
+    font-weight: 600;
+    font-size: 1.75rem;
+    flex-wrap: wrap;
+    width: 40%;
+    text-align: center;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.features-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.purple-p {
+    color: #330136;
+    background-color: #683ab620;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    border: #683ab689 0.01rem solid;
+    border-radius: 1rem;
+    height: 2rem;
+    width: 30rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-features {
+    width: 70%;
+    flex-wrap: wrap;
+    font-size: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.features-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 3rem;
 }
 
 .section {
     margin-top: 0.5rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     gap: 3rem;
     background-color: #FAFAFA;
+    padding: 2rem 0;
+    min-height: auto;
 }
 
 .home-aside {
@@ -68,14 +281,20 @@ import 'primeicons/primeicons.css';
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    gap: 0.85rem;
-    width: 45%;
+    gap: 1.5rem;
+    margin-left: 5rem;
+    width: 50%;
     flex-wrap: wrap;
 }
 
 .image-aside {
-    margin-top: 4rem;
     width: 45%;
+    max-width: 500px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
 }
 
 
@@ -175,7 +394,7 @@ import 'primeicons/primeicons.css';
     background: #ff5e35;
 }
 
-.button-aside + i {
+.button-aside+i {
     display: flex;
     align-items: center;
     color: #fff;
@@ -189,92 +408,67 @@ import 'primeicons/primeicons.css';
 
 @media (max-width: 1024px) {
     .section {
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
+        padding: 1.5rem;
     }
+
     .home-aside {
         width: 100%;
-        display: flex;
+        margin-left: 0;
+        margin-top: 1rem;
         justify-content: center;
         align-items: center;
-        margin-top: 2rem;
-        padding: 2rem;
+        padding: 0;
     }
+
     .items-aside {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: center;
         width: 100%;
-        align-items: center;
-    }   
+        justify-content: center;
+    }
+
+    .card-items-aside {
+        width: calc(50% - 0.425rem);
+    }
+
     .image-aside {
         display: none;
     }
-    .title-aside{
-        width: 80%;
+
+    .title-aside {
+        width: 100%;
+        font-size: 2.5rem;
     }
-    .subtitle-aside{
-        width: 80%;
+
+    .subtitle-aside {
+        width: 100%;
     }
 }
 
 @media (max-width: 640px) {
-    .home-aside{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
     .section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .items-aside {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: 30rem;
-        align-items: center;
+        padding: 1rem;
     }
 
     .home-aside {
-        margin-left: 0;
         width: 100%;
-        padding: 0 1rem;
+        margin-left: 0;
+        padding: 0;
+        gap: 1rem;
     }
 
-    .image-aside {
-        width: 80%;
-        margin-top: 1rem;
+    .items-aside {
+        width: 100%;
+        flex-direction: column;
+        gap: 0.75rem;
     }
 
     .card-items-aside {
         width: 100%;
+        height: 3.5rem;
     }
 
-    .button-aside {
-        width: 17rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .section {
-        gap: 1.5rem;
-        padding: 0 0.75rem;
-    }
-
-    .home-aside {
-        width: 100%;
-        padding: 1rem 0.5rem;
-        gap: 0.6rem;
+    .image-aside {
+        display: none;
     }
 
     .title-aside {
@@ -283,66 +477,35 @@ import 'primeicons/primeicons.css';
     }
 
     .subtitle-aside {
-        font-size: 0.95rem;
+        font-size: 1rem;
         width: 100%;
-        text-align: left;
-    }
-
-    .items-aside {
-        width: 100%;
-        gap: 0.6rem;
-    }
-
-    .card-items-aside {
-        width: 100%;
-        height: 3.5rem;
-    }
-
-    .card-items-aside i {
-        width: 2.5rem;
-        height: 2rem;
-        margin-left: 1rem;
-        font-size: 0.85rem;
-    }
-
-    .title-items-aside {
-        font-size: 0.75rem;
     }
 
     .button-aside {
         width: 100%;
-        height: 2.5rem;
-        font-size: 0.85rem;
-    }
-
-    .button-aside + i {
-        font-size: 0.75rem;
     }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
     .section {
-        gap: 1rem;
-        padding: 0 0.5rem;
-        margin-top: 0.25rem;
+        padding: 0.75rem;
     }
 
     .home-aside {
         width: 100%;
-        padding: 0.75rem 0.5rem;
-        gap: 0.5rem;
+        padding: 0;
+        gap: 0.75rem;
     }
 
     .title-aside {
         font-size: 1.75rem;
         width: 100%;
-        margin-bottom: 0.15rem;
+        margin-bottom: 0.5rem;
     }
 
     .subtitle-aside {
         font-size: 0.9rem;
         width: 100%;
-        text-align: left;
         line-height: 1.4;
     }
 
@@ -355,7 +518,7 @@ import 'primeicons/primeicons.css';
     .card-items-aside {
         width: 100%;
         height: 3.2rem;
-        border-radius: 0.35rem;
+        padding: 0.5rem;
     }
 
     .card-items-aside i {
@@ -367,24 +530,81 @@ import 'primeicons/primeicons.css';
 
     .title-items-aside {
         font-size: 0.7rem;
-        font-weight: 600;
     }
 
     .button-aside {
         width: 100%;
         height: 2.3rem;
         font-size: 0.8rem;
-        margin-top: 0.6rem;
+        gap: 0.4rem;
     }
 
-    .button-aside + i {
+    .button-aside i {
         font-size: 0.7rem;
-        margin-left: 0.3rem;
     }
 
     .image-aside {
+        display: none;
+    }
+}
+
+@media (max-width: 375px) {
+    .section {
+        padding: 0.5rem;
+    }
+
+    .home-aside {
         width: 100%;
-        margin-top: 0.75rem;
+        padding: 0;
+        gap: 0.5rem;
+    }
+
+    .title-aside {
+        font-size: 1.5rem;
+        width: 100%;
+    }
+
+    .subtitle-aside {
+        font-size: 0.85rem;
+        width: 100%;
+        line-height: 1.3;
+    }
+
+    .items-aside {
+        width: 100%;
+        gap: 0.4rem;
+    }
+
+    .card-items-aside {
+        width: 100%;
+        height: 2.8rem;
+        padding: 0.4rem;
+    }
+
+    .card-items-aside i {
+        width: 2rem;
+        height: 1.6rem;
+        margin-left: 0.5rem;
+        font-size: 0.65rem;
+    }
+
+    .title-items-aside {
+        font-size: 0.65rem;
+    }
+
+    .button-aside {
+        width: 100%;
+        height: 2.1rem;
+        font-size: 0.75rem;
+        gap: 0.3rem;
+    }
+
+    .button-aside i {
+        font-size: 0.65rem;
+    }
+
+    .image-aside {
+        display: none;
     }
 }
 </style>
