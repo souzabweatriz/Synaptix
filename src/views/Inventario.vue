@@ -188,8 +188,8 @@ onMounted(() => {
 }
 
 .top-section h1 {
-  font-size: 1.5em;
-  font-weight: 600;
+  font-size: 2.37rem;
+  font-weight: 700;
   color: #332D48;
 }
 
@@ -206,7 +206,7 @@ onMounted(() => {
 .card-epi {
   background: rgba(115, 0, 255, 0.1);
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 0.8rem;
   box-shadow: 0rem 0.31rem 1.12rem rgba(0, 0, 0, 0.10);
   transition: 0.2s ease;
 }
