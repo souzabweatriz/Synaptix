@@ -1,193 +1,214 @@
 <template>
-  <div class="container-login">
-    <div class="form-box">
-      <div class="logotipo">
-        <img class="logo" src="../assets/LogoTipo.svg">
+  <div class="left-side">
+    <div class="form-container">
+
+      <div class="mini-logo">
+        ✣
       </div>
-      <form @submit.prevent="fazerLogin" class="formulario">
-        <div class="form-group">
-          <label for="email" class="label">E-mail:</label>
-          <input id="email" v-model="email" type="email" placeholder="seu@email.com" class="input" required />
+
+      <h1>Bem-vindo(a) de volta!</h1>
+
+      <GoogleButton />
+
+      <div class="divider">
+        <span>ou entre com o seu e-mail</span>
+      </div>
+
+      <form @submit.prevent="login">
+
+        <div class="input-group">
+          <label>E-mail</label>
+          <input
+            type="email"
+            v-model="email"
+            placeholder="mail@abc.com"
+          />
         </div>
-        <div class="form-group">
-          <label for="senha" class="label">Senha:</label>
-          <input id="senha" v-model="senha" type="password" placeholder="Digite sua senha" class="input" required />
+
+        <div class="input-group">
+          <label>Senha</label>
+
+          <div class="password-box">
+            <input
+              :type="showPassword ? 'text' : 'password'"
+              v-model="password"
+              placeholder="Digite sua senha"
+            />
+
+            <button
+              type="button"
+              class="show-btn"
+              @click="showPassword = !showPassword"
+            >
+              {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
         </div>
-        <div v-if="erro" class="mensagem-erro">
-          <i class="fas fa-exclamation-circle"></i>
-          {{ erro }}
+
+        <div class="options">
+          <label>
+            <input type="checkbox" />
+            Lembrar senha
+          </label>
+
+          <a href="#">Esqueceu senha?</a>
         </div>
-        <button type="submit" class="botao-entrar" :disabled="carregando">
-          <i v-if="carregando" class="fas fa-spinner fa-spin"></i>
-          <span v-else>Entrar</span>
+
+        <button class="login-btn">
+          Entrar
         </button>
+
       </form>
     </div>
   </div>
 </template>
- 
+
+<script setup>
+import { ref } from 'vue'
+
+const email = ref('')
+const password = ref('')
+const showPassword = ref(false)
+
+const login = () => {
+  if (!email.value || !password.value) {
+    alert('Preencha todos os campos!')
+    return
+  }
+
+  alert('Login realizado!')
+}
+</script>
+
 <style scoped>
-.container-login {
+.left-side {
+  width: 40%;
+  background: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #0A3B59;
+  padding: 40px;
 }
- 
-.form-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f2f2f2;
-  padding-top: 0.8rem;
-  height: 30rem;
-  width: 35rem;
-  border-color: #0A3B59;
-  border: solid 1px;
+
+.form-container {
+  width: 100%;
+  max-width: 380px;
 }
- 
-.logotipo {
-  display: flex;
-  padding: 1.2rem;
+
+.mini-logo {
+  font-size: 40px;
+  color: #7B1E6A;
+  margin-bottom: 20px;
 }
- 
-.logo {
-  height: 6rem;
+
+h1 {
+  font-size: 38px;
+  color: #444;
+  margin-bottom: 30px;
 }
- 
-.formulario {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-top: 1rem;
+
+.divider {
+  margin: 25px 0;
+  text-align: center;
+  color: #aaa;
+  position: relative;
 }
- 
-.form-group {
-  display: flex;
-  flex-direction: column;
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  width: 30%;
+  height: 1px;
+  background: #ddd;
+  top: 50%;
 }
- 
-.label {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #070707;
-  padding-left: 1rem;
+
+.divider::before {
+  left: 0;
 }
- 
-.input {
-  display: flex;
-  width: 25rem;
-  height: 2.5rem;
-  padding: 0rem 0rem 0rem 2rem;
-  font-weight: 500;
-  font-size: 1.2rem;
-  border: solid 1px;
-  border-color: #0A3B59;
-  border-radius: 2rem;
-  color: #070707;
-  background-color: #Ffffff;
-  transition: all 0.3s ease;
+
+.divider::after {
+  right: 0;
 }
- 
-.input:focus {
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #7B1E6A;
   outline: none;
-  border-color: #0A3B59;
+  box-shadow: 0 0 0 4px rgba(123, 30, 106, 0.1);
 }
- 
-.mensagem-erro {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 25rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  background-color: #FECACA;
-  border: 1px solid #FECACA;
-  color: #D94d1a;
-  font-size: 1rem;
+
+.password-box {
+  position: relative;
 }
- 
-.mensagem-erro i {
-  font-size: 18px;
-}
- 
-.botao-entrar {
-  width: 25rem;
-  height: 2.5rem;
-  background-color: #003D99;
-  color: #F2f2f2;
+
+.show-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   border: none;
-  border-radius: 0.5rem;
-  font-size: 16px;
-  font-weight: 600;
+  background: none;
+  color: #7B1E6A;
   cursor: pointer;
-  transition: all 0.3s ease;
+}
+
+.options {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  min-height: 44px;
+  margin-bottom: 20px;
+  font-size: 14px;
 }
- 
-.botao-entrar:hover:not(:disabled) {
-  background-color: #730000;
+
+.options a {
+  color: #7B1E6A;
+  text-decoration: none;
 }
- 
-.botao-entrar:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #7B1E6A;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
 }
- 
-@media (max-width: 600px) {
-  .form-box {
-    padding: 30px 20px;
-  }
- 
-  .titulo {
-    font-size: 24px;
-  }
- 
-  .subtitulo {
-    font-size: 14px;
+
+.login-btn:hover {
+  background: #4A1240;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+  .left-side {
+    width: 100%;
+    height: 100vh;
   }
 }
 </style>
- 
-<script setup>
-import { ref } from 'vue'
-import { useSupabase } from '../composables/useSupabase'
-import { useRouter } from 'vue-router'
-const { supabase } = useSupabase()
-const router = useRouter()
-const email = ref('')
-const senha = ref('')
-const erro = ref('')
-const carregando = ref(false)
-async function fazerLogin() {
-  erro.value = ''
-  if (!email.value || !senha.value) {
-    erro.value = 'Por favor, preencha todos os campos'
-    return
-  }
-  carregando.value = true
-  try {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email.value,
-      password: senha.value
-    })
-    if (error) {
-      erro.value = 'E-mail ou senha incorretos. Tente novamente.'
-      carregando.value = false
-      return
-    }
-    router.push('/Dashboard')
-  }
-  catch (err) {
-    erro.value = 'Erro ao fazer login. Tente novamente mais tarde.'
-    console.error('Erro ao fazer login:', err)
-    carregando.value = false
-  }
-}
-</script>
- 
+
+
+---
