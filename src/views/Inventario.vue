@@ -39,14 +39,23 @@
 
             </div>
 
-            <div class="status">
-              Disponível
+            <div
+              class="status"
+              :class="{
+                indisponivel: (epi.quantidade || 0) <= 0
+              }"
+            >
+              {{
+                (epi.quantidade || 0) > 0
+                  ? 'Disponível'
+                  : 'Indisponível'
+              }}
             </div>
 
           </div>
 
-          <!-- COR + ESTOQUE -->
-          <div class="card-info-row">
+          <!-- LINHA COR + ESTOQUE -->
+          <div class="info-row">
 
             <!-- COR -->
             <div class="info-item">
@@ -66,7 +75,7 @@
                   </span>
 
                   <strong>
-                    {{ epi.cor }}
+                    {{ epi.cor || 'Não informado' }}
                   </strong>
 
                 </div>
@@ -105,37 +114,33 @@
           </div>
 
           <!-- PREÇO -->
-          <div class="card-info">
+          <div class="info-price">
 
-            <div class="info-item">
+            <div class="info-content">
 
-              <div class="info-content">
+              <img
+                class="info-icon"
+                src="/bolsa-de-dinheiro.png"
+                alt="Ícone preço"
+              />
 
-                <img
-                  class="info-icon"
-                  src="/bolsa-de-dinheiro.png"
-                  alt="Ícone preço"
-                />
+              <div class="info-text">
 
-                <div class="info-text">
+                <span class="label">
+                  Preço
+                </span>
 
-                  <span class="label">
-                    Preço
-                  </span>
-
-                  <strong>
-                    R$
-                    {{
-                      Number(epi.preco || 0).toLocaleString(
-                        'pt-BR',
-                        {
-                          minimumFractionDigits: 2
-                        }
-                      )
-                    }}
-                  </strong>
-
-                </div>
+                <strong>
+                  R$
+                  {{
+                    Number(epi.preco || 0).toLocaleString(
+                      'pt-BR',
+                      {
+                        minimumFractionDigits: 2
+                      }
+                    )
+                  }}
+                </strong>
 
               </div>
 
@@ -184,11 +189,11 @@ onMounted(() => {
 <style scoped>
 
 .top-section {
-  margin-bottom: 1.56rem;
+  margin-bottom: 1.8rem;
 }
 
 .top-section h1 {
-  font-size: 2.37rem;
+  font-size: 2.3rem;
   font-weight: 700;
   color: #332D48;
 }
@@ -197,50 +202,46 @@ onMounted(() => {
 
 .grid-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
 }
 
 /* CARD */
 
 .card-epi {
-  background: rgba(115, 0, 255, 0.1);
-  border-radius: 0.5rem;
-  padding: 0.8rem;
-  box-shadow: 0rem 0.31rem 1.12rem rgba(0, 0, 0, 0.10);
-  transition: 0.2s ease;
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #e9e9e9;
+  overflow: hidden;
+  transition: 0.25s ease;
 }
 
 .card-epi:hover {
   transform: translateY(-0.25rem);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.06);
 }
 
 /* IMAGEM */
 
 .card-image {
   width: 100%;
-  height: 13rem;
-  background: #ffffff;
-  border-radius: 0.87rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  overflow: hidden;
+  height: 210px;
+  padding: 0.9rem;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 0.75rem;
+  object-fit: cover;
+  border-radius: 0.9rem;
+  background: #dac7f8;
 }
 
 /* BODY */
 
 .card-body {
-  margin-top: 1.25rem;
+  padding: 1rem;
 }
 
 /* TOPO */
@@ -249,21 +250,20 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
 }
 
 .equipamento-info {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
 }
 
 /* NOME */
 
 .card-body h3 {
-  font-size: 0.875rem;
-  color: #000000;
-  font-weight: bold;
+  font-size: 1.1rem;
+  color: #111111;
+  font-weight: 700;
   margin: 0;
   line-height: 1.3;
 }
@@ -271,55 +271,64 @@ onMounted(() => {
 /* CATEGORIA */
 
 .categoria {
-  font-size: 0.875rem;
-  color: #666666;
-  margin-top: 0.10rem;
+  font-size: 0.92rem;
+  color: #777777;
+  margin-top: 0.2rem;
 }
 
 /* STATUS */
 
 .status {
-  background: #bbf0cf;
+  background: #d9f7e5;
   color: #119543;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.375rem 0.75rem;
-  border-radius: 62.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
   white-space: nowrap;
-  margin-top: 0.125rem;
 }
 
-/* INFOS */
-
-.card-info {
-  margin-bottom: 0.125rem;
+.status.indisponivel {
+  background: #ffdede;
+  color: #d11a2a;
 }
 
-.card-info-row {
+/* LINHA DE INFO */
+
+.info-row {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.875rem;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
-.info-item {
+/* BOX */
+
+.info-item,
+.info-price {
   flex: 1;
 }
-
-/* ALINHAMENTO IGUAL À IMAGEM */
 
 .info-content {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.7rem;
+  background: #f7f7f7;
+  border: 1px solid #ececec;
+  border-radius: 0.9rem;
+  padding: 0.9rem;
+  height: 100%;
 }
 
+/* ÍCONES */
+
 .info-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.7rem;
+  height: 1.7rem;
   object-fit: contain;
   flex-shrink: 0;
 }
+
+/* TEXTO */
 
 .info-text {
   display: flex;
@@ -327,18 +336,18 @@ onMounted(() => {
 }
 
 .label {
-  font-size: 0.875rem;
-  color: #000000;
-  font-weight: bold;
-  line-height: 1.1;
+  font-size: 0.78rem;
+  color: #707070;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
 }
 
-.info-item strong {
-  font-size: 0.8rem;
-  color: #666666;
-  font-weight: 500;
-  line-height: 1.1;
-  margin-top: 0.15rem;
+.info-item strong,
+.info-price strong {
+  font-size: 1rem;
+  color: #1f1f1f;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 /* RESPONSIVO */
@@ -346,27 +355,27 @@ onMounted(() => {
 @media (max-width: 1400px) {
 
   .grid-cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-}
-
-@media (max-width: 1000px) {
-
-  .grid-cards {
     grid-template-columns: repeat(2, 1fr);
   }
 
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
 
   .grid-cards {
     grid-template-columns: 1fr;
   }
 
+}
+
+@media (max-width: 600px) {
+
+  .info-row {
+    flex-direction: column;
+  }
+
   .top-section h1 {
-    font-size: 30px;
+    font-size: 2rem;
   }
 
 }
