@@ -16,7 +16,6 @@
             <h3>{{ editandoId ? 'Editar Equipamento' : 'Informações do Equipamento' }}</h3>
             <p> Preencha todos os campos obrigatórios</p>
           </div>
-
         </div>
 
         <form @submit.prevent="salvar" class="main-form">
@@ -30,7 +29,6 @@
               <label>CA *</label>
               <input v-model="form.ca" type="text" required>
             </div>
-
           </div>
 
           <div class="form-row">
@@ -43,8 +41,8 @@
               <label>Cor *</label>
               <input v-model="form.cor" type="text">
             </div>
-
           </div>
+
           <div class="form-row">
             <div class="form-group">
               <label>Quantidade em estoque *</label>
@@ -55,7 +53,6 @@
               <label>Fornecedor *</label>
               <input v-model="form.fornecedor" type="text">
             </div>
-
           </div>
 
           <div class="form-row">
@@ -68,7 +65,6 @@
               <label>Descrição/Observações</label>
               <input v-model="form.descricao" type="text">
             </div>
-
           </div>
 
           <div class="form-group">
@@ -76,6 +72,7 @@
             <input v-model="form.foto" type="text">
           </div>
 
+          <div class="divider"></div>
           <div class="action-bar">
             <button type="submit" class="btn btn-primary">{{ editandoId ? 'Salvar Alterações' : 'Salvar EPI' }}</button>
             <button type="button" @click="cancelarEdicao" class="btn btn-outline">Limpar formulário</button>
@@ -204,6 +201,13 @@ input {
 input:focus {
   outline: none;
   box-shadow: 0 0 0 0.1rem #93039C;
+}
+
+.divider {
+  width: 100%;
+  height: 0.1rem;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 1rem 0 1.5rem;
 }
 
 .action-bar {
@@ -351,6 +355,7 @@ const prepararEdicao = (e) => {
   editandoId.value = e.id;
   Object.assign(form, {
     nome: e.nome ?? '',
+    ca: e.ca ?? '',
     categoria: e.categoria ?? '',
     cor: e.cor ?? '',
     quantidade: e.quantidade ?? 0,
