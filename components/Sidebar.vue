@@ -1,158 +1,223 @@
 <template>
-    <div class="shell">
-        <aside class="sidebar">
-            <div class="logotipo">
-                <img class="logo" src="../assets/LogoTipo.svg">
-            </div>
-            <nav class="menu">
-                <RouterLink to="/Dashboard/Funcionarios" class="menu-item" active-class="active">
-                    <span>Funcionários</span>
-                </RouterLink>
-                <RouterLink to="/Dashboard/Entregas" class="menu-item" active-class="active">
-                    <span>Entregas de EPI</span>
-                </RouterLink>
-                <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
-                    <span>Relatórios</span>
-                </RouterLink>
-            </nav>
-            <button @click="sair" class="botao-sair">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Sair</span>
-            </button>
-        </aside>
-        <main class="conteudo">
-            <RouterView />
-        </main>
+  <aside class="sidebar">
+ 
+    <!-- LOGO -->
+    <div class="logotipo">
+      <img class="logo" src="/logo-sf.png" alt="Logo Synaptix" />
     </div>
+ 
+    <!-- MENU -->
+    <nav class="menu">
+      <!-- INVENTÁRIO -->
+      <RouterLink to="/Dashboard/Inventario" class="menu-item" active-class="active">
+        <img class="icon" src="/inventario.png" alt="" />
+        <span>Inventário</span>
+      </RouterLink>
+ 
+      <!-- ADICIONAR -->
+      <RouterLink to="/Dashboard/Adicionar" class="menu-item" active-class="active">
+        <img class="icon" src="/adicionar.png" alt="" />
+        <span>Adicionar EPI</span>
+      </RouterLink>
+ 
+      <!-- EM USO -->
+      <RouterLink to="/Dashboard/EmUso" class="menu-item" active-class="active">
+        <img class="icon" src="/em-uso.png" alt="" />
+        <span>EPIs em Uso</span>
+      </RouterLink>
+ 
+      <!-- RETIRADA -->
+      <RouterLink to="/Dashboard/Retirada" class="menu-item" active-class="active">
+        <img class="icon" src="/retirada.png" alt="" />
+        <span>Registrar Retirada</span>
+      </RouterLink>
+ 
+      <!-- RELATÓRIOS -->
+      <RouterLink to="/Dashboard/Relatorios" class="menu-item" active-class="active">
+        <img class="icon" src="/relatorios.png" alt="" />
+        <span>Relatórios</span>
+      </RouterLink>
+ 
+      <!-- PERFIL -->
+      <RouterLink to="/Dashboard/Perfil" class="menu-item" active-class="active">
+        <img class="icon" src="/perfil.png" alt="" />
+        <span>Perfil</span>
+      </RouterLink>
+ 
+      <!-- CONFIGURAÇÕES -->
+      <RouterLink to="/Dashboard/Configuracoes" class="menu-item" active-class="active">
+        <img class="icon" src="/configuracoes.png"/>
+        <span>Configurações</span>
+      </RouterLink>
+ 
+      <!-- SAIR -->
+      <button @click="sair" class="menu-item botao-sair">
+        <img class="icon" src="/sair.png"/>
+        <span>Sair</span>
+      </button>
+ 
+    </nav>
+ 
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="user">
+ 
+        <img src="/user.png" alt="Usuário" />
+ 
+        <div>
+          <strong>
+            Julie Antrez
+          </strong>
+          <p>
+            <span class="dot"></span>
+            Conectado
+          </p>
+        </div>
+ 
+      </div>
+ 
+    </div>
+ 
+  </aside>
 </template>
  
-<style scoped>
-.shell {
-    display: flex;
-    height: 100vh;
-}
-.sidebar {
-    display: flex;
-    gap: 1rem;
-    width: 15rem;
-    height: 100vh;
-    background-color: #0A3B59;
-    flex-direction: column;
-    position: fixed;
-    z-index: 1000;
-    overflow-y: auto;
-}
-.logotipo{
-    display: flex;
-    background-color: #f2f2f2;
-    width: 15rem;
-}
-.logo {
-    width: 14rem;
-    padding-left: 1rem;
-}
-.menu {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1rem;
-    color: #f2f2f2;
-    text-decoration: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-.menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-.menu-item.active {
-    background-color: rgba(255, 255, 255, 0.2);
-    font-weight: 600;
-    border-left: 0.2rem solid #f2f2f2;
-}
-.menu-item i {
-    font-size: 20px;
-    width: 24px;
-    text-align: center;
-}
-.botao-sair {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f2f2f2;
-    border: none;
-    height: 2.5rem;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    width: 100%;
-}
-.botao-sair:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-.botao-sair:active {
-    transform: scale(0.98);
-}
-.botao-sair i {
-    font-size: 18px;
-}
-.conteudo {
-    flex-grow: 1;
-    margin-left: 250px;
-    padding: 30px;
-    overflow-y: auto;
-    background-color: #FFFFFF;
-}
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px;
-    }
-    .conteudo {
-        margin-left: 200px;
-        padding: 20px;
-    }
-    .logo {
-        font-size: 20px;
-        margin-bottom: 30px;
-    }
-    .menu-item {
-        padding: 12px 15px;
-        font-size: 14px;
-    }
-}
-@media (max-width: 480px) {
-    .sidebar {
-        width: 100%;
-        position: absolute;
-        height: auto;
-    }
-    .conteudo {
-        margin-left: 0;
-        padding: 15px;
-    }
-}
-</style>
- 
 <script setup>
-import { useSupabase } from '../composables/useSupabase'
 import { useRouter } from 'vue-router'
-import { RouterLink, RouterView } from 'vue-router'
-const { supabase } = useSupabase()
+import { useSupabase } from '../src/composables/useSupabase'
+ 
 const router = useRouter()
+ 
+const { supabase } = useSupabase()
+ 
 async function sair() {
-    try {
-        await supabase.auth.signOut()
-        router.push('/Login')
-    }
-    catch (err) {
-        console.error('Erro ao fazer logout:', err)
-    }
+  try {
+ 
+    await supabase.auth.signOut()
+ 
+    router.push('/Login')
+ 
+  } catch (error) {
+ 
+    console.error('Erro ao sair:', error)
+  }
 }
 </script>
+ 
+<style scoped>
+ 
+ /* SIDEBAR */
+  .sidebar {
+    width: 15.625rem;
+    height: 100vh;
+    background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: 0.25rem 0 0.625rem rgba(0, 0, 0, 0.1);
+  }
+ 
+  /* LOGO */
+  .logotipo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+ 
+  .logo {
+    width: 110px;
+  }
+ 
+  /* MENU */
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 1rem;
+    }
+ 
+  /* MENU ITEM */
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    background: transparent;
+    text-decoration: none;
+    color: #666;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+ 
+  /* HOVER */
+  .menu-item:hover {
+    background: #eeeeee;
+  }
+ 
+  /* ITEM ATIVO */
+  .menu-item.active {
+    background: linear-gradient(90deg,#330136,#93039c);
+    color: white;
+    font-weight: 600;
+  }
+ 
+  /* ÍCONES */
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+ 
+  /* ÍCONE BRANCO */
+  .menu-item.active .icon {
+    filter: brightness(0) invert(1);
+  }
+ 
+  /* FOOTER */
+  .footer {
+    width: 100%;
+  }
+  /* USER */
+  .user {
+    margin-top: 7.7rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    background: linear-gradient(90deg,#330136,#93039c);
+    color: white;
+  }
+ 
+  .user img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+  }
+ 
+  .user strong {
+    font-size: 15px;
+  }
+ 
+  .user p {
+    margin-top: 4px;
+    font-size: 12px;
+  }
+ 
+  /* STATUS */
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: #00ff6a;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+ 
+</style>
+ 

@@ -1,32 +1,58 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { supabase } from '../composables/useSupabase'
-import Home from '../Views/Home.vue'
-import Login from '../Views/Login.vue'
-import Dashboard from '../Views/Dashboard.vue'
-
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Inventario from '../views/Inventario.vue'
+import Adicionar from '../views/Adicionar.vue'
+import EmUso from '../views/EmUso.vue'
+import Retirada from '../views/Retirada.vue'
+import Relatorio from '../views/Relatorio.vue'
+import Perfil from '../views/Perfil.vue'
+import Configuracoes from '../views/Configuracoes.vue'
 
 const routes = [
+
+  {
+    path: '/Dashboard', component: Dashboard,
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', redirect: '/Dashboard/Inventario' },
+      { path: 'Inventario', component: Inventario },
+      { path: 'Adicionar', component: Adicionar },
+      { path: 'EmUso', component: EmUso },
+      { path: 'Retirada', component: Retirada },
+      { path: 'Relatorios', component: Relatorio },
+      { path: 'Perfil', component: Perfil },
+      { path: 'Configuracoes', component: Configuracoes },
+    ]
+  },
+
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+  },
+
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
   },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
 })
 
 router.beforeEach(async (to, from, next) => {
-  const requiresAuth = to.matched.some(r => r.meta.requiresAuth)
-  
-  const { data: { session } } = await supabase.auth.getSession()
-  if (requiresAuth && !session) {
-    next('/Login')
-  } else {
-    next()
-  const requiresAuth = to.matched.some(r => r.meta && r.meta.requiresAuth)
+  const requiresAuth = to.matched.some(r => r.meta?.requiresAuth)
 
   if (!requiresAuth) {
     return next()
@@ -36,13 +62,14 @@ router.beforeEach(async (to, from, next) => {
     const { data: { session } } = await supabase.auth.getSession()
 
     if (!session) {
-      return next({ name: 'login' })
+      return next('/Login')
     }
 
     next()
   } catch (error) {
     console.error('Erro ao verificar sessão:', error)
-    next({ name: 'login' })
+    next('/Login')
   }
 })
+
 export default router
