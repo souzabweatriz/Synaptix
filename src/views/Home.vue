@@ -108,7 +108,7 @@ import Card from '../../components/Cards.vue';
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding-top: 4.5rem;
+    padding-top: 4.4rem;
 }
 
 .features-section {
