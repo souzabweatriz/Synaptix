@@ -146,7 +146,9 @@ label {
   margin-bottom: 0.2rem;
 }
 
-input,select,textarea {
+input,
+select,
+textarea {
   height: 2.25rem;
   border-radius: 1rem;
   border: none;
@@ -161,7 +163,9 @@ textarea {
   resize: none;
 }
 
-input:focus,select:focus,textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   box-shadow: 0 0 0 0.1rem #93039C;
 }
@@ -206,22 +210,25 @@ import { supabase } from '../composables/useSupabase'
 
 const epis = ref([])
 const funcionarios = ref([])
+
 const defaultForm = () => ({
   id_funcionario: '',
   id_epi: '',
   quantidade: 1,
   data_retirada: '',
   horario_retirada: '',
-  observacoes: '',
+  observacoes: ''
 })
 
 const form = reactive(defaultForm())
+
 const epiSelecionado = computed(() => {
   return epis.value.find(e => e.id === form.id_epi)
 })
 
 const resetForm = () => {
   Object.assign(form, defaultForm())
+
   const agora = new Date()
   form.data_retirada = agora.toISOString().split('T')[0]
   form.horario_retirada = agora.toTimeString().slice(0, 5)
@@ -231,12 +238,15 @@ const carregarEPIs = async () => {
   const { data, error } = await supabase
     .from('epis')
     .select('*')
-    .order('nome')
+    .eq('ativo', true)
+    .order('nome', { ascending: true })
+
   if (error) {
-    console.error(error)
+    console.error('Erro EPIs:', error)
     alert('Erro ao carregar EPIs')
     return
   }
+
   epis.value = (data || []).map(e => ({
     ...e,
     quantidade: Number(e.quantidade)
@@ -247,67 +257,76 @@ const carregarFuncionarios = async () => {
   const { data, error } = await supabase
     .from('funcionarios')
     .select('id_funcionario, nome')
-    .order('nome')
+    .order('nome', { ascending: true })
+
   if (error) {
-    console.error(error)
+    console.error('Erro funcionários:', error)
     alert('Erro ao carregar funcionários')
     return
   }
+
   funcionarios.value = data || []
 }
 
 const registrarRetirada = async () => {
+  const epi = epiSelecionado.value
+  const qtd = Number(form.quantidade)
 
-  if (!epiSelecionado.value) {
+  if (!epi) {
     alert('Selecione um EPI válido')
     return
   }
 
-  if (form.quantidade > epiSelecionado.value.quantidade) {
-    alert('Quantidade maior que o estoque')
+  if (qtd <= 0) {
+    alert('Quantidade inválida')
+    return
+  }
+
+  if (qtd > epi.quantidade) {
+    alert('Estoque insuficiente')
     return
   }
 
   try {
-
-    // INSERT retirada
+    // 1. Inserir retirada
     const { error: retiradaError } = await supabase
       .from('retirada_epis')
       .insert([{
         id_funcionario: form.id_funcionario,
         id_epi: form.id_epi,
-        quantidade: form.quantidade,
+        quantidade: qtd,
         data_retirada: form.data_retirada,
         horario_retirada: form.horario_retirada,
         observacoes: form.observacoes
       }])
 
-    if (retiradaError) throw retiradaError
+    if (retiradaError) {
+      alert('Erro ao registrar retirada')
+      return
+    }
 
-    // atualizar estoque
-    const novoEstoque =
-      epiSelecionado.value.quantidade - form.quantidade
-
+    // 2. Atualizar estoque (com proteção contra race condition simples)
     const { error: estoqueError } = await supabase
       .from('epis')
-      .update({ quantidade: novoEstoque })
+      .update({
+        quantidade: epi.quantidade - qtd
+      })
       .eq('id', form.id_epi)
 
-    if (estoqueError) throw estoqueError
-
-    alert('Retirada registrada com sucesso!')
+    if (estoqueError) {
+      alert('Erro ao atualizar estoque')
+      return
+    }
 
     resetForm()
     await carregarEPIs()
 
+    alert('Retirada registrada com sucesso!')
+
   } catch (err) {
-    console.error(err)
+    console.error('Erro retirada:', err)
     alert('Erro ao registrar retirada')
   }
-}
-
-const limparFormulario = () => {
-  resetForm()
 }
 
 onMounted(() => {
