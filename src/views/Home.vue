@@ -64,9 +64,7 @@
                     <h1 class="title-dashboard">Rastreamento do seu estoque de EPIs</h1>
                     <div class="subtitle-dashboard-one">
                         Está sentido a falta de alguns equipamentos em seu estoque? Com o <span>Synaptix</span>, você
-                        consegue consultar o histórico de utilização de cada EPI e ver qual funcionário está utilizando
-                        ou
-                        se esqueceu de devolver.
+                        consegue consultar o histórico de utilização de cada EPI e ver qual funcionário está utilizando ou se esqueceu de devolver.
                     </div>
                 </div>
             </div>
@@ -98,9 +96,39 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import AppHeader from '../../components/AppHeader.vue';
 import 'primeicons/primeicons.css';
 import Card from '../../components/Cards.vue';
+
+onMounted(() => {
+    const cards = Array.from(document.querySelectorAll('.section-dashboard > div'));
+    if (!cards.length) return;
+
+    // inicializa estado oculto e posicionamento alternado
+    cards.forEach((el, i) => {
+        const dir = i % 2 === 0 ? -1 : 1;
+        el.style.opacity = '0';
+        el.style.transform = `translateX(${dir * 40}px) translateY(0)`;
+        el.style.transition = 'transform 700ms cubic-bezier(.2,.9,.2,1), opacity 700ms';
+        el.style.willChange = 'transform, opacity';
+    });
+
+    const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const idx = cards.indexOf(el);
+            // stagger usando delay baseado no índice
+            el.style.transitionDelay = `${idx * 120}ms`;
+            el.style.opacity = '1';
+            el.style.transform = 'translateX(0) translateY(0)';
+            obs.unobserve(el);
+        });
+    }, { threshold: 0.18 });
+
+    cards.forEach(c => io.observe(c));
+});
 </script>
 
 <style scoped>
@@ -118,57 +146,30 @@ import Card from '../../components/Cards.vue';
     justify-content: flex-end
 }
 
-.subtitle-dashboard-one {
-    font-weight: 300;
-    font-size: 1.3rem;
-    padding: 2rem;
-    color: black;
-    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
-    width: 45rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 15rem;
-    color: white;
-}
 
 .subtitle-dashboard-two {
     font-weight: 300;
     font-size: 1.3rem;
-    padding: 2rem;
-    color: black;
-    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
-    width: 45rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 15rem;
     color: white;
 }
 
 .subtitle-dashboard-three {
     font-weight: 300;
     font-size: 1.3rem;
-    padding: 2rem;
-    color: black;
-    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
-    width: 45rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 15rem;
     color: white;
 }
 
 
+/* Dashboard: layout em coluna (estilo da imagem), alterna imagem/texto por card */
 .section-dashboard {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 3rem;
-    margin-top: 3rem;
+    gap: 2.5rem;
+    margin-top: 1rem;
+    padding: 2rem 1rem;
 }
 
 .aside-row {
@@ -177,22 +178,103 @@ import Card from '../../components/Cards.vue';
     align-items: center;
 }
 
-.aside-dashboard {
+
+/* Card base */
+
+.section-dashboard > div {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    width: 50%;
-    gap: 1rem;
+    justify-content: center; /* centraliza o conteúdo horizontalmente */
+    gap: 1.5rem;
+    background: transparent;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.6rem 1.4rem rgba(51,16,41,0.06);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 1100px; /* centraliza e limita largura para visual semelhante à imagem */
+    min-height: 14rem;
+    overflow: visible; /* permitir imagem sair do card */
+    position: relative;
 }
 
-.aside-dashboard-left {
-    display: flex;
+/* Inverte ordem no segundo card para imagem à direita */
+
+.section-dashboard > div.aside-dashboard-left {
     flex-direction: row-reverse;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    gap: 1rem;
+}
+
+/* Imagem do card */
+.section-dashboard img {
+    width: 22rem; /* aumentar imagem */
+    height: auto;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    transition: transform 300ms ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+/* posiciona imagens para fora do card colorido */
+.section-dashboard > div:nth-child(1) img {
+    left: -6rem;
+}
+.section-dashboard > div:nth-child(2) img {
+    right: -6rem;
+    left: auto;
+}
+.section-dashboard > div:nth-child(3) img {
+    left: -6rem;
+}
+
+.aside-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center; /* centraliza os textos */
+    text-align: center; /* centraliza o texto interno */
+    width: 100%;
+}
+
+.title-dashboard {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+
+.section-dashboard > div:nth-child(1) {
+    background: linear-gradient(135deg,#ff7a2e,#ff9e1b);
+    color: #fff;
+    padding-left: 9rem; /* espaço para a imagem que fica fora */
+}
+
+.section-dashboard > div:nth-child(2) {
+    background: linear-gradient(135deg,#5b2a86,#8b4bb0);
+    color: #fff;
+    padding-right: 9rem; /* espaço para a imagem que fica fora à direita */
+}
+
+.section-dashboard > div:nth-child(3) {
+    background: linear-gradient(135deg,#e74c3c,#ff6a35);
+    color: #fff;
+    padding-left: 9rem; /* espaço para a imagem que fica fora */
+}
+
+.subtitle-dashboard-one,
+.subtitle-dashboard-two,
+.subtitle-dashboard-three {
+    font-weight: 300;
+    font-size: 0.98rem;
+    padding: 0.5rem 0.75rem;
+    color: inherit; /* usa white do card */
+    background: transparent;
+    width: calc(100% - 14rem);
+    max-width: calc(100% - 14rem);
+    line-height: 1.45;
+    border-radius: 0.25rem;
 }
 
 .image-feature {
@@ -407,6 +489,43 @@ import Card from '../../components/Cards.vue';
 }
 
 @media (max-width: 1024px) {
+    .section-dashboard {
+        /* já em coluna por padrão, manter ajustes menores */
+        gap: 1.25rem;
+        padding: 0.5rem 0;
+        align-items: center;
+    }
+
+    .section-dashboard > div {
+        width: 100%;
+        min-height: auto;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .section-dashboard > div.aside-dashboard-left {
+        flex-direction: column;
+    }
+
+    .section-dashboard img {
+        position: static;
+        transform: none;
+        width: 60%;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+
+    .subtitle-dashboard-one,
+    .subtitle-dashboard-two,
+    .subtitle-dashboard-three {
+        width: 100%;
+        max-width: 100%;
+    }
+
     .section {
         flex-direction: column;
         padding: 1.5rem;
@@ -442,6 +561,35 @@ import Card from '../../components/Cards.vue';
     .subtitle-aside {
         width: 100%;
     }
+}
+
+/* Animações de entrada: cada card aparece vindo de um lado */
+@keyframes slideInLeft {
+    from { transform: translateX(-3rem); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(3rem); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(2rem); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Aplica animações com stagger */
+.section-dashboard > div:nth-child(1) {
+    animation: slideInLeft 700ms cubic-bezier(.2,.9,.2,1) both 0.05s;
+}
+
+.section-dashboard > div:nth-child(2) {
+    animation: slideInRight 700ms cubic-bezier(.2,.9,.2,1) both 0.18s;
+}
+
+.section-dashboard > div:nth-child(3) {
+    animation: slideInUp 700ms cubic-bezier(.2,.9,.2,1) both 0.30s;
 }
 
 @media (max-width: 640px) {
