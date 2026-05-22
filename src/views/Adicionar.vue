@@ -9,76 +9,79 @@
       <section class="card-form">
         <div class="card-header">
           <div class="icon-box">
-            <img class="icon" src="/public/icone.svg" />
+            <img class="icon" src="/icone.svg" />
           </div>
 
           <div>
             <h3>{{ editandoId ? 'Editar Equipamento' : 'Informações do Equipamento' }}</h3>
-            <p> Preencha todos os campos obrigatórios</p>
+            <p>Preencha todos os campos obrigatórios</p>
           </div>
-
         </div>
 
         <form @submit.prevent="salvar" class="main-form">
           <div class="form-row">
             <div class="form-group">
               <label>Nome do EPI *</label>
-              <input v-model="form.nome" type="text" required>
+              <input v-model="form.nome" type="text" required />
             </div>
 
             <div class="form-group">
               <label>CA *</label>
-              <input v-model="form.ca" type="text" required>
+              <input v-model="form.ca" type="text" required />
             </div>
-
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label>Categoria *</label>
-              <input v-model="form.categoria" type="text" required>
+              <input v-model="form.categoria" type="text" required />
             </div>
 
             <div class="form-group">
               <label>Cor *</label>
-              <input v-model="form.cor" type="text">
+              <input v-model="form.cor" type="text" required />
             </div>
-
           </div>
+
           <div class="form-row">
             <div class="form-group">
               <label>Quantidade em estoque *</label>
-              <input v-model="form.quantidade" type="number">
+              <input v-model="form.quantidade" type="number" min="0" required />
             </div>
 
             <div class="form-group">
               <label>Fornecedor *</label>
-              <input v-model="form.fornecedor" type="text">
+              <input v-model="form.fornecedor" type="text" required />
             </div>
-
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label>Preço unitário (R$) *</label>
-              <input v-model="form.preco" type="number" step="0.01">
+              <input v-model="form.preco" type="number" step="0.01" min="0" required />
             </div>
 
             <div class="form-group">
               <label>Descrição/Observações</label>
-              <input v-model="form.descricao" type="text">
+              <input v-model="form.descricao" type="text" />
             </div>
-
           </div>
 
           <div class="form-group">
             <label>URL da Foto</label>
-            <input v-model="form.foto" type="text">
+            <input v-model="form.foto" type="text" />
           </div>
 
+          <div class="divider"></div>
+
           <div class="action-bar">
-            <button type="submit" class="btn btn-primary">{{ editandoId ? 'Salvar Alterações' : 'Salvar EPI' }}</button>
-            <button type="button" @click="cancelarEdicao" class="btn btn-outline">Limpar formulário</button>
+            <button type="submit" class="btn btn-primary">
+              {{ editandoId ? 'Salvar Alterações' : 'Salvar EPI' }}
+            </button>
+
+            <button type="button" @click="resetForm" class="btn btn-outline">
+              Limpar formulário
+            </button>
           </div>
         </form>
       </section>
@@ -90,7 +93,7 @@
               <th>Equipamento</th>
               <th>Categoria</th>
               <th>CA</th>
-              <th>Qtde em Estoque</th>
+              <th>Qtde</th>
               <th>Descrição</th>
               <th class="text-center">Ações</th>
             </tr>
@@ -104,8 +107,12 @@
               <td><span class="text-bold">{{ e.quantidade }}</span></td>
               <td>{{ e.descricao }}</td>
               <td class="text-center">
-                <button @click="prepararEdicao(e)" class="btn-action edit">Editar</button>
-                <button @click="excluir(e.id)" class="btn-action delete">Excluir</button>
+                <button @click="prepararEdicao(e)" class="btn-action edit">
+                  Editar
+                </button>
+                <button @click="excluir(e.id)" class="btn-action delete">
+                  Excluir
+                </button>
               </td>
             </tr>
           </tbody>
@@ -206,6 +213,13 @@ input:focus {
   box-shadow: 0 0 0 0.1rem #93039C;
 }
 
+.divider {
+  width: 100%;
+  height: 0.1rem;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 1rem 0 1.5rem;
+}
+
 .action-bar {
   display: flex;
   justify-content: space-between;
@@ -295,11 +309,12 @@ input:focus {
 </style>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
-import { supabase } from '../composables/useSupabase';
+import { ref, reactive, onMounted } from 'vue'
+import { supabase } from '../composables/useSupabase'
 
-const epis = ref([]);
-const editandoId = ref(null);
+const epis = ref([])
+const editandoId = ref(null)
+
 const defaultForm = () => ({
   nome: '',
   ca: '',
@@ -309,74 +324,77 @@ const defaultForm = () => ({
   fornecedor: '',
   preco: 0,
   descricao: '',
-  foto: '',
-});
+  foto: ''
+})
 
-const form = reactive(defaultForm());
-const resetForm = () => Object.assign(form, defaultForm());
+const form = reactive(defaultForm())
+
+const resetForm = () => {
+  Object.assign(form, defaultForm())
+  editandoId.value = null
+}
+
 const carregar = async () => {
-  epis.value = [];
-  const { data, error } = await supabase.from('epis').select('*').order('nome');
+  const { data, error } = await supabase
+    .from('epis')
+    .select('*')
+    .eq('ativo', true)
+    .order('nome', { ascending: true })
+
   if (error) {
-    console.error('Erro ao carregar EPIs:', error);
-    alert('Não foi possível carregar os EPIs. Veja o console.');
-    return;
+    alert('Erro ao carregar EPIs')
+    return
   }
-  epis.value = data || [];
-};
+
+  epis.value = data || []
+}
 
 const salvar = async () => {
-  const payload = { ...form };
-  if (editandoId.value) {
-    const { error } = await supabase.from('epis').update(payload).eq('id', editandoId.value);
-    if (error) {
-      console.error('Erro ao atualizar EPI:', error);
-      alert('Erro ao atualizar o EPI. Veja o console.');
-      return;
-    }
-  } else {
-    const { error } = await supabase.from('epis').insert([payload]);
-    if (error) {
-      console.error('Erro ao inserir EPI:', error);
-      alert('Erro ao salvar o EPI. Veja o console.');
-      return;
-    }
+  const payload = {
+    nome: form.nome,
+    ca: form.ca,
+    categoria: form.categoria,
+    cor: form.cor,
+    quantidade: Number(form.quantidade),
+    fornecedor: form.fornecedor,
+    preco: Number(form.preco),
+    descricao: form.descricao,
+    foto: form.foto
   }
-  cancelarEdicao();
-  await carregar();
-  alert('EPI salvo com sucesso!');
-};
+
+  const { error } = editandoId.value
+    ? await supabase.from('epis').update(payload).eq('id', editandoId.value)
+    : await supabase.from('epis').insert([payload])
+
+  if (error) {
+    alert('Erro ao salvar EPI')
+    return
+  }
+
+  resetForm()
+  await carregar()
+}
 
 const prepararEdicao = (e) => {
-  editandoId.value = e.id;
-  Object.assign(form, {
-    nome: e.nome ?? '',
-    categoria: e.categoria ?? '',
-    cor: e.cor ?? '',
-    quantidade: e.quantidade ?? 0,
-    fornecedor: e.fornecedor ?? '',
-    preco: e.preco ?? 0,
-    descricao: e.descricao ?? '',
-    foto: e.foto ?? '',
-  });
-};
+  editandoId.value = e.id
+  Object.assign(form, e)
+}
 
 const excluir = async (id) => {
-  if (confirm('Deseja excluir este equipamento?')) {
-    const { error } = await supabase.from('epis').delete().eq('id', id);
-    if (error) {
-      console.error('Erro ao excluir EPI:', error);
-      alert('Erro ao excluir o EPI. Veja o console.');
-      return;
-    }
-    await carregar();
+  if (!confirm('Deseja excluir este EPI? Isso apagará o histórico de retiradas.')) return
+
+  const { error } = await supabase
+    .from('epis')
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    alert('Erro ao excluir EPI')
+    return
   }
-};
 
-const cancelarEdicao = () => {
-  editandoId.value = null;
-  resetForm();
-};
+  await carregar()
+}
 
-onMounted(carregar);
+onMounted(carregar)
 </script>
