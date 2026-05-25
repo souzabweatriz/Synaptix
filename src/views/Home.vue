@@ -92,6 +92,12 @@
                 </div>
             </div>
         </div>
+        <div class="image-section">
+            <h1 class="colored-text">Pensamos em cada necessidade</h1>
+            <h2 class="subtitle-image-section">Esteja no controle de tudo sobre o seu estoque na palma da sua mão, aonde estiver</h2>
+            <img src="../../public/Images/phone.png" alt="Celular com dados do site e gráficos com resultados simulados" class="image-section-phone">
+        </div>
+        <Footer />
     </div>
 </template>
 
@@ -100,6 +106,7 @@ import { onMounted } from 'vue';
 import AppHeader from '../../components/AppHeader.vue';
 import 'primeicons/primeicons.css';
 import Card from '../../components/Cards.vue';
+import Footer from '../../components/Footer.vue';
 
 onMounted(() => {
     const cards = Array.from(document.querySelectorAll('.section-dashboard > div'));
@@ -139,6 +146,37 @@ onMounted(() => {
     padding-top: 4.4rem;
 }
 
+.image-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.image-section-phone{
+    width: 60%;
+    height: auto;
+    display: block;
+}
+
+.subtitle-image-section {
+    font-weight: bolder;
+    font-size: 1.5rem;
+    color: black;
+    text-align: center;
+    max-width: 50rem;
+}
+
+.colored-text {
+    font-size: 1.20rem;
+    text-align: center;
+    background-image: linear-gradient(to right, #330136, #330136, #FF9E1B, #FF9E1B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .features-section {
     display: flex;
     align-items: center;
@@ -159,126 +197,85 @@ onMounted(() => {
     color: white;
 }
 
-
-/* Dashboard: layout em coluna (estilo da imagem), alterna imagem/texto por card */
+/* Dashboard */
 .section-dashboard {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100%;
     gap: 2.5rem;
-    margin-top: 1rem;
-    padding: 2rem 1rem;
+    padding: 2rem 6rem;
+    width: 100%;
 }
-
-.aside-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 
 /* Card base */
-
 .section-dashboard > div {
     display: flex;
     align-items: center;
-    justify-content: center; /* centraliza o conteúdo horizontalmente */
-    gap: 1.5rem;
-    background: transparent;
+    gap: 2rem;
     border-radius: 0.8rem;
-    box-shadow: 0 0.6rem 1.4rem rgba(51,16,41,0.06);
-    padding: 1.5rem;
+    box-shadow: 0 0.6rem 1.4rem rgba(51, 16, 41, 0.06);
+    padding: 2rem 2.5rem;
     width: 100%;
-    max-width: 1100px; /* centraliza e limita largura para visual semelhante à imagem */
+    max-width: 1100px;
     min-height: 14rem;
-    overflow: visible; /* permitir imagem sair do card */
-    position: relative;
+    color: #fff;
+    transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    box-shadow: rgba(0, 0, 0, 0.597) 0px 0.7rem 1.4rem;
 }
 
-/* Inverte ordem no segundo card para imagem à direita */
+.aside-dashboard:hover,
+.aside-dashboard-left:hover {
+    transform: translateY(-0.14rem) !important;
+    box-shadow: 0 0.72rem 1.2rem rgba(51, 16, 41, 0.09);
+}
 
-.section-dashboard > div.aside-dashboard-left {
+/* Inverte ordem no segundo card */
+.aside-dashboard-left {
     flex-direction: row-reverse;
 }
 
-/* Imagem do card */
+/* Imagem */
 .section-dashboard img {
-    width: 22rem; /* aumentar imagem */
+    width: 22rem;
     height: auto;
-    object-fit: cover;
     flex-shrink: 0;
     border-radius: 0.5rem;
-    transition: transform 300ms ease;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
+    object-fit: cover;
 }
 
-/* posiciona imagens para fora do card colorido */
-.section-dashboard > div:nth-child(1) img {
-    left: -6rem;
-}
-.section-dashboard > div:nth-child(2) img {
-    right: -6rem;
-    left: auto;
-}
-.section-dashboard > div:nth-child(3) img {
-    left: -6rem;
-}
-
+/* Texto */
 .aside-row {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    align-items: center; /* centraliza os textos */
-    text-align: center; /* centraliza o texto interno */
-    width: 100%;
+    flex: 1;
 }
 
 .title-dashboard {
     font-size: 1.25rem;
-    margin: 0;
     font-weight: 700;
-}
-
-
-.section-dashboard > div:nth-child(1) {
-    background: linear-gradient(135deg,#ff7a2e,#ff9e1b);
-    color: #fff;
-    padding-left: 9rem; /* espaço para a imagem que fica fora */
-}
-
-.section-dashboard > div:nth-child(2) {
-    background: linear-gradient(135deg,#5b2a86,#8b4bb0);
-    color: #fff;
-    padding-right: 9rem; /* espaço para a imagem que fica fora à direita */
-}
-
-.section-dashboard > div:nth-child(3) {
-    background: linear-gradient(135deg,#e74c3c,#ff6a35);
-    color: #fff;
-    padding-left: 9rem; /* espaço para a imagem que fica fora */
+    margin: 0;
 }
 
 .subtitle-dashboard-one,
 .subtitle-dashboard-two,
 .subtitle-dashboard-three {
-    font-weight: 300;
     font-size: 0.98rem;
-    padding: 0.5rem 0.75rem;
-    color: inherit; /* usa white do card */
-    background: transparent;
-    width: calc(100% - 14rem);
-    max-width: calc(100% - 14rem);
+    font-weight: 300;
     line-height: 1.45;
-    border-radius: 0.25rem;
+    margin: 0;
 }
 
-.image-feature {
-    width: 100%;
+/* Cores dos cards */
+.section-dashboard > div:nth-child(1) {
+    background: linear-gradient(135deg, #ff7a2e, #ff9e1b);
+}
+.section-dashboard > div:nth-child(2) {
+    background: linear-gradient(135deg, #5b2a86, #8b4bb0);
+}
+.section-dashboard > div:nth-child(3) {
+    background: linear-gradient(135deg, #e74c3c, #ff6a35);
 }
 
 .text-section {
