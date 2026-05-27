@@ -64,9 +64,7 @@
                     <h1 class="title-dashboard">Rastreamento do seu estoque de EPIs</h1>
                     <div class="subtitle-dashboard-one">
                         Está sentido a falta de alguns equipamentos em seu estoque? Com o <span>Synaptix</span>, você
-                        consegue consultar o histórico de utilização de cada EPI e ver qual funcionário está utilizando
-                        ou
-                        se esqueceu de devolver.
+                        consegue consultar o histórico de utilização de cada EPI e ver qual funcionário está utilizando ou se esqueceu de devolver.
                     </div>
                 </div>
             </div>
@@ -94,13 +92,50 @@
                 </div>
             </div>
         </div>
+        <div class="image-section">
+            <h1 class="colored-text">Pensamos em cada necessidade</h1>
+            <h2 class="subtitle-image-section">Esteja no controle de tudo sobre o seu estoque na palma da sua mão, aonde estiver</h2>
+            <img src="../../public/Images/phone.png" alt="Celular com dados do site e gráficos com resultados simulados" class="image-section-phone">
+        </div>
+        <Footer />
     </div>
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import AppHeader from '../../components/AppHeader.vue';
 import 'primeicons/primeicons.css';
 import Card from '../../components/Cards.vue';
+import Footer from '../../components/Footer.vue';
+
+onMounted(() => {
+    const cards = Array.from(document.querySelectorAll('.section-dashboard > div'));
+    if (!cards.length) return;
+
+    // inicializa estado oculto e posicionamento alternado
+    cards.forEach((el, i) => {
+        const dir = i % 2 === 0 ? -1 : 1;
+        el.style.opacity = '0';
+        el.style.transform = `translateX(${dir * 40}px) translateY(0)`;
+        el.style.transition = 'transform 700ms cubic-bezier(.2,.9,.2,1), opacity 700ms';
+        el.style.willChange = 'transform, opacity';
+    });
+
+    const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const idx = cards.indexOf(el);
+            // stagger usando delay baseado no índice
+            el.style.transitionDelay = `${idx * 120}ms`;
+            el.style.opacity = '1';
+            el.style.transform = 'translateX(0) translateY(0)';
+            obs.unobserve(el);
+        });
+    }, { threshold: 0.18 });
+
+    cards.forEach(c => io.observe(c));
+});
 </script>
 
 <style scoped>
@@ -111,6 +146,37 @@ import Card from '../../components/Cards.vue';
     padding-top: 4.4rem;
 }
 
+.image-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.image-section-phone{
+    width: 60%;
+    height: auto;
+    display: block;
+}
+
+.subtitle-image-section {
+    font-weight: bolder;
+    font-size: 1.5rem;
+    color: black;
+    text-align: center;
+    max-width: 50rem;
+}
+
+.colored-text {
+    font-size: 1.20rem;
+    text-align: center;
+    background-image: linear-gradient(to right, #330136, #330136, #FF9E1B, #FF9E1B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .features-section {
     display: flex;
     align-items: center;
@@ -118,85 +184,98 @@ import Card from '../../components/Cards.vue';
     justify-content: flex-end
 }
 
-.subtitle-dashboard-one {
-    font-weight: 300;
-    font-size: 1.3rem;
-    padding: 2rem;
-    color: black;
-    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
-    width: 45rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 15rem;
-    color: white;
-}
 
 .subtitle-dashboard-two {
     font-weight: 300;
     font-size: 1.3rem;
-    padding: 2rem;
-    color: black;
-    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
-    width: 45rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 15rem;
     color: white;
 }
 
 .subtitle-dashboard-three {
     font-weight: 300;
     font-size: 1.3rem;
-    padding: 2rem;
-    color: black;
-    background: linear-gradient(135deg, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
-    width: 45rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 15rem;
     color: white;
 }
 
-
+/* Dashboard */
 .section-dashboard {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 2.5rem;
+    padding: 2rem 6rem;
     width: 100%;
-    gap: 3rem;
-    margin-top: 3rem;
 }
 
+/* Card base */
+.section-dashboard > div {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.6rem 1.4rem rgba(51, 16, 41, 0.06);
+    padding: 2rem 2.5rem;
+    width: 100%;
+    max-width: 1100px;
+    min-height: 14rem;
+    color: #fff;
+    transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    box-shadow: rgba(0, 0, 0, 0.597) 0px 0.7rem 1.4rem;
+}
+
+.aside-dashboard:hover,
+.aside-dashboard-left:hover {
+    transform: translateY(-0.14rem) !important;
+    box-shadow: 0 0.72rem 1.2rem rgba(51, 16, 41, 0.09);
+}
+
+/* Inverte ordem no segundo card */
+.aside-dashboard-left {
+    flex-direction: row-reverse;
+}
+
+/* Imagem */
+.section-dashboard img {
+    width: 22rem;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+/* Texto */
 .aside-row {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
 }
 
-.aside-dashboard {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    gap: 1rem;
+.title-dashboard {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
 }
 
-.aside-dashboard-left {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    gap: 1rem;
+.subtitle-dashboard-one,
+.subtitle-dashboard-two,
+.subtitle-dashboard-three {
+    font-size: 0.98rem;
+    font-weight: 300;
+    line-height: 1.45;
+    margin: 0;
 }
 
-.image-feature {
-    width: 100%;
+/* Cores dos cards */
+.section-dashboard > div:nth-child(1) {
+    background: linear-gradient(135deg, #ff7a2e, #ff9e1b);
+}
+.section-dashboard > div:nth-child(2) {
+    background: linear-gradient(135deg, #5b2a86, #8b4bb0);
+}
+.section-dashboard > div:nth-child(3) {
+    background: linear-gradient(135deg, #e74c3c, #ff6a35);
 }
 
 .text-section {
@@ -407,6 +486,43 @@ import Card from '../../components/Cards.vue';
 }
 
 @media (max-width: 1024px) {
+    .section-dashboard {
+        /* já em coluna por padrão, manter ajustes menores */
+        gap: 1.25rem;
+        padding: 0.5rem 0;
+        align-items: center;
+    }
+
+    .section-dashboard > div {
+        width: 100%;
+        min-height: auto;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .section-dashboard > div.aside-dashboard-left {
+        flex-direction: column;
+    }
+
+    .section-dashboard img {
+        position: static;
+        transform: none;
+        width: 60%;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+
+    .subtitle-dashboard-one,
+    .subtitle-dashboard-two,
+    .subtitle-dashboard-three {
+        width: 100%;
+        max-width: 100%;
+    }
+
     .section {
         flex-direction: column;
         padding: 1.5rem;
@@ -442,6 +558,35 @@ import Card from '../../components/Cards.vue';
     .subtitle-aside {
         width: 100%;
     }
+}
+
+/* Animações de entrada: cada card aparece vindo de um lado */
+@keyframes slideInLeft {
+    from { transform: translateX(-3rem); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(3rem); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(2rem); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Aplica animações com stagger */
+.section-dashboard > div:nth-child(1) {
+    animation: slideInLeft 700ms cubic-bezier(.2,.9,.2,1) both 0.05s;
+}
+
+.section-dashboard > div:nth-child(2) {
+    animation: slideInRight 700ms cubic-bezier(.2,.9,.2,1) both 0.18s;
+}
+
+.section-dashboard > div:nth-child(3) {
+    animation: slideInUp 700ms cubic-bezier(.2,.9,.2,1) both 0.30s;
 }
 
 @media (max-width: 640px) {
