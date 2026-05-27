@@ -381,25 +381,6 @@ const prepararEdicao = (e) => {
 }
 
 const excluir = async (id) => {
-  if (confirm('Deseja excluir este equipamento?')) {
-    try {
-      const { data, error } = await supabase.from('epis').delete().eq('id', id).select();
-      if (error) {
-        console.error('Erro ao excluir EPI:', error);
-        alert('Erro ao excluir o EPI. Veja o console.');
-        return;
-      }
-      // se não veio data, loga informação útil
-      console.log('Resposta exclusão:', { id, data });
-      if (!data || data.length === 0) {
-        alert('Nenhum registro foi excluído — verifique o id e permissões do banco.');
-      }
-      await carregar();
-      alert('EPI excluído com sucesso.');
-    } catch (err) {
-      console.error('Erro inesperado ao excluir:', err);
-      alert('Erro inesperado. Veja o console.');
-    }
   if (!confirm('Deseja excluir este EPI? Isso apagará o histórico de retiradas.')) return
 
   const { error } = await supabase
