@@ -10,6 +10,7 @@ import Retirada from '../views/Retirada.vue'
 import Relatorio from '../views/Relatorio.vue'
 import Perfil from '../views/Perfil.vue'
 import Configuracoes from '../views/Configuracoes.vue'
+import Erro from '../views/Erro.vue'
 
 const routes = [
 
@@ -44,6 +45,24 @@ const routes = [
     name: 'Login',
     component: Login
   },
+
+  {
+    path: '/erro',
+    name: 'Erro',
+    component: Erro
+  },
+
+  // Captura qualquer rota não encontrada (404)
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: Erro,
+    props: {
+      errorCode: '404',
+      title: 'A página não foi encontrada',
+      message: 'A página que você está procurando não existe ou foi removida.'
+    }
+  }
 ]
 
 const router = createRouter({
