@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { supabase } from '../composables/useSupabase'
+import { useSupabase } from '../composables/useSupabase'
+
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
@@ -9,41 +10,53 @@ import EmUso from '../views/EmUso.vue'
 import Retirada from '../views/Retirada.vue'
 import Relatorio from '../views/Relatorio.vue'
 import Perfil from '../views/Perfil.vue'
-import Configuracoes from '../views/Configuracoes.vue'
 import Erro from '../views/Erro.vue'
 
+const { supabase } = useSupabase()
+
 const routes = [
-
-  {
-    path: '/Dashboard', component: Dashboard,
-    meta: { requiresAuth: true },
-    children: [
-      { path: '', redirect: '/Dashboard/Inventario' },
-      { path: 'Inventario', component: Inventario },
-      { path: 'Adicionar', component: Adicionar },
-      { path: 'EmUso', component: EmUso },
-      { path: 'Retirada', component: Retirada },
-      { path: 'Relatorios', component: Relatorio },
-      { path: 'Perfil', component: Perfil },
-      { path: 'Configuracoes', component: Configuracoes },
-    ]
-  },
-
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: Home
   },
 
-  {
-    path: '/Login',
-    name: 'Login',
-    component: Login,
-  },
   {
     path: '/Login',
     name: 'Login',
     component: Login
+  },
+
+  {
+    path: '/Dashboard',
+    component: Dashboard,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: 'Inventario',
+        component: Inventario
+      },
+      {
+        path: 'Adicionar',
+        component: Adicionar
+      },
+      {
+        path: 'EmUso',
+        component: EmUso
+      },
+      {
+        path: 'Retirada',
+        component: Retirada
+      },
+      {
+        path: 'Relatorios',
+        component: Relatorio
+      },
+      {
+        path: 'Perfil',
+        component: Perfil
+      }
+    ]
   },
 
   {
@@ -52,7 +65,6 @@ const routes = [
     component: Erro
   },
 
-  // Captura qualquer rota não encontrada (404)
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
@@ -66,19 +78,23 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+  history: createWebHistory(),
+  routes
 })
 
 router.beforeEach(async (to, from, next) => {
-  const requiresAuth = to.matched.some(r => r.meta?.requiresAuth)
+  const requiresAuth = to.matched.some(
+    route => route.meta?.requiresAuth
+  )
 
   if (!requiresAuth) {
     return next()
   }
 
   try {
-    const { data: { session } } = await supabase.auth.getSession()
+    const {
+      data: { session }
+    } = await supabase.auth.getSession()
 
     if (!session) {
       return next('/Login')
