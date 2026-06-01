@@ -1,33 +1,459 @@
 <template>
-  <main class="dashboard-layout">
-    <Sidebar />
-    <section class="dashboard-content">
-      <RouterView />
-    </section>
- 
-  </main>
+  <div class="shell">
+    <Sidebar v-model:collapsed="isSidebarCollapsed" />
+
+    <main class="conteudo" :style="{ marginLeft: isSidebarCollapsed ? '80px' : '250px' }">
+      <section class="dashboard-top" v-if="isDashboardRoot">
+
+        <div class="stat-grid">
+          <article class="stat-card stat-card--green">
+            <span class="stat-label">EPIs cadastrados</span>
+            <strong>{{ totalEPIs }}</strong>
+            <small>Total de itens no sistema</small>
+          </article>
+
+          <article class="stat-card stat-card--orange">
+            <span class="stat-label">EPIs retirados hoje</span>
+            <strong>{{ retiradosHoje }}</strong>
+            <small>Movimentação do dia</small>
+          </article>
+
+          <article class="stat-card stat-card--red">
+            <span class="stat-label">EPIs sem estoque</span>
+            <strong>{{ semEstoque }}</strong>
+            <small>Produtos críticos</small>
+          </article>
+
+          <article class="stat-card stat-card--blue">
+            <span class="stat-label">Maior quantidade</span>
+            <strong>{{ maiorQuantidadeNome || '—' }}</strong>
+            <small>EPI com mais unidades</small>
+          </article>
+
+          <article class="stat-card stat-card--purple">
+            <span class="stat-label">EPIs mais caros</span>
+            <strong>{{ expensiveChart.length ? expensiveChart[0].label : '—' }}</strong>
+            <small>Maior valor unitário</small>
+          </article>
+        </div>
+
+        <div class="charts-grid">
+          <section class="chart-card">
+            <div class="chart-card__header">
+              <div>
+                <h2>EPIs com mais quantidade</h2>
+                <p>Relação dos itens em estoque ordenados por volume.</p>
+              </div>
+              <span class="chip">Top 5</span>
+            </div>
+            <div class="bar-chart">
+              <div class="bar-row" v-for="item in quantityChart" :key="item.label">
+                <div class="bar-info">
+                  <span>{{ item.label }}</span>
+                  <strong>{{ item.value }}</strong>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill" :style="{ width: item.width + '%' }"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="chart-card chart-card--split">
+            <div class="chart-card__header">
+              <div>
+                <h2>EPIs mais caros</h2>
+                <p>O valor unitário dos itens de maior custo.</p>
+              </div>
+            </div>
+            <div class="price-list">
+              <div class="price-item" v-for="item in expensiveChart" :key="item.label">
+                <div>
+                  <span class="price-name">{{ item.label }}</span>
+                  <p class="price-subtitle">R$ {{ item.price.toFixed(2) }}</p>
+                </div>
+                <strong>{{ item.margin }}%</strong>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <RouterView v-if="!isDashboardRoot" />
+    </main>
+  </div>
 </template>
- 
+
 <script setup>
-import { RouterView } from 'vue-router'
+import { computed, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useSupabase } from '../composables/useSupabase'
 import Sidebar from '../../components/Sidebar.vue'
+
+const isSidebarCollapsed = ref(false)
+const route = useRoute()
+const isDashboardRoot = computed(() => route.path === '/Dashboard')
+
+const { supabase } = useSupabase()
+
+const totalEPIs = ref(0)
+const retiradosHoje = ref(0) // no transactions table available; default 0
+const semEstoque = ref(0)
+const maiorQuantidadeNome = ref('')
+
+const quantityChart = ref([])
+const expensiveChart = ref([])
+
+onMounted(async () => {
+  try {
+    const { data, error } = await supabase.from('epis').select('*')
+    if (error) {
+      console.error('Erro ao buscar EPIs:', error)
+      return
+    }
+
+    const rows = data || []
+    totalEPIs.value = rows.length
+
+    // sem estoque: quantidade <= 0 or null
+    semEstoque.value = rows.filter(r => !(r.quantidade) || Number(r.quantidade) <= 0).length
+
+    // maior quantidade
+    const byQuantity = rows.slice().sort((a, b) => (Number(b.quantidade) || 0) - (Number(a.quantidade) || 0))
+    maiorQuantidadeNome.value = byQuantity.length ? (byQuantity[0].nome || '') : ''
+    // quantity chart - top 5
+    const topQty = byQuantity.slice(0, 5).map(r => ({
+      label: r.nome || '—',
+      value: Number(r.quantidade) || 0
+    }))
+    const maxVal = topQty.length ? Math.max(...topQty.map(i => i.value)) : 1
+    quantityChart.value = topQty.map(i => ({ ...i, width: maxVal ? Math.round((i.value / maxVal) * 100) : 0 }))
+
+    // expensive chart - top 4 by preco
+    const byPrice = rows.slice().sort((a, b) => (Number(b.preco) || 0) - (Number(a.preco) || 0))
+    const topExp = byPrice.slice(0, 4).map(r => ({
+      label: r.nome || '—',
+      price: Number(r.preco) || 0
+    }))
+    // margin: relative percentage to highest
+    const highest = topExp.length ? topExp[0].price : 1
+    expensiveChart.value = topExp.map(e => ({ ...e, margin: highest ? Math.round((e.price / highest) * 100) : 0 }))
+
+    // try to detect today's withdrawals from common tables
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const isoStart = today.toISOString()
+
+    // contar retiradas de hoje
+    const { count, error: retiradaError } = await supabase
+      .from('retirada_epis')
+      .select('*', { count: 'exact', head: true })
+
+    console.log('Retiradas:', count)
+    console.log('Erro:', retiradaError)
+
+    if (!retiradaError) {
+      retiradosHoje.value = count || 0
+    }
+
+
+  } catch (err) {
+    console.error('Erro ao carregar dashboard:', err)
+  }
+})
 </script>
- 
+
 <style scoped>
-.dashboard-layout {
+.shell {
   display: flex;
-  width: 100%;
   min-height: 100vh;
-  background: #f8f9fa;
+  background: url(../assets/background-geral.svg);
+  font-family: 'Montserrat', sans-serif;
 }
- 
-.dashboard-content {
+
+.conteudo {
   flex: 1;
   margin-left: 250px;
   padding: 30px;
-  min-height: 100vh;
-  overflow-x: hidden;
+  color: #ffffff;
 }
- 
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.5vw, 3rem);
+}
+
+.status-pill {
+  background: rgba(32, 73, 25, 0.75);
+  border: 1px solid rgba(126, 213, 111, 0.25);
+  border-radius: 999px;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(13, 40, 17, 0.9);
+  border: 1px solid rgba(126, 213, 111, 0.16);
+  border-radius: 18px;
+  padding: 1.5rem;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(126, 213, 111, 0.45);
+}
+
+.stat-label {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.stat-card strong {
+  font-size: 1.2rem;
+  margin: 0.75rem 0 0.5rem;
+  display: block;
+}
+
+.stat-card small {
+  color: #ffffff;
+}
+
+.stat-card--green {
+  background: linear-gradient(135deg, #e74c3c, #ff6a35);
+}
+
+.stat-card--orange {
+  background: linear-gradient(135deg, #f39c12, #f1c40f);
+}
+
+.stat-card--red {
+  background: linear-gradient(135deg, #e74c3c, #ff6a35);
+}
+
+.stat-card--blue {
+  background: linear-gradient(135deg, #ff7a2e, #ff9e1b);
+}
+
+.stat-card--purple {
+  background: linear-gradient(135deg, #e74c3c, #ff6a35);
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr;
+  gap: 1rem;
+}
+
+.chart-card {
+  background: linear-gradient(135deg, #5b2a86, #8b4bb0);
+  border: 1px solid rgba(126, 213, 111, 0.14);
+  border-radius: 24px;
+  padding: 1.5rem;
+  min-height: 380px;
+}
+
+.chart-card--split {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chart-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-card__header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.chart-card__header p {
+  margin: 0.5rem 0 0;
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1200px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .conteudo {
+    padding: 20px;
+    margin-left: 0;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .status-pill {
+    width: fit-content;
+    align-self: flex-start;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .status-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chart-card {
+    padding: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.25rem;
+  }
+}
+
+
+.chip {
+  background: rgba(255, 255, 255, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #000000;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.8rem;
+}
+
+.bar-chart {
+  display: grid;
+  gap: 1rem;
+}
+
+.bar-row {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.bar-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  color: #ffffff;
+}
+
+.bar-track {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #ffffff, #a97eff);
+  border-radius: 999px;
+}
+
+.price-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff, #716e73);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.2s ease;
+}
+
+.price-item:hover {
+  background: rgba(185, 185, 185, 0.95);
+}
+
+.price-name {
+  display: block;
+  color: #000000;
+  font-weight: 600;
+}
+
+.price-subtitle {
+  margin: 0.35rem 0 0;
+  color: #000000;
+}
+
+@media (max-width: 1200px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .conteudo {
+    padding: 20px;
+    margin-left: 0;
+  }
+
+  .shell {
+    flex-direction: column;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
- 

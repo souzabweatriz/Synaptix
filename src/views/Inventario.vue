@@ -2,25 +2,17 @@
   <div class="inventario-page">
 
     <header class="top-section">
-      <h1>Estoque de EPIs</h1>
+      <!-- <h1>Estoque de EPIs</h1> -->
     </header>
 
     <!-- GRID DOS CARDS -->
     <div class="grid-cards">
 
-      <div
-        v-for="epi in epis"
-        :key="epi.id"
-        class="card-epi"
-      >
+      <div v-for="epi in epis" :key="epi.id" class="card-epi">
 
         <!-- IMAGEM -->
         <div class="card-image">
-          <img
-            :src="epi.foto"
-            :alt="epi.nome || 'EPI'"
-            loading="lazy"
-          />
+          <img :src="epi.foto" :alt="epi.nome || 'EPI'" loading="lazy" />
         </div>
 
         <!-- CONTEÚDO -->
@@ -39,12 +31,9 @@
 
             </div>
 
-            <div
-              class="status"
-              :class="{
-                indisponivel: (epi.quantidade || 0) <= 0
-              }"
-            >
+            <div class="status" :class="{
+              indisponivel: (epi.quantidade || 0) <= 0
+            }">
               {{
                 (epi.quantidade || 0) > 0
                   ? 'Disponível'
@@ -62,11 +51,7 @@
 
               <div class="info-content">
 
-                <img
-                  class="info-icon"
-                  src="/cor.png"
-                  alt="Ícone cor"
-                />
+                <img class="info-icon" src="/cor.png" alt="Ícone cor" />
 
                 <div class="info-text">
 
@@ -89,11 +74,7 @@
 
               <div class="info-content">
 
-                <img
-                  class="info-icon"
-                  src="/estoque-pronto.png"
-                  alt="Ícone estoque"
-                />
+                <img class="info-icon" src="/estoque-pronto.png" alt="Ícone estoque" />
 
                 <div class="info-text">
 
@@ -118,11 +99,7 @@
 
             <div class="info-content">
 
-              <img
-                class="info-icon"
-                src="/bolsa-de-dinheiro.png"
-                alt="Ícone preço"
-              />
+              <img class="info-icon" src="/bolsa-de-dinheiro.png" alt="Ícone preço" />
 
               <div class="info-text">
 
@@ -187,10 +164,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
-.top-section {
+/* .top-section {
   margin-bottom: 1.8rem;
-}
+} */
 
 .top-section h1 {
   font-size: 2.3rem;
@@ -379,5 +355,4 @@ onMounted(() => {
   }
 
 }
-
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="layout-container">
     <header class="header-section">
-      <h1>Cadastro de EPIs</h1>
-      <p>Cadastre EPIs no estoque</p>
+      <!-- <h1>Cadastro de EPIs</h1>
+      <p>Cadastre EPIs no estoque</p> -->
     </header>
 
     <main class="content">
@@ -124,7 +124,6 @@
 
 <style scoped>
 .layout-container {
-  background-color: #F8F9FA;
   height: 100%;
 }
 
@@ -148,7 +147,7 @@
 .card-form {
   border-radius: 1rem;
   padding: 1rem;
-  background: rgba(115, 0, 255, 0.1);
+background-color: #f0e7f6;
 }
 
 .card-header {
@@ -200,7 +199,7 @@ label {
 
 input {
   height: 2.25rem;
-  border-radius: 1rem;
+  border-radius: 6px;
   border: none;
   padding: 0 1rem;
   background: #ffffff;
@@ -216,7 +215,7 @@ input:focus {
 .divider {
   width: 100%;
   height: 0.1rem;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(175, 175, 175, 0.3);
   margin: 1rem 0 1.5rem;
 }
 
@@ -230,7 +229,6 @@ input:focus {
 .btn {
   height: 2.5rem;
   width: 12rem;
-  border-radius: 1rem;
   cursor: pointer;
 }
 
@@ -238,24 +236,24 @@ input:focus {
   background: linear-gradient(90deg, #330136, #93039C);
   color: white;
   border: none;
-  width: 30rem;
-  border-radius: 1rem;
+  width: 35.2rem;
+  border-radius: 8px;
   font-weight: 500;
 }
 
 .btn-outline {
-  border-radius: 1rem;
+  border-radius: 8px;
   background: transparent;
   border: 0.1rem solid #6b21a8;
-  width: 30rem;
+  width: 35.2rem;
   color: #6b21a8;
 }
 
 .card-table {
-  background: rgba(115, 0, 255, 0.1);
-  margin-top: 1rem;
+background-color: #f0e7f6;  margin-top: 1rem;
   border-radius: 1rem;
   overflow: hidden;
+  color: #000000;
 }
 
 .styled-table {
@@ -266,13 +264,14 @@ input:focus {
 .styled-table th {
   height: 2.5rem;
   width: 15rem;
-  text-align: center;
   font-size: 0.80rem;
   background: rgba(115, 0, 255, 0.1);
   text-transform: uppercase;
 }
 
 .styled-table td {
+  text-align: center;
+  justify-content: start;
   text-align: center;
   height: 3rem;
   font-size: 0.95rem;
@@ -310,7 +309,9 @@ input:focus {
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { supabase } from '../composables/useSupabase'
+import { useSupabase } from '../composables/useSupabase'
+
+const { supabase } = useSupabase()
 
 const epis = ref([])
 const editandoId = ref(null)

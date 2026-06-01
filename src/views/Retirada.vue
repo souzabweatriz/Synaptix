@@ -1,8 +1,8 @@
 <template>
   <div class="layout-container">
     <header class="header-section">
-      <h1>Registrar Retirada de EPIs</h1>
-      <p>Registre quando um funcionário retirar um EPI do estoque</p>
+      <!-- <h1>Registrar Retirada de EPIs</h1>
+      <p>Registre quando um funcionário retirar um EPI do estoque</p> -->
     </header>
 
     <main class="content">
@@ -83,31 +83,14 @@
 
 <style scoped>
 .layout-container {
-  background-color: #F8F9FA;
   height: 100%;
 }
 
-.header-section {
-  text-align: left;
-  padding-bottom: 1rem;
-}
-
-.header-section h1 {
-  color: #000;
-  font-weight: 600;
-  font-size: 1.5rem;
-  margin: 0;
-}
-
-.header-section p {
-  margin: 0;
-  color: #00000080;
-}
 
 .card-form {
   border-radius: 1rem;
   padding: 1rem;
-  background: rgba(115, 0, 255, 0.1);
+background-color: #f0e7f6;
 }
 
 .card-header {
@@ -115,6 +98,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
+  color: #2d2d35;
 }
 
 .icon-box {
@@ -140,6 +124,7 @@
 
 label {
   font-size: 0.85rem;
+  font-family: 'Montserrat' sans-serif;
   font-weight: 600;
   color: #374151;
   padding-left: 0.5rem;
@@ -150,7 +135,7 @@ input,
 select,
 textarea {
   height: 2.25rem;
-  border-radius: 1rem;
+  border-radius: 5px;
   border: none;
   padding: 0 1rem;
   background: #fff;
@@ -193,14 +178,17 @@ textarea:focus {
   background: linear-gradient(90deg, #330136, #93039C);
   color: white;
   border: none;
-  width: 30rem;
+  width: 35.8rem;
+  border-radius: 8px;
+  font-weight: 500;
 }
 
 .btn-outline {
-  border: 0.1rem solid #6b21a8;
-  color: #6b21a8;
+  border-radius: 8px;
   background: transparent;
-  width: 30rem;
+  border: 0.1rem solid #6b21a8;
+  width: 35.8rem;
+  color: #6b21a8;
 }
 </style>
 

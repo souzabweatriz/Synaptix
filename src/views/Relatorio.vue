@@ -2,8 +2,8 @@
   <div class="page-container">
     <main class="main-content">
       <header class="content-header">
-        <h1>Relatórios</h1>
-        <p>Gere e visualize relatórios sobre o estoque de EPIs</p>
+        <!-- <h1>Relatórios</h1>
+        <p>Gere e visualize relatórios sobre o estoque de EPIs</p> -->
       </header>
 
       <section class="reports-card-panel">
@@ -344,8 +344,9 @@ const formatarData = (dataStr) => {
 </script>
 
 <style scoped>
-.page-container { min-height: 100vh; background-color: #f7f6fb; display: flex; justify-content: center; width: 100%; }
-.main-content { flex: 1; padding: 40px 50px; max-width: 1200px; }
+.page-container { 
+  min-height: 100vh; display: flex; justify-content: center; width: 100%; }
+.main-content { flex: 1; max-width: 1700px; }
 .content-header { margin-bottom: 30px; }
 .content-header h1 { font-size: 26px; color: #1e1e24; margin: 0 0 6px 0; font-family: sans-serif; }
 .content-header p { color: #72727a; margin: 0; font-size: 14.5px; }

@@ -1,21 +1,25 @@
 <template>
   <div class="login-page">
 
+    <!-- LADO DIREITO COM IMAGEM -->
+    <div class="right-side">
+      <img src="/public/imagem-login.svg" alt="Background" class="login-image" />
+    </div>
+
     <!-- LADO ESQUERDO -->
     <div class="left-side">
 
       <div class="form-container">
 
         <div class="mini-logo">
-          ✣
+          <img class="abs-logo" src="/public/icon-abstract-login.svg" alt="Logo">
         </div>
 
         <h1>Bem-vindo(a) de volta!</h1>
 
-        <GoogleButton />
 
         <div class="divider">
-          <span>ou entre com o seu e-mail</span>
+          <span>forneça suas credenciais</span>
         </div>
 
         <form @submit.prevent="fazerLogin">
@@ -67,13 +71,6 @@
       </div>
     </div>
 
-    <!-- LADO DIREITO -->
-    <div class="right-side">
-
-      <img src="/imagem-login.png" alt="Imagem Login" class="login-image" />
-
-    </div>
-
   </div>
 </template>
 
@@ -81,7 +78,6 @@
 import { ref } from 'vue'
 import { useSupabase } from '../composables/useSupabase'
 import { useRouter } from 'vue-router'
-import GoogleButton from '../../components/GoogleButton.vue'
 const { supabase } = useSupabase()
 const router = useRouter()
 const email = ref('')
@@ -121,19 +117,29 @@ async function fazerLogin() {
 
 .login-page {
   display: flex;
+  width: 100%;
   min-height: 100vh;
-  background: #f5f5f5;
+  background: url('/imagem-login.svg');
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* LADO DIREITO COM IMAGEM */
+
+
+.login-image {
+  display: none;
 }
 
 /* LADO ESQUERDO */
 
 .left-side {
   width: 40%;
-  background: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
 }
 
 /* FORMULÁRIO */
@@ -147,23 +153,27 @@ async function fazerLogin() {
 /* LOGO */
 
 .mini-logo {
-  font-size: 40px;
+  font-size: 2rem;
   color: #7B1E6A;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+.abs-logo {
+  width: 3rem;
 }
 
 /* TÍTULO */
 
 h1 {
-  font-size: 38px;
+  font-size: 2rem;
   color: #444;
-  margin-bottom: 30px;
+  margin-bottom: 1rem;
 }
 
 /* DIVISOR */
 
 .divider {
-  margin: 25px 0;
+  margin: 1.8rem 0;
   text-align: center;
   color: #aaa;
   position: relative;
@@ -173,9 +183,9 @@ h1 {
 .divider::after {
   content: '';
   position: absolute;
-  width: 30%;
+  width: 20%;
   height: 1px;
-  background: #ddd;
+  background: #dadada;
   top: 50%;
 }
 
@@ -195,8 +205,9 @@ h1 {
 
 .input-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   color: #666;
+  font-weight: 500;
 }
 
 .input-group input {
@@ -206,6 +217,7 @@ h1 {
   border: 1px solid #ddd;
   transition: 0.3s;
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 .input-group input::placeholder {
@@ -226,14 +238,20 @@ h1 {
 
 .show-btn {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   border: none;
   background: none;
-  color: #7B1E6A;
+  color: #a593a2;
   cursor: pointer;
   font-weight: bold;
+  font-size: 12px;
+  padding: 0;
+}
+
+.show-btn:hover {
+  opacity: 0.7;
 }
 
 /* OPÇÕES */
@@ -246,9 +264,17 @@ h1 {
   font-size: 14px;
 }
 
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
 .options a {
   color: #7B1E6A;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .options a:hover {
@@ -262,13 +288,16 @@ h1 {
   background: #ffebee;
   border: 1px solid #ffcdd2;
   border-radius: 8px;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 20px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mensagem-erro i {
-  margin-right: 8px;
+  flex-shrink: 0;
 }
 
 /* BOTÃO */
@@ -277,37 +306,33 @@ h1 {
   width: 100%;
   padding: 15px;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #7B1E6A;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
-.botao-entrar:hover {
+.botao-entrar:hover:not(:disabled) {
   background: #4A1240;
   transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(123, 30, 106, 0.3);
 }
 
-/* LADO DIREITO */
-
-.right-side {
-  width: 60%;
-  overflow: hidden;
-}
-
-.login-image {
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
+.botao-entrar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 /* ANIMAÇÃO */
 
 @keyframes fade {
-
   from {
     opacity: 0;
     transform: translateY(15px);
@@ -327,17 +352,38 @@ h1 {
     flex-direction: column;
   }
 
-  .left-side {
+  .right-side {
     width: 100%;
-    min-height: 100vh;
+    height: 250px;
   }
 
-  .right-side {
-    display: none;
+  .left-side {
+    width: 100%;
+    min-height: calc(100vh - 250px);
   }
 
   h1 {
     font-size: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .left-side {
+    padding: 30px 20px;
+  }
+
+  .form-container {
+    max-width: 100%;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .botao-entrar {
+    padding: 12px;
+    font-size: 14px;
   }
 }
 </style>
