@@ -165,9 +165,9 @@ onMounted(async () => {
 
 <style scoped>
 .shell {
+  background: rgb(255, 255, 255);
   display: flex;
   min-height: 100vh;
-  background: url(../assets/background-geral.svg);
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -243,23 +243,23 @@ onMounted(async () => {
 }
 
 .stat-card--green {
-  background: linear-gradient(135deg, #e74c3c, #ff6a35);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .stat-card--orange {
-  background: linear-gradient(135deg, #f39c12, #f1c40f);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .stat-card--red {
-  background: linear-gradient(135deg, #e74c3c, #ff6a35);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .stat-card--blue {
-  background: linear-gradient(135deg, #ff7a2e, #ff9e1b);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .stat-card--purple {
-  background: linear-gradient(135deg, #e74c3c, #ff6a35);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .charts-grid {
@@ -269,9 +269,10 @@ onMounted(async () => {
 }
 
 .chart-card {
-  background: linear-gradient(135deg, #5b2a86, #8b4bb0);
-  border: 1px solid rgba(126, 213, 111, 0.14);
+  background: linear-gradient(135deg, #ff4400, #ff6b35de);
   border-radius: 24px;
+  border: 2px solid;
+  border-color: #741f00;
   padding: 1.5rem;
   min-height: 380px;
 }
@@ -293,6 +294,8 @@ onMounted(async () => {
 .chart-card__header h2 {
   margin: 0;
   font-size: 1.3rem;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .chart-card__header p {
@@ -357,9 +360,9 @@ onMounted(async () => {
 
 
 .chip {
-  background: rgba(255, 255, 255, 0.52);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: #000000;
+  background: linear-gradient(135deg, #0000001c, #0000001d);
+  border: 1px solid rgb(255, 255, 255);
+  color: #ffffffc3;
   border-radius: 999px;
   padding: 0.5rem 0.9rem;
   font-size: 0.8rem;
@@ -385,14 +388,14 @@ onMounted(async () => {
 
 .bar-track {
   height: 12px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .bar-fill {
   height: 100%;
-  background: linear-gradient(135deg, #ffffff, #a97eff);
+  background: linear-gradient(135deg, #ffffff, #ffffff);
   border-radius: 999px;
 }
 
@@ -407,13 +410,13 @@ onMounted(async () => {
   align-items: center;
   padding: 1rem;
   border-radius: 16px;
-  background: linear-gradient(135deg, #ffffff, #716e73);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #ffffff, #ffffff);
+  /* border: 1px solid rgba(255, 0, 0, 0.1); */
   transition: background 0.2s ease;
 }
 
 .price-item:hover {
-  background: rgba(185, 185, 185, 0.95);
+  background: linear-gradient(135deg, #cecece, #ffcc0082);
 }
 
 .price-name {

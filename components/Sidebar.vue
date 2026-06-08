@@ -123,14 +123,14 @@ async function sair() {
 .sidebar {
   width: 15.625rem;
   height: 100vh;
-  background: white;
+  background: rgb(255, 255, 255);
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  box-shadow: 0.25rem 0 0.625rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0.25rem 0 0.625rem rgba(0, 0, 0, 0.4);
   transition: width 0.25s ease;
 }
 
@@ -233,11 +233,12 @@ async function sair() {
   border: none;
   background: transparent;
   text-decoration: none;
-  color: #666;
+  color: #747474;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: 0.3s;
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* HOVER */
@@ -247,7 +248,7 @@ async function sair() {
 
 /* ITEM ATIVO */
 .menu-item.active {
-  background: linear-gradient(90deg, #330136, #93039c);
+  background: linear-gradient(90deg, #ff6a35, #93039C);
   background-repeat: no-repeat;
   color: white;
   font-weight: 600;
@@ -303,7 +304,7 @@ async function sair() {
   align-items: center;
   gap: 12px;
   padding: 20px;
-  background: linear-gradient(90deg, #330136, #93039c);
+  background: linear-gradient(90deg, #e74c3c, #93039C);
   color: white;
 }
 

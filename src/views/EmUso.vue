@@ -231,8 +231,6 @@ onMounted(loadFichas)
 <style scoped>
 .rastrear-page {
   padding: 1.75rem;
-  min-height: 100vh;
-  color: #eef2ee;
 }
 
 .rastrear-topbar {
