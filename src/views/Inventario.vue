@@ -185,9 +185,8 @@ onMounted(() => {
 /* CARD */
 
 .card-epi {
-  background: #ffffff;
+  background: #8c00ff62;
   border-radius: 1rem;
-  border: 1px solid #e9e9e9;
   overflow: hidden;
   transition: 0.25s ease;
 }

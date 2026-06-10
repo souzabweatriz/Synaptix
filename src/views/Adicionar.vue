@@ -141,14 +141,14 @@
 
 .header-section p {
   margin: 0;
-  color: #00000080;
+  color: #ffffff;
 }
 
 .card-form {
   border-radius: 1rem;
   padding: 1rem;
-background-color: #f0e7f6;
-}
+  background: linear-gradient(135deg, #ff6a35, #93039c);
+  }
 
 .card-header {
   display: flex;
@@ -165,11 +165,11 @@ background-color: #f0e7f6;
 }
 
 .card-header h3 {
-  color: #000000;
+  color: #ffffff;
 }
 
 .card-header p {
-  color: #00000080;
+  color: #ffffffc6;
 }
 
 .main-form {
@@ -192,7 +192,7 @@ background-color: #f0e7f6;
 label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #374151;
+  color: #ffffff;
   padding-left: 0.5rem;
   margin-bottom: 0.2rem;
 }
@@ -243,17 +243,18 @@ input:focus {
 
 .btn-outline {
   border-radius: 8px;
-  background: transparent;
-  border: 0.1rem solid #6b21a8;
+  background: rgba(255, 255, 255, 0.293);
+  border: 0.1rem solid #ffffff;
   width: 35.2rem;
-  color: #6b21a8;
+  color: #ffffff;
 }
 
 .card-table {
-background-color: #f0e7f6;  margin-top: 1rem;
+  background: linear-gradient(90deg, #a04ca3, #a04ca3b0);
+  margin-top: 2rem;
   border-radius: 1rem;
   overflow: hidden;
-  color: #000000;
+  color: #ffffff;
 }
 
 .styled-table {
@@ -265,7 +266,7 @@ background-color: #f0e7f6;  margin-top: 1rem;
   height: 2.5rem;
   width: 15rem;
   font-size: 0.80rem;
-  background: rgba(115, 0, 255, 0.1);
+  background: #93039C;
   text-transform: uppercase;
 }
 
@@ -279,9 +280,9 @@ background-color: #f0e7f6;  margin-top: 1rem;
 
 .badge-ca {
   background: #93039C;
-  color: #f2f2f2;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+  color: #ffffff;
+  padding: 0.25rem 1rem;
+  border-radius: 6px;
   font-size: 0.95rem;
 }
 
@@ -295,11 +296,14 @@ background-color: #f0e7f6;  margin-top: 1rem;
 }
 
 .delete {
-  color: #ff5e35;
+  color: #ffffff;
   cursor: pointer;
   background: none;
   border: none;
   font-weight: bold;
+  background-color: #ff3300;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
 }
 
 .text-center {
