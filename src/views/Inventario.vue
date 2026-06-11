@@ -185,7 +185,7 @@ onMounted(() => {
 /* CARD */
 
 .card-epi {
-  background: #8c00ff62;
+  background: linear-gradient(135deg, #ff6a35, #93039c);
   border-radius: 1rem;
   overflow: hidden;
   transition: 0.25s ease;
@@ -237,7 +237,7 @@ onMounted(() => {
 
 .card-body h3 {
   font-size: 1.1rem;
-  color: #111111;
+  color: #ffffff;
   font-weight: 700;
   margin: 0;
   line-height: 1.3;
@@ -247,7 +247,7 @@ onMounted(() => {
 
 .categoria {
   font-size: 0.92rem;
-  color: #777777;
+  color: #ffffff;
   margin-top: 0.2rem;
 }
 

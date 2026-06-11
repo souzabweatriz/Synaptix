@@ -47,11 +47,8 @@
               :max="Math.max(1, (f.quantidade || 0) - (f.devolucoes || 0))" />
             <button class="ficha-button" @click="devolver(f)"
               :disabled="(f.quantidade || 0) - (f.devolucoes || 0) <= 0">Devolver EPI</button>
-            <button class="ficha-button" @click="deleteFicha(f)"
-              style="background:rgba(200,40,40,0.95)">Excluir</button>
-            <button class="ficha-button" @click="gerarPDF(f)">
-              Gerar PDF
-            </button>
+            <button class="ficha-button ficha-button--excluir" @click="deleteFicha(f)">Excluir</button>
+            <button class="ficha-button" @click="gerarPDF(f)">Gerar PDF</button>
           </div>
         </article>
       </div>
@@ -92,21 +89,13 @@ async function loadFichas() {
 
   fichas.value = (data || []).map(f => ({
     id: f.id,
-
     nomeEpi: f.epis?.nome || 'EPI não encontrado',
     categoria: f.epis?.categoria || 'Sem categoria',
-
     quantidade: f.quantidade,
-
     dataRetirada: f.data_retirada,
-
-    nomeResponsavel:
-      f.funcionarios?.nome || 'Funcionário não encontrado',
-
+    nomeResponsavel: f.funcionarios?.nome || 'Funcionário não encontrado',
     descricao: f.observacoes || '',
-
     devolucoes: f.devolucoes || 0,
-
     _devolverCount: 1
   }))
 }
@@ -122,106 +111,62 @@ function initials(name) {
 
 function formatDate(value) {
   if (!value) return '-'
-
   return new Date(value).toLocaleDateString('pt-BR')
 }
 
 const totalEpis = computed(() =>
-  fichas.value.reduce(
-    (sum, item) => sum + Number(item.quantidade || 0),
-    0
-  )
+  fichas.value.reduce((sum, item) => sum + Number(item.quantidade || 0), 0)
 )
 
 const devolucoes = computed(() =>
-  fichas.value.reduce(
-    (sum, item) => sum + Number(item.devolucoes || 0),
-    0
-  )
+  fichas.value.reduce((sum, item) => sum + Number(item.devolucoes || 0), 0)
 )
 
 const totalResponsaveis = computed(() =>
-  new Set(
-    fichas.value
-      .map(f => f.nomeResponsavel)
-      .filter(Boolean)
-  ).size
+  new Set(fichas.value.map(f => f.nomeResponsavel).filter(Boolean)).size
 )
 
 async function devolver(ficha) {
   const requested = Number(ficha._devolverCount || 1)
-  const maxAvailable =
-    ficha.quantidade - ficha.devolucoes
-
+  const maxAvailable = ficha.quantidade - ficha.devolucoes
   if (maxAvailable <= 0) return
-
-  const novaQtd =
-    ficha.devolucoes +
-    Math.min(requested, maxAvailable)
-
+  const novaQtd = ficha.devolucoes + Math.min(requested, maxAvailable)
   const { error } = await supabase
-    .from('retirada_epis').update({
-      devolucoes: novaQtd
-    })
+    .from('retirada_epis').update({ devolucoes: novaQtd })
     .eq('id', ficha.id)
-
-  if (error) {
-    console.error(error)
-    return
-  }
-
+  if (error) { console.error(error); return }
   ficha.devolucoes = novaQtd
   ficha._devolverCount = 1
 }
 
 async function deleteFicha(ficha) {
   console.log('ID DA FICHA:', ficha.id)
-
   if (!confirm('Excluir esta ficha?')) return
-
   const { data, error } = await supabase
-    .from('retirada_epis')
-    .delete()
-    .eq('id', ficha.id)
-    .select()
-
+    .from('retirada_epis').delete().eq('id', ficha.id).select()
   console.log('DELETE DATA:', data)
   console.log('DELETE ERROR:', error)
-
-  if (error) {
-    alert(error.message)
-    return
-  }
-
-  fichas.value = fichas.value.filter(
-    f => f.id !== ficha.id
-  )
+  if (error) { alert(error.message); return }
+  fichas.value = fichas.value.filter(f => f.id !== ficha.id)
 }
 
 function gerarPDF(ficha) {
   const pdf = new jsPDF()
-
   pdf.setFont('helvetica', 'bold')
   pdf.setFontSize(18)
   pdf.text('Ficha de Retirada de EPI', 20, 20)
-
   pdf.setFont('helvetica', 'normal')
   pdf.setFontSize(12)
-
   pdf.text(`Responsável: ${ficha.nomeResponsavel}`, 20, 40)
   pdf.text(`EPI: ${ficha.nomeEpi}`, 20, 50)
   pdf.text(`Categoria: ${ficha.categoria}`, 20, 60)
   pdf.text(`Quantidade: ${ficha.quantidade}`, 20, 70)
   pdf.text(`Data de Retirada: ${formatDate(ficha.dataRetirada)}`, 20, 80)
   pdf.text(`Devoluções: ${ficha.devolucoes || 0}`, 20, 90)
-
   pdf.text('Observações:', 20, 105)
-
   const texto = ficha.descricao || 'Nenhuma observação.'
   const linhas = pdf.splitTextToSize(texto, 170)
-
   pdf.text(linhas, 20, 115)
-
   pdf.save(`ficha-epi-${ficha.id}.pdf`)
 }
 
@@ -229,6 +174,7 @@ onMounted(loadFichas)
 </script>
 
 <style scoped>
+/* ── Layout base ── */
 .rastrear-page {
   padding: 1.75rem;
 }
@@ -237,6 +183,7 @@ onMounted(loadFichas)
   margin-bottom: 2rem;
 }
 
+/* ── Stats ── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -246,7 +193,7 @@ onMounted(loadFichas)
 .stat-card {
   padding: 1.5rem;
   border-radius: 1rem;
-  background: linear-gradient(90deg, #93039c, #92039cc2);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
   border: 1px solid rgba(255, 255, 255, 0.04);
   display: flex;
   flex-direction: column;
@@ -256,12 +203,14 @@ onMounted(loadFichas)
 .stat-card--green strong {
   color: #ffffff;
   font-size: 2.75rem;
+  line-height: 1;
 }
 
 .stat-card span {
   color: rgba(255, 255, 255, 0.65);
 }
 
+/* ── Fichas panel ── */
 .fichas-panel {
   padding: 1.5rem;
   border-radius: 1.25rem;
@@ -275,6 +224,7 @@ onMounted(loadFichas)
   color: #000000;
 }
 
+/* ── Cards grid ── */
 .fichas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
@@ -284,12 +234,13 @@ onMounted(loadFichas)
 .ficha-card {
   padding: 1.25rem;
   border-radius: 1rem;
-    background: linear-gradient(90deg, #330136, #330136d8);
+  background: linear-gradient(135deg, #ff4400, #ff6b35de);
   border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 20rem;
+  /* removido width: 20rem — limitava cards em telas estreitas */
+  min-width: 0; /* evita overflow no grid */
 }
 
 .ficha-avatar {
@@ -302,6 +253,7 @@ onMounted(loadFichas)
   place-items: center;
   font-weight: 700;
   font-size: 1rem;
+  flex-shrink: 0;
 }
 
 .ficha-card h3 {
@@ -355,7 +307,7 @@ onMounted(loadFichas)
   border-left: 3px solid #ffffff;
 }
 
-/* todos os botões iguais */
+/* ── Botões ── */
 .ficha-button {
   border: none;
   border-radius: 0.85rem;
@@ -365,19 +317,14 @@ onMounted(loadFichas)
   cursor: pointer;
   width: 100%;
   text-align: center;
+  font-size: 0.875rem;
 }
 
-/* botão excluir vermelho */
-.ficha-button.excluir {
+.ficha-button--excluir {
   background: rgba(200, 40, 40, 0.95);
 }
 
-.empty-state {
-  color: rgba(255, 255, 255, 0.5);
-  padding: 2rem 0;
-  text-align: center;
-}
-
+/* ── Actions grid ── */
 .ficha-actions {
   margin-top: auto;
   display: grid;
@@ -385,8 +332,9 @@ onMounted(loadFichas)
   gap: 0.75rem;
 }
 
-/* contador ocupa a primeira coluna */
+/* input de quantidade ocupa linha inteira */
 .devolver-input {
+  grid-column: 1 / -1;
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.75rem;
@@ -397,11 +345,58 @@ onMounted(loadFichas)
   box-sizing: border-box;
 }
 
-@media (max-width: 900px) {
+.empty-state {
+  color: rgba(255, 255, 255, 0.5);
+  padding: 2rem 0;
+  text-align: center;
+}
 
-  .stats-grid,
+/* ── Responsividade da tela ── */
+
+/* Tablet: 600–900px */
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr); /* mantém 3 colunas até 600px */
+  }
+
   .fichas-grid {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+}
+
+/* Mobile: até 600px */
+@media (max-width: 600px) {
+  .rastrear-page {
+    padding: 1rem;
+  }
+
+  .fichas-panel {
+    padding: 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr; /* empilha os 3 cards */
+  }
+
+  .stat-card--green strong {
+    font-size: 2rem;
+  }
+
+  .fichas-grid {
+    grid-template-columns: 1fr; /* um card por linha */
+  }
+
+  .fichas-panel h2 {
+    font-size: 1.25rem;
+  }
+
+  /* botões em coluna única no mobile */
+  .ficha-actions {
     grid-template-columns: 1fr;
+  }
+
+  .ficha-meta {
+    grid-template-columns: 1fr 1fr; /* mantém 2 colunas — cabe bem */
   }
 }
 </style>
