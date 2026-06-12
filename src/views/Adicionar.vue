@@ -96,7 +96,7 @@
                 <th>CA</th>
                 <th>Qtde</th>
                 <th>Descrição</th>
-                <th class="text-center">Ações</th>;
+                <th class="text-center">Ações</th>
               </tr>
             </thead>
 
@@ -247,7 +247,7 @@ input:focus {
 
 .btn-outline {
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.293);
+  background: rgba(69, 69, 69, 0.293);
   border: 0.1rem solid #ffffff;
   color: #ffffff;
 }

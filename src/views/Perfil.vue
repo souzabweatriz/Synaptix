@@ -190,8 +190,7 @@ onMounted(loadProfile)
 
 .perfil-card {
     width: min(1200px, 100%);
-    background: rgba(115, 0, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, #ff6a35, #93039c);
     border-radius: 16px;
     backdrop-filter: blur(20px);
     padding: 2rem;
@@ -204,7 +203,6 @@ onMounted(loadProfile)
     align-items: center;
     padding-bottom: 1.8rem;
     margin-bottom: 1.8rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .perfil-card__avatar {
@@ -235,12 +233,12 @@ onMounted(loadProfile)
 .perfil-card__name {
     margin: 0;
     font-size: 2.5rem;
-    color: #3e1664;
+    color: #ffffff;
 }
 
 .perfil-card__role {
     margin: 0.65rem 0 0;
-    color: #000000;
+    color: #ffffff;
     font-size: 1rem;
 }
 
@@ -256,7 +254,7 @@ onMounted(loadProfile)
 }
 
 .perfil-field label {
-    color: #000000;
+    color: #ffffff;
     font-size: 0.85rem;
     letter-spacing: 0.02em;
 }

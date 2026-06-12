@@ -90,9 +90,17 @@
     <!-- FOOTER -->
     <div class="footer" v-if="!isCollapsed">
       <div class="user">
-        <img src="/user.png" alt="Usuário" />
+        <img
+          v-if="userProfile.avatarUrl"
+          :src="userProfile.avatarUrl"
+          :alt="userProfile.name"
+        />
+        <div v-else class="avatar-fallback">
+          {{ userInitials }}
+        </div>
+
         <div>
-          <strong>Julie Antrez</strong>
+          <strong>{{ userProfile.name }}</strong>
           <p>
             <span class="dot"></span>
             Conectado
@@ -105,7 +113,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSupabase } from '../src/composables/useSupabase'
 
@@ -119,25 +127,57 @@ const props = defineProps({
 const emit = defineEmits(['update:collapsed'])
 
 const router = useRouter()
-const { supabase } = useSupabase()
+const { supabase, session } = useSupabase()
 
 const MOBILE_BP = 768
-
 const isMobile = ref(window.innerWidth <= MOBILE_BP)
-
-// No mobile: começa fechada (collapsed). No desktop: respeita prop.
 const isCollapsed = ref(isMobile.value ? true : props.collapsed)
 
+// ── Dados do usuário logado ──
+const userProfile = ref({ name: '', email: '', avatarUrl: '' })
+
+function capitalizeName(name) {
+  if (!name) return ''
+  return name
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
+function loadUserProfile(currentSession) {
+  if (!currentSession?.user) {
+    userProfile.value = { name: '', email: '', avatarUrl: '' }
+    return
+  }
+
+  const meta = currentSession.user.user_metadata || {}
+
+  userProfile.value = {
+    name: capitalizeName(meta.full_name || meta.name || currentSession.user.email?.split('@')[0] || 'Usuário'),
+    email: currentSession.user.email || '',
+    avatarUrl: meta.avatar_url || meta.picture || ''
+  }
+}
+
+// Inicial do nome como fallback de avatar
+const userInitials = computed(() => {
+  return userProfile.value.name
+    ? userProfile.value.name.charAt(0).toUpperCase()
+    : '?'
+})
+
+// Reage a mudanças de sessão (login/logout)
+watch(session, (newSession) => loadUserProfile(newSession), { immediate: true })
+
+// ── Resize ──
 function onResize() {
   const wasDesktop = !isMobile.value
   isMobile.value = window.innerWidth <= MOBILE_BP
 
-  // Ao entrar no mobile: fecha automaticamente
   if (isMobile.value && wasDesktop) {
     isCollapsed.value = true
     emit('update:collapsed', true)
   }
-  // Ao voltar pro desktop: abre
   if (!isMobile.value && !wasDesktop === false) {
     isCollapsed.value = false
     emit('update:collapsed', false)
@@ -157,7 +197,6 @@ function closeSidebar() {
   emit('update:collapsed', true)
 }
 
-// Fecha o drawer ao navegar no mobile
 function onNavClick() {
   if (isMobile.value) closeSidebar()
 }
@@ -183,7 +222,7 @@ async function sair() {
 
 /* ── Sidebar base ── */
 .sidebar {
-  width: 15.625rem;        /* 250px */
+  width: 15.625rem;
   height: 100vh;
   background: #fff;
   position: fixed;
@@ -343,6 +382,21 @@ async function sair() {
   height: 42px;
   border-radius: 50%;
   flex-shrink: 0;
+  object-fit: cover;
+}
+
+.avatar-fallback {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
 }
 
 .user strong {
@@ -367,21 +421,17 @@ async function sair() {
    MOBILE — drawer behavior
 ════════════════════════════ */
 @media (max-width: 768px) {
-  /* Aberta no mobile: largura total como drawer */
   .sidebar {
     width: 15.625rem;
-    /* escondida por padrão via transform */
     transform: translateX(-100%);
   }
 
-  /* Quando não está collapsed = está visível */
   .sidebar:not(.sidebar--collapsed) {
     transform: translateX(0);
   }
 
-  /* Recolhida no mobile = completamente fora da tela */
   .sidebar--collapsed {
-    width: 15.625rem; /* mantém largura pra animação suave */
+    width: 15.625rem;
     transform: translateX(-100%);
   }
 }
