@@ -5,10 +5,9 @@
 
             <nav class="nav-header">
                 <ul class="ul-header">
-                    <router-link to="/" class="li-header" @click="isOpen = false">Início</router-link>
-                    <router-link to="/Funcionalidades" class="li-header"
-                        @click="isOpen = false">Funcionalidades</router-link>
-                    <router-link to="/Contato" class="li-header" @click="isOpen = false">Contato</router-link>
+                    <a href="#inicio" class="li-header" @click.prevent="scrollToSection('inicio')">Início</a>
+                    <a href="#funcionalidades" class="li-header" @click.prevent="scrollToSection('funcionalidades')">Funcionalidades</a>
+                    <a href="#contato" class="li-header" @click.prevent="scrollToSection('contato')">Contato</a>
                 </ul>
             </nav>
 
@@ -22,9 +21,9 @@
         </div>
 
         <div class="mobile-nav" v-show="isOpen">
-            <router-link to="/" class="mobile-link" @click="isOpen = false">Início</router-link>
-            <router-link to="/Funcionalidades" class="mobile-link" @click="isOpen = false">Funcionalidades</router-link>
-            <router-link to="/Contato" class="mobile-link" @click="isOpen = false">Contato</router-link>
+            <a href="#inicio" class="mobile-link" @click.prevent="scrollToSection('inicio')">Início</a>
+            <a href="#funcionalidades" class="mobile-link" @click.prevent="scrollToSection('funcionalidades')">Funcionalidades</a>
+            <a href="#contato" class="mobile-link" @click.prevent="scrollToSection('contato')">Contato</a>
             <button class="mobile-login" @click="() => { isOpen = false; router.push('/Login') }">Entrar</button>
         </div>
     </header>
@@ -37,17 +36,26 @@ const router = useRouter();
 const isOpen = ref(false);
 
 const toggleMenu = () => { isOpen.value = !isOpen.value };
-</script>
 
+const scrollToSection = (id) => {
+    isOpen.value = false;
+    const el = document.querySelector(`#${id}`)
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+        router.push('/').then(() => {
+            const next = document.querySelector(`#${id}`)
+            if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        })
+    }
+};
+</script>
 
 <style scoped>
 .header-container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     width: 100%;
-    height: 4.5rem;
-    padding: 0 2rem;
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.423);
     position: fixed;
     top: 0;
@@ -56,7 +64,6 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     z-index: 1000;
     background-color: #fff;
     transition: background-color 0.3s ease;
-    overflow: visible;
 }
 
 .header-content {
@@ -65,12 +72,16 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    height: 4.5rem;
+    padding: 0 2rem;
     gap: 1.5rem;
 }
 
 .image-header {
     width: 8rem;
     height: 3rem;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .ul-header {
@@ -78,14 +89,17 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     flex-direction: row;
     align-items: center;
     gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .li-header {
     text-decoration: none;
     color: #000;
     font-size: 1rem;
-    list-style: none;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .li-header:hover {
@@ -95,26 +109,28 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
 .login-button {
     width: 5.5rem;
     height: 2.2rem;
+    flex-shrink: 0;
     background-color: #FF5E35;
     color: #fff;
     border: none;
     cursor: pointer;
     border-radius: 0.5rem;
     font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
 .login-button:hover {
     background-color: #E64A19;
-    transition: background-color 0.3s ease;
 }
 
-/* Menu toggle (mobile) */
+/* Hamburger */
 .menu-toggle {
     display: none;
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.4rem;
+    flex-shrink: 0;
 }
 
 .menu-toggle .bar {
@@ -126,157 +142,86 @@ const toggleMenu = () => { isOpen.value = !isOpen.value };
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.menu-toggle .bar.open:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
-}
+.menu-toggle .bar.open:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-toggle .bar.open:nth-child(2) { opacity: 0; }
+.menu-toggle .bar.open:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-.menu-toggle .bar.open:nth-child(2) {
-    opacity: 0;
-}
-
-.menu-toggle .bar.open:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
-}
-
+/* Mobile nav dropdown */
 .mobile-nav {
     display: none;
     flex-direction: column;
-    gap: 0.6rem;
-    padding: 0.75rem 1rem 1.25rem 1rem;
+    gap: 0.25rem;
+    padding: 0.75rem 1.5rem 1.25rem;
     background: #fff;
+    border-top: 1px solid #f0f0f0;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
 }
 
 .mobile-link {
     text-decoration: none;
     color: #111;
     font-weight: 600;
-    padding: 0.5rem 0;
+    font-size: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.mobile-link:last-of-type {
+    border-bottom: none;
 }
 
 .mobile-login {
     background: #FF5E35;
     color: #fff;
     border: none;
-    padding: 0.5rem 0.75rem;
+    padding: 0.6rem 0;
     border-radius: 0.4rem;
-    width: 6rem;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.2s;
 }
 
-@media (max-width: 1024px) {
-    .header-container {
-        padding: 0 1.25rem;
-    }
+.mobile-login:hover {
+    background: #E64A19;
+}
+
+/* ── TABLET ── */
+@media (max-width: 900px) {
+    .ul-header { display: none; }
+    .login-button { display: none; }
+    .menu-toggle { display: block; }
+    .mobile-nav { display: flex; }
 
     .header-content {
-        gap: 1rem;
+        padding: 0 1.25rem;
+    }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+    .header-content {
+        padding: 0 1rem;
+        height: 4rem;
     }
 
     .image-header {
         width: 6.5rem;
         height: 2.4rem;
     }
-
-    .ul-header {
-        gap: 1.25rem;
-    }
-
-    .li-header {
-        font-size: 0.95rem;
-    }
-
-    .login-button {
-        width: 5rem;
-        height: 2rem;
-    }
-}
-
-@media (max-width: 900px) {
-    .header-container {
-        padding: 0 1rem;
-    }
-
-    .header-content {
-        gap: 0.75rem;
-    }
-
-    .image-header {
-        width: 6rem;
-        height: 2.2rem;
-    }
-
-    .ul-header {
-        display: none;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .login-button {
-        display: none;
-    }
-
-    .mobile-nav {
-        display: flex;
-    }
-}
-
-@media (max-width: 640px) {
-    .header-container {
-        height: auto;
-        padding: 0 0.75rem;
-        width: 50rem;
-    }
-
-    .header-content {
-        padding: 0.45rem 0;
-        width: 39rem;
-    }
-
-    .image-header {
-        width: 5.8rem;
-        height: 2.05rem;
-        margin-left: 0;
-    }
-
-    .mobile-nav {
-        padding-top: 0.65rem;
-        padding-bottom: 1rem;
-    }
 }
 
 @media (max-width: 375px) {
-    .header-container {
-        height: auto;
-        width: 2rem;
-    }
-
     .header-content {
-        padding: 0.35rem 0;
-        width: 1rem;
+        padding: 0 0.75rem;
+        height: 3.75rem;
     }
 
     .image-header {
-        width: 5.2rem;
-        height: 1.9rem;
-    }
-
-    .menu-toggle {
-        padding: 0.35rem;
-    }
-
-    .mobile-nav {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-    }
-
-    .mobile-link {
-        padding: 0.35rem 0;
+        width: 5.5rem;
+        height: 2rem;
     }
 }
 </style>
