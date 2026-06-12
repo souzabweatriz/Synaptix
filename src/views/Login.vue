@@ -1,10 +1,10 @@
 <template>
   <div class="login-page">
-
     <div class="right-side">
       <img src="/public/imagem-login.svg" alt="Background" class="login-image" />
     </div>
 
+    <!-- LADO ESQUERDO — formulário -->
     <div class="left-side">
       <div class="form-container">
 
@@ -30,6 +30,12 @@
             <div class="password-box">
               <input :type="showPassword ? 'text' : 'password'" id="password" v-model="senha"
                 placeholder="Digite sua senha" />
+              <input
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                v-model="senha"
+                placeholder="Digite sua senha"
+              />
               <button type="button" class="show-btn" @click="showPassword = !showPassword">
                 {{ showPassword ? 'Ocultar' : 'Mostrar' }}
               </button>
@@ -58,6 +64,11 @@
       </div>
     </div>
 
+    <!-- LADO DIREITO — imagem decorativa (some no mobile) -->
+    <div class="right-side">
+      <img src="/public/imagem-login.svg" alt="Background" class="login-image" />
+    </div>
+
   </div>
 </template>
 
@@ -65,13 +76,16 @@
 import { ref } from 'vue'
 import { useSupabase } from '../composables/useSupabase'
 import { useRouter } from 'vue-router'
+
 const { supabase } = useSupabase()
 const router = useRouter()
+
 const email = ref('')
 const senha = ref('')
 const erro = ref('')
 const carregando = ref(false)
 const showPassword = ref(false)
+
 async function fazerLogin() {
   erro.value = ''
   if (!email.value || !senha.value) {
@@ -90,8 +104,7 @@ async function fazerLogin() {
       return
     }
     router.push('/Dashboard')
-  }
-  catch (err) {
+  } catch (err) {
     erro.value = 'Erro ao fazer login. Tente novamente mais tarde.'
     console.error('Erro ao fazer login:', err)
     carregando.value = false
@@ -105,10 +118,6 @@ async function fazerLogin() {
   display: flex;
   width: 100%;
   min-height: 100vh;
-  background: url('/imagem-login.svg');
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .login-image {
@@ -117,23 +126,26 @@ async function fazerLogin() {
 
 /* LADO ESQUERDO */
 .left-side {
-  width: 40%;
+  width: 45%;
+  min-width: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: #fff;
+  z-index: 1;
 }
 
 /* FORMULÁRIO */
 .form-container {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   animation: fade 0.6s ease;
 }
 
 /* LOGO */
 .mini-logo {
-  font-size: 2rem;
-  color: #7B1E6A;
   margin-bottom: 1rem;
 }
 
@@ -145,12 +157,12 @@ async function fazerLogin() {
 h1 {
   font-size: 2rem;
   color: #444;
-  margin-bottom: 1rem;
+  margin: 0 0 0.5rem;
 }
 
 /* DIVISOR */
 .divider {
-  margin: 1.8rem 0;
+  margin: 1.5rem 0;
   text-align: center;
   color: #aaa;
   position: relative;
@@ -160,7 +172,7 @@ h1 {
 .divider::after {
   content: '';
   position: absolute;
-  width: 20%;
+  width: 22%;
   height: 1px;
   background: #dadada;
   top: 50%;
@@ -171,7 +183,7 @@ h1 {
 
 /* INPUTS */
 .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .input-group label {
@@ -179,6 +191,7 @@ h1 {
   margin-bottom: 0.5rem;
   color: #666;
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .input-group input {
@@ -225,8 +238,10 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   font-size: 14px;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .options label {
@@ -251,7 +266,7 @@ h1 {
   border: 1px solid #ffcdd2;
   border-radius: 8px;
   padding: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -303,6 +318,8 @@ h1 {
     align-items: center;
   }
 
+/* Abaixo de 960px — esconde a imagem, formulário ocupa tudo */
+@media (max-width: 960px) {
   .right-side {
     display: none;
   }

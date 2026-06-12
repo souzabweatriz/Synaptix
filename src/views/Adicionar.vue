@@ -87,36 +87,38 @@
       </section>
 
       <section class="card-table">
-        <table class="styled-table">
-          <thead>
-            <tr>
-              <th>Equipamento</th>
-              <th>Categoria</th>
-              <th>CA</th>
-              <th>Qtde</th>
-              <th>Descrição</th>
-              <th class="text-center">Ações</th>
-            </tr>
-          </thead>
+        <div class="table-scroll">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Equipamento</th>
+                <th>Categoria</th>
+                <th>CA</th>
+                <th>Qtde</th>
+                <th>Descrição</th>
+                <th class="text-center">Ações</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr v-for="(e, index) in epis" :key="e.id ?? index">
-              <td><span class="text-bold">{{ e.nome }}</span></td>
-              <td><span class="text-bold">{{ e.categoria }}</span></td>
-              <td><span class="badge-ca">{{ e.ca }}</span></td>
-              <td><span class="text-bold">{{ e.quantidade }}</span></td>
-              <td>{{ e.descricao }}</td>
-              <td class="text-center">
-                <button @click="prepararEdicao(e)" class="btn-action edit">
-                  Editar
-                </button>
-                <button @click="excluir(e.id)" class="btn-action delete">
-                  Excluir
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            <tbody>
+              <tr v-for="(e, index) in epis" :key="e.id ?? index">
+                <td><span class="text-bold">{{ e.nome }}</span></td>
+                <td><span class="text-bold">{{ e.categoria }}</span></td>
+                <td><span class="badge-ca">{{ e.ca }}</span></td>
+                <td><span class="text-bold">{{ e.quantidade }}</span></td>
+                <td>{{ e.descricao }}</td>
+                <td class="text-center">
+                  <button @click="prepararEdicao(e)" class="btn-action edit">
+                    Editar
+                  </button>
+                  <button @click="excluir(e.id)" class="btn-action delete">
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
   </div>
@@ -141,13 +143,14 @@
 
 .header-section p {
   margin: 0;
-  color: #00000080;
+  color: #ffffff;
 }
 
+/* ── Formulário ── */
 .card-form {
   border-radius: 1rem;
   padding: 1rem;
-background-color: #f0e7f6;
+  background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .card-header {
@@ -165,11 +168,11 @@ background-color: #f0e7f6;
 }
 
 .card-header h3 {
-  color: #000000;
+  color: #ffffff;
 }
 
 .card-header p {
-  color: #00000080;
+  color: #ffffffc6;
 }
 
 .main-form {
@@ -192,7 +195,7 @@ background-color: #f0e7f6;
 label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #374151;
+  color: #ffffff;
   padding-left: 0.5rem;
   margin-bottom: 0.2rem;
 }
@@ -209,7 +212,7 @@ input {
 
 input:focus {
   outline: none;
-  box-shadow: 0 0 0 0.1rem #93039C;
+  box-shadow: 0 0 0 0.1rem #93039c;
 }
 
 .divider {
@@ -219,70 +222,82 @@ input:focus {
   margin: 1rem 0 1.5rem;
 }
 
+/* ── Action bar ── */
 .action-bar {
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
-  margin-top: 1rem;
 }
 
 .btn {
+  flex: 1;           /* divide o espaço igualmente */
   height: 2.5rem;
-  width: 12rem;
   cursor: pointer;
+  /* width fixo removido — quebrava em telas estreitas */
 }
 
 .btn-primary {
-  background: linear-gradient(90deg, #330136, #93039C);
+  background: linear-gradient(90deg, #330136, #3e0342);
   color: white;
   border: none;
-  width: 35.2rem;
   border-radius: 8px;
   font-weight: 500;
+  text-align: center;
 }
 
 .btn-outline {
   border-radius: 8px;
-  background: transparent;
-  border: 0.1rem solid #6b21a8;
-  width: 35.2rem;
-  color: #6b21a8;
+  background: rgba(69, 69, 69, 0.293);
+  border: 0.1rem solid #ffffff;
+  color: #ffffff;
 }
 
+/* ── Tabela ── */
 .card-table {
-background-color: #f0e7f6;  margin-top: 1rem;
+  margin-top: 2rem;
   border-radius: 1rem;
   overflow: hidden;
   color: #000000;
 }
 
+/* wrapper que habilita scroll horizontal em telas estreitas */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .styled-table {
   width: 100%;
+  min-width: 36rem; /* impede que colunas fiquem apertadas demais */
   border-collapse: collapse;
 }
 
+
 .styled-table th {
   height: 2.5rem;
-  width: 15rem;
   font-size: 0.80rem;
-  background: rgba(115, 0, 255, 0.1);
+  background: #ff5e35;
+  color: white;
   text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0 0.75rem;
 }
 
 .styled-table td {
   text-align: center;
-  justify-content: start;
-  text-align: center;
   height: 3rem;
   font-size: 0.95rem;
+  padding: 0 0.75rem;
 }
 
 .badge-ca {
-  background: #93039C;
-  color: #f2f2f2;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+  background: #93039c;
+  color: #ffffff;
+  padding: 0.25rem 1rem;
+  border-radius: 6px;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .edit {
@@ -295,15 +310,54 @@ background-color: #f0e7f6;  margin-top: 1rem;
 }
 
 .delete {
-  color: #ff5e35;
+  color: #ffffff;
   cursor: pointer;
   background: none;
   border: none;
   font-weight: bold;
+  background-color: #ff3300;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
 }
 
 .text-center {
   text-align: center;
+}
+
+/* ── Breakpoints ── */
+
+/* Tablet: até 768px */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr; /* campos empilham */
+  }
+
+  .card-header {
+    padding: 0.75rem;
+  }
+
+  .main-form {
+    padding: 0.75rem;
+  }
+}
+
+/* Mobile: até 480px */
+@media (max-width: 480px) {
+  .card-form {
+    padding: 0.75rem;
+  }
+
+  .action-bar {
+    flex-direction: column; /* botões empilham */
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .card-header h3 {
+    font-size: 1rem;
+  }
 }
 </style>
 

@@ -90,7 +90,7 @@
 .card-form {
   border-radius: 1rem;
   padding: 1rem;
-background-color: #f0e7f6;
+    background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .card-header {
@@ -98,7 +98,7 @@ background-color: #f0e7f6;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  color: #2d2d35;
+  color: #ffffff;
 }
 
 .icon-box {
@@ -126,7 +126,7 @@ label {
   font-size: 0.85rem;
   font-family: 'Montserrat' sans-serif;
   font-weight: 600;
-  color: #374151;
+  color: #ffffff;
   padding-left: 0.5rem;
   margin-bottom: 0.2rem;
 }
@@ -185,10 +185,10 @@ textarea:focus {
 
 .btn-outline {
   border-radius: 8px;
-  background: transparent;
-  border: 0.1rem solid #6b21a8;
   width: 35.8rem;
-  color: #6b21a8;
+  background: rgba(69, 69, 69, 0.293);
+  border: 0.1rem solid #ffffff;
+  color: #ffffff;
 }
 </style>
 
