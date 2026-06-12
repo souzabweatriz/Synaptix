@@ -214,14 +214,15 @@ onMounted(loadFichas)
 .fichas-panel {
   padding: 1.5rem;
   border-radius: 1.25rem;
-  background: rgba(115, 0, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
 }
 
 .fichas-panel h2 {
   margin: 0 0 1rem;
   font-size: 1.5rem;
-  color: #000000;
+  font-weight: 600;
+  text-align: center;
+  color: #ffffff;
 }
 
 /* ── Cards grid ── */
@@ -234,7 +235,7 @@ onMounted(loadFichas)
 .ficha-card {
   padding: 1.25rem;
   border-radius: 1rem;
-  background: linear-gradient(135deg, #ff4400, #ff6b35de);
+  background: linear-gradient(135deg, #363636, #000000);
   border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
@@ -321,7 +322,7 @@ onMounted(loadFichas)
 }
 
 .ficha-button--excluir {
-  background: rgba(200, 40, 40, 0.95);
+  background: rgb(255, 0, 0);
 }
 
 /* ── Actions grid ── */

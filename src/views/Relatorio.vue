@@ -377,19 +377,19 @@ const formatarData = (dataStr) => {
 
 .content-header h1 {
   font-size: 26px;
-  color: #1e1e24;
+  color: #ffffff;
   margin: 0 0 6px 0;
   font-family: sans-serif;
 }
 
 .content-header p {
-  color: #72727a;
+  color: #ffffff;
   margin: 0;
   font-size: 14.5px;
 }
 
 .reports-card-panel {
-  background-color: #f0e7f6;
+  background: linear-gradient(135deg, #ff6a35, #93039c);
   border-radius: 16px;
   padding: 30px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01);
@@ -398,12 +398,12 @@ const formatarData = (dataStr) => {
 
 .reports-card-panel h2 {
   font-size: 20px;
-  color: #2d2d35;
+  color: #ffffff;
   margin: 0;
 }
 
 .subtitle {
-  color: #72727a;
+  color: #ffffff;
   font-size: 13.5px;
   margin: 4px 0 25px 0;
 }
