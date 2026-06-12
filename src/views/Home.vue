@@ -260,7 +260,7 @@ onMounted(() => {
     width: 100%;
     gap: 3rem;
     background-color: #FAFAFA;
-    padding: 2rem 5rem;
+    padding: 2rem 0;
     min-height: auto;
 }
 
@@ -273,8 +273,8 @@ onMounted(() => {
     gap: 1.5rem;
     width: 50%;
     flex-wrap: wrap;
+    padding-left: 5rem;
 }
-
 .image-aside {
     width: 45%;
     max-width: 500px;
