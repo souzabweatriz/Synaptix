@@ -214,7 +214,7 @@ onMounted(loadFichas)
 .fichas-panel {
   padding: 1.5rem;
   border-radius: 1.25rem;
-  background: linear-gradient(135deg, #ff6a35, #93039c);
+  background: linear-gradient(135deg, #ebebeb, #fbbdff);
 }
 
 .fichas-panel h2 {
@@ -222,7 +222,7 @@ onMounted(loadFichas)
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
-  color: #ffffff;
+  color: #000000;
 }
 
 /* ── Cards grid ── */
@@ -235,7 +235,7 @@ onMounted(loadFichas)
 .ficha-card {
   padding: 1.25rem;
   border-radius: 1rem;
-  background: linear-gradient(135deg, #363636, #000000);
+  background: linear-gradient(135deg, #ff6a35, #93039c);
   border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
