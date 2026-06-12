@@ -1,5 +1,8 @@
 <template>
   <div class="login-page">
+    <div class="right-side">
+      <img src="/public/imagem-login.svg" alt="Background" class="login-image" />
+    </div>
 
     <!-- LADO ESQUERDO — formulário -->
     <div class="left-side">
@@ -25,6 +28,8 @@
           <div class="input-group">
             <label for="password">Senha</label>
             <div class="password-box">
+              <input :type="showPassword ? 'text' : 'password'" id="password" v-model="senha"
+                placeholder="Digite sua senha" />
               <input
                 :type="showPassword ? 'text' : 'password'"
                 id="password"
@@ -108,14 +113,18 @@ async function fazerLogin() {
 </script>
 
 <style scoped>
-/* ── ESTRUTURA ── */
+/* ESTRUTURA PRINCIPAL */
 .login-page {
   display: flex;
   width: 100%;
   min-height: 100vh;
 }
 
-/* ── LADO ESQUERDO ── */
+.login-image {
+  display: none;
+}
+
+/* LADO ESQUERDO */
 .left-side {
   width: 45%;
   min-width: 320px;
@@ -128,25 +137,14 @@ async function fazerLogin() {
   z-index: 1;
 }
 
-/* ── LADO DIREITO ── */
-.right-side {
-  flex: 1;
-  background: url('/imagem-login.svg') center / cover no-repeat;
-  min-height: 100vh;
-}
-
-.login-image {
-  display: none; /* imagem já é background — esconde a tag img */
-}
-
-/* ── FORMULÁRIO ── */
+/* FORMULÁRIO */
 .form-container {
   width: 100%;
   max-width: 400px;
   animation: fade 0.6s ease;
 }
 
-/* ── LOGO ── */
+/* LOGO */
 .mini-logo {
   margin-bottom: 1rem;
 }
@@ -155,14 +153,14 @@ async function fazerLogin() {
   width: 3rem;
 }
 
-/* ── TÍTULO ── */
+/* TÍTULO */
 h1 {
   font-size: 2rem;
   color: #444;
   margin: 0 0 0.5rem;
 }
 
-/* ── DIVISOR ── */
+/* DIVISOR */
 .divider {
   margin: 1.5rem 0;
   text-align: center;
@@ -183,7 +181,7 @@ h1 {
 .divider::before { left: 0; }
 .divider::after  { right: 0; }
 
-/* ── INPUTS ── */
+/* INPUTS */
 .input-group {
   margin-bottom: 1.25rem;
 }
@@ -214,8 +212,10 @@ h1 {
   box-shadow: 0 0 0 4px rgba(123, 30, 106, 0.1);
 }
 
-/* ── SENHA ── */
-.password-box { position: relative; }
+/* SENHA */
+.password-box {
+  position: relative;
+}
 
 .show-btn {
   position: absolute;
@@ -233,7 +233,7 @@ h1 {
 
 .show-btn:hover { opacity: 0.7; }
 
-/* ── OPÇÕES ── */
+/* OPÇÕES */
 .options {
   display: flex;
   justify-content: space-between;
@@ -259,7 +259,7 @@ h1 {
 
 .options a:hover { text-decoration: underline; }
 
-/* ── ERRO ── */
+/* ERRO */
 .mensagem-erro {
   color: #d32f2f;
   background: #ffebee;
@@ -275,7 +275,7 @@ h1 {
 
 .mensagem-erro i { flex-shrink: 0; }
 
-/* ── BOTÃO ── */
+/* BOTÃO */
 .botao-entrar {
   width: 100%;
   padding: 15px;
@@ -304,20 +304,19 @@ h1 {
   cursor: not-allowed;
 }
 
-/* ── ANIMAÇÃO ── */
+/* ANIMAÇÃO */
 @keyframes fade {
   from { opacity: 0; transform: translateY(15px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ════════════════════════════
-   RESPONSIVO
-════════════════════════════ */
-
-/* Tablet paisagem / desktop pequeno */
-@media (max-width: 1024px) {
-  .left-side { width: 50%; }
-}
+/* ── RESPONSIVO ── */
+@media (max-width: 900px) {
+  .login-page {
+    background: #fff;
+    justify-content: center;
+    align-items: center;
+  }
 
 /* Abaixo de 960px — esconde a imagem, formulário ocupa tudo */
 @media (max-width: 960px) {
@@ -327,17 +326,21 @@ h1 {
 
   .left-side {
     width: 100%;
-    min-width: unset;
     min-height: 100vh;
     padding: 2rem 1.5rem;
-    background: #fff;
   }
+
+  .form-container {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  h1 { font-size: 1.75rem; }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .left-side {
-    padding: 1.5rem 1rem;
+    padding: 2.5rem 1.25rem;
     align-items: flex-start;
   }
 
@@ -350,15 +353,6 @@ h1 {
   .botao-entrar {
     padding: 13px;
     font-size: 0.95rem;
-  }
-}
-
-/* Mobile muito pequeno */
-@media (max-width: 360px) {
-  h1 { font-size: 1.3rem; }
-
-  .input-group input {
-    padding: 11px;
   }
 }
 </style>

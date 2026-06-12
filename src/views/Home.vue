@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <AppHeader />
-        <section class="section">
+        <section id="inicio" class="section">
             <aside class="home-aside">
                 <h1 class="title-aside">
                     Gerencie todo o seu estoque de <span>EPIs</span>
@@ -38,7 +38,7 @@
             </aside>
             <img src="../../public/Images/homeImg.png" alt="Imagem de controle de estoque" class="image-aside">
         </section>
-        <section class="features">
+        <section id="funcionalidades" class="features">
             <div class="features-titles">
                 <p class="purple-p">Tecnologia que transforme o seu gerenciamento de EPIs</p>
                 <h1 class="title-features">Aproveite de todas as funcionalidades que irão facilitar o seu dia a dia</h1>
@@ -73,7 +73,7 @@
                 <div class="aside-row">
                     <h1 class="title-dashboard">Inventário completo de EPIs</h1>
                     <div class="subtitle-dashboard-two">
-                        Todos os produtos estarão devidamente cadastrados na aba “Inventário de EPIs’”. Nela, é possível
+                        Todos os produtos estarão devidamente cadastrados na aba "Inventário de EPIs'". Nela, é possível
                         obter a listagem de todos os EPIs cadastrados, o status de utilização, preço e a quantidade.
                     </div>
                 </div>
@@ -84,10 +84,8 @@
                     <h1 class="title-dashboard">Emissão de relatórios para análises</h1>
                     <div class="subtitle-dashboard-three">
                         É possível emitir relatórios específicos para cada necessidade, tudo dentro do gerenciador.
-                        Analise
-                        a movimentação mensal de EPIs, realize inventários, elabore uma checagem de preços por
-                        fornecedores
-                        e itens com baixo estoque.
+                        Analise a movimentação mensal de EPIs, realize inventários, elabore uma checagem de preços por
+                        fornecedores e itens com baixo estoque.
                     </div>
                 </div>
             </div>
@@ -112,11 +110,10 @@ onMounted(() => {
     const cards = Array.from(document.querySelectorAll('.section-dashboard > div'));
     if (!cards.length) return;
 
-    // inicializa estado oculto e posicionamento alternado
     cards.forEach((el, i) => {
         const dir = i % 2 === 0 ? -1 : 1;
         el.style.opacity = '0';
-        el.style.transform = `translateX(${dir * 40}px) translateY(0)`;
+        el.style.transform = `translateX(${dir * 40}px)`;
         el.style.transition = 'transform 700ms cubic-bezier(.2,.9,.2,1), opacity 700ms';
         el.style.willChange = 'transform, opacity';
     });
@@ -126,10 +123,9 @@ onMounted(() => {
             if (!entry.isIntersecting) return;
             const el = entry.target;
             const idx = cards.indexOf(el);
-            // stagger usando delay baseado no índice
             el.style.transitionDelay = `${idx * 120}ms`;
             el.style.opacity = '1';
-            el.style.transform = 'translateX(0) translateY(0)';
+            el.style.transform = 'translateX(0)';
             obs.unobserve(el);
         });
     }, { threshold: 0.18 });
@@ -146,15 +142,17 @@ onMounted(() => {
     padding-top: 4.4rem;
 }
 
-.image-section{
+/* ── IMAGE SECTION ── */
+.image-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     margin-top: 2rem;
+    padding: 0 1.5rem;
 }
 
-.image-section-phone{
+.image-section-phone {
     width: 60%;
     height: auto;
     display: block;
@@ -177,105 +175,12 @@ onMounted(() => {
     -webkit-text-fill-color: transparent;
 }
 
+/* ── FEATURES ── */
 .features-section {
     display: flex;
     align-items: center;
     width: 100%;
-    justify-content: flex-end
-}
-
-
-.subtitle-dashboard-two {
-    font-weight: 300;
-    font-size: 1.3rem;
-    color: white;
-}
-
-.subtitle-dashboard-three {
-    font-weight: 300;
-    font-size: 1.3rem;
-    color: white;
-}
-
-/* Dashboard */
-.section-dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2.5rem;
-    padding: 2rem 6rem;
-    width: 100%;
-}
-
-/* Card base */
-.section-dashboard > div {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    border-radius: 0.8rem;
-    box-shadow: 0 0.6rem 1.4rem rgba(51, 16, 41, 0.06);
-    padding: 2rem 2.5rem;
-    width: 100%;
-    max-width: 1100px;
-    min-height: 14rem;
-    color: #fff;
-    transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
-    box-shadow: rgba(0, 0, 0, 0.597) 0px 0.7rem 1.4rem;
-}
-
-.aside-dashboard:hover,
-.aside-dashboard-left:hover {
-    transform: translateY(-0.14rem) !important;
-    box-shadow: 0 0.72rem 1.2rem rgba(51, 16, 41, 0.09);
-}
-
-/* Inverte ordem no segundo card */
-.aside-dashboard-left {
-    flex-direction: row-reverse;
-}
-
-/* Imagem */
-.section-dashboard img {
-    width: 22rem;
-    height: auto;
-    flex-shrink: 0;
-    border-radius: 0.5rem;
-    object-fit: cover;
-}
-
-/* Texto */
-.aside-row {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    flex: 1;
-}
-
-.title-dashboard {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0;
-}
-
-.subtitle-dashboard-one,
-.subtitle-dashboard-two,
-.subtitle-dashboard-three {
-    font-size: 0.98rem;
-    font-weight: 300;
-    line-height: 1.45;
-    margin: 0;
-}
-
-/* Cores dos cards */
-.section-dashboard > div:nth-child(1) {
-    background: linear-gradient(135deg, #ff7a2e, #ff9e1b);
-}
-.section-dashboard > div:nth-child(2) {
-    background: linear-gradient(135deg, #5b2a86, #8b4bb0);
-}
-.section-dashboard > div:nth-child(3) {
-    background: linear-gradient(135deg, #e74c3c, #ff6a35);
+    justify-content: flex-end;
 }
 
 .text-section {
@@ -298,6 +203,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding: 0 1.5rem;
 }
 
 .features-cards {
@@ -318,9 +224,12 @@ onMounted(() => {
     border-radius: 1rem;
     height: 2rem;
     width: 30rem;
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    padding: 0 1rem;
 }
 
 .title-features {
@@ -342,6 +251,7 @@ onMounted(() => {
     margin-top: 3rem;
 }
 
+/* ── HERO ── */
 .section {
     margin-top: 0.5rem;
     display: flex;
@@ -350,7 +260,7 @@ onMounted(() => {
     width: 100%;
     gap: 3rem;
     background-color: #FAFAFA;
-    padding: 2rem 0;
+    padding: 2rem 5rem;
     min-height: auto;
 }
 
@@ -361,7 +271,6 @@ onMounted(() => {
     align-items: flex-start;
     flex-direction: column;
     gap: 1.5rem;
-    margin-left: 5rem;
     width: 50%;
     flex-wrap: wrap;
 }
@@ -370,12 +279,8 @@ onMounted(() => {
     width: 45%;
     max-width: 500px;
     height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     object-fit: contain;
 }
-
 
 .title-aside {
     font-size: 3rem;
@@ -410,12 +315,10 @@ onMounted(() => {
     transform: translateY(0.5rem);
 }
 
-
 .card-items-aside {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 20rem;
+    width: calc(50% - 0.425rem);
     height: 4rem;
     border: 0.1rem solid #cc6670;
     border-radius: 0.45rem;
@@ -436,7 +339,8 @@ onMounted(() => {
     border-radius: 100%;
     align-items: center;
     justify-content: center;
-    margin-left: 2rem;
+    margin-left: 1rem;
+    flex-shrink: 0;
     background: #8b2f43;
     color: #fff;
     font-size: 1rem;
@@ -450,13 +354,14 @@ onMounted(() => {
     font-size: 0.83rem;
     font-weight: 600;
     color: #333;
+    padding: 0 0.5rem;
 }
 
 .button-aside {
     display: flex;
-    width: 15rem;
+    width: 100%;
     height: 2.7rem;
-    margin-top: 0.9rem;
+    margin-top: 0.4rem;
     border: none;
     border-radius: 0.5rem;
     align-items: center;
@@ -467,16 +372,11 @@ onMounted(() => {
     font-size: 0.92rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
 .button-aside:hover {
     background: #ff5e35;
-}
-
-.button-aside+i {
-    display: flex;
-    align-items: center;
-    color: #fff;
 }
 
 .button-aside i {
@@ -485,271 +385,259 @@ onMounted(() => {
     font-size: 0.85rem;
 }
 
+/* ── DASHBOARD ── */
+.section-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2rem 6rem;
+    width: 100%;
+}
+
+.section-dashboard > div {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 0.8rem;
+    padding: 2rem 2.5rem;
+    width: 100%;
+    max-width: 1100px;
+    min-height: 14rem;
+    color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.597) 0px 0.7rem 1.4rem;
+    transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 520ms;
+    will-change: transform;
+}
+
+.aside-dashboard:hover,
+.aside-dashboard-left:hover {
+    transform: translateY(-0.14rem) !important;
+    box-shadow: 0 0.72rem 1.2rem rgba(51, 16, 41, 0.09);
+}
+
+.aside-dashboard-left {
+    flex-direction: row-reverse;
+}
+
+.section-dashboard img {
+    width: 22rem;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.aside-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.title-dashboard {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.subtitle-dashboard-one,
+.subtitle-dashboard-two,
+.subtitle-dashboard-three {
+    font-size: 0.98rem;
+    font-weight: 300;
+    line-height: 1.45;
+    margin: 0;
+    color: white;
+}
+
+.section-dashboard > div:nth-child(1) { background: linear-gradient(135deg, #ff7a2e, #ff9e1b); }
+.section-dashboard > div:nth-child(2) { background: linear-gradient(135deg, #5b2a86, #8b4bb0); }
+.section-dashboard > div:nth-child(3) { background: linear-gradient(135deg, #e74c3c, #ff6a35); }
+
+/* ── TABLET (≤ 1024px) ── */
 @media (max-width: 1024px) {
-    .section-dashboard {
-        /* já em coluna por padrão, manter ajustes menores */
-        gap: 1.25rem;
-        padding: 0.5rem 0;
+    .section {
+        flex-direction: column;
+        padding: 2rem;
+        gap: 2rem;
+    }
+
+    .home-aside {
+        width: 100%;
+        margin-top: 0;
         align-items: center;
+        text-align: center;
+    }
+
+    .title-aside {
+        width: 100%;
+        font-size: 2.4rem;
+        text-align: center;
+    }
+
+    .subtitle-aside {
+        text-align: center;
+        width: 100%;
+    }
+
+    .items-aside {
+        justify-content: center;
+    }
+
+    .button-aside {
+        max-width: 20rem;
+    }
+
+    .image-aside {
+        display: none;
+    }
+
+    .features-cards {
+        flex-wrap: wrap;
+    }
+
+    .purple-p {
+        width: 100%;
+        max-width: 30rem;
+        height: auto;
+        padding: 0.4rem 1rem;
+        font-size: 0.82rem;
+    }
+
+    .title-features {
+        width: 100%;
+        font-size: 1.5rem;
+    }
+
+    .features-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-section {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .features-text {
+        width: 100%;
+        font-size: 1.4rem;
+        justify-content: center;
+    }
+
+    .section-dashboard {
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
     }
 
     .section-dashboard > div {
-        width: 100%;
-        min-height: auto;
-        flex-direction: column;
+        flex-direction: column !important;
         align-items: center;
         text-align: center;
-        gap: 1rem;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
-
-    .section-dashboard > div.aside-dashboard-left {
-        flex-direction: column;
+        min-height: auto;
+        padding: 1.5rem;
+        gap: 1.25rem;
     }
 
     .section-dashboard img {
-        position: static;
-        transform: none;
-        width: 60%;
-        max-width: 260px;
-        margin: 0 auto;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .image-section-phone {
+        width: 80%;
+    }
+
+    .subtitle-image-section {
+        font-size: 1.2rem;
+    }
+}
+
+/* ── MOBILE (≤ 640px) ── */
+@media (max-width: 640px) {
+    .section {
+        padding: 1.5rem 1rem;
+    }
+
+    .title-aside {
+        font-size: 2rem;
+    }
+
+    .subtitle-aside {
+        font-size: 1rem;
+    }
+
+    .card-items-aside {
+        width: 100%;
+    }
+
+    .button-aside {
+        max-width: 100%;
+    }
+
+    .features {
+        padding: 0 1rem;
+    }
+
+    .title-features {
+        font-size: 1.3rem;
+    }
+
+    .section-dashboard {
+        padding: 1.5rem 1rem;
+    }
+
+    .section-dashboard > div {
+        padding: 1.25rem 1rem;
+    }
+
+    .title-dashboard {
+        font-size: 1.1rem;
     }
 
     .subtitle-dashboard-one,
     .subtitle-dashboard-two,
     .subtitle-dashboard-three {
-        width: 100%;
-        max-width: 100%;
+        font-size: 0.9rem;
     }
 
-    .section {
-        flex-direction: column;
-        padding: 1.5rem;
+    .image-section-phone {
+        width: 90%;
     }
 
-    .home-aside {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 1rem;
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-    }
-
-    .items-aside {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .card-items-aside {
-        width: calc(50% - 0.425rem);
-    }
-
-    .image-aside {
-        display: none;
-    }
-
-    .title-aside {
-        width: 100%;
-        font-size: 2.5rem;
-    }
-
-    .subtitle-aside {
-        width: 100%;
-    }
-}
-
-/* Animações de entrada: cada card aparece vindo de um lado */
-@keyframes slideInLeft {
-    from { transform: translateX(-3rem); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideInRight {
-    from { transform: translateX(3rem); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideInUp {
-    from { transform: translateY(2rem); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* Aplica animações com stagger */
-.section-dashboard > div:nth-child(1) {
-    animation: slideInLeft 700ms cubic-bezier(.2,.9,.2,1) both 0.05s;
-}
-
-.section-dashboard > div:nth-child(2) {
-    animation: slideInRight 700ms cubic-bezier(.2,.9,.2,1) both 0.18s;
-}
-
-.section-dashboard > div:nth-child(3) {
-    animation: slideInUp 700ms cubic-bezier(.2,.9,.2,1) both 0.30s;
-}
-
-@media (max-width: 640px) {
-    .section {
-        padding: 1rem;
-    }
-
-    .home-aside {
-        width: 100%;
-        margin-left: 0;
-        padding: 0;
-        gap: 1rem;
-    }
-
-    .items-aside {
-        width: 100%;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .card-items-aside {
-        width: 100%;
-        height: 3.5rem;
-    }
-
-    .image-aside {
-        display: none;
-    }
-
-    .title-aside {
-        font-size: 2rem;
-        width: 100%;
-    }
-
-    .subtitle-aside {
+    .subtitle-image-section {
         font-size: 1rem;
-        width: 100%;
-    }
-
-    .button-aside {
-        width: 100%;
     }
 }
 
-@media (max-width: 480px) {
-    .section {
-        padding: 0.75rem;
-    }
-
-    .home-aside {
-        width: 100%;
-        padding: 0;
-        gap: 0.75rem;
-    }
-
+/* ── SMALL MOBILE (≤ 400px) ── */
+@media (max-width: 400px) {
     .title-aside {
-        font-size: 1.75rem;
-        width: 100%;
-        margin-bottom: 0.5rem;
+        font-size: 1.7rem;
     }
 
     .subtitle-aside {
         font-size: 0.9rem;
-        width: 100%;
-        line-height: 1.4;
-    }
-
-    .items-aside {
-        width: 100%;
-        gap: 0.5rem;
-        transform: translateY(0.25rem);
-    }
-
-    .card-items-aside {
-        width: 100%;
-        height: 3.2rem;
-        padding: 0.5rem;
     }
 
     .card-items-aside i {
+        margin-left: 0.6rem;
         width: 2.2rem;
         height: 1.8rem;
-        margin-left: 0.75rem;
-        font-size: 0.75rem;
-    }
-
-    .title-items-aside {
-        font-size: 0.7rem;
-    }
-
-    .button-aside {
-        width: 100%;
-        height: 2.3rem;
         font-size: 0.8rem;
-        gap: 0.4rem;
-    }
-
-    .button-aside i {
-        font-size: 0.7rem;
-    }
-
-    .image-aside {
-        display: none;
-    }
-}
-
-@media (max-width: 375px) {
-    .section {
-        padding: 0.5rem;
-    }
-
-    .home-aside {
-        width: 100%;
-        padding: 0;
-        gap: 0.5rem;
-    }
-
-    .title-aside {
-        font-size: 1.5rem;
-        width: 100%;
-    }
-
-    .subtitle-aside {
-        font-size: 0.85rem;
-        width: 100%;
-        line-height: 1.3;
-    }
-
-    .items-aside {
-        width: 100%;
-        gap: 0.4rem;
-    }
-
-    .card-items-aside {
-        width: 100%;
-        height: 2.8rem;
-        padding: 0.4rem;
-    }
-
-    .card-items-aside i {
-        width: 2rem;
-        height: 1.6rem;
-        margin-left: 0.5rem;
-        font-size: 0.65rem;
     }
 
     .title-items-aside {
-        font-size: 0.65rem;
+        font-size: 0.72rem;
     }
 
-    .button-aside {
-        width: 100%;
-        height: 2.1rem;
-        font-size: 0.75rem;
-        gap: 0.3rem;
+    .title-features {
+        font-size: 1.1rem;
     }
 
-    .button-aside i {
-        font-size: 0.65rem;
-    }
-
-    .image-aside {
-        display: none;
+    .image-section-phone {
+        width: 95%;
     }
 }
 </style>
