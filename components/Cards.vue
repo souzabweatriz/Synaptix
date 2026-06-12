@@ -6,6 +6,10 @@
                     v-for="card in cardsLoop"
                     :key="card.id"
                     class="card"
+                    @click="() => scrollToFunctionalidades()"
+                    role="button"
+                    tabindex="0"
+                    @keypress.enter="() => scrollToFunctionalidades()"
                 >
                     <div class="card-content">
                         <i :class="`pi ${card.icon}`"></i>
@@ -66,6 +70,11 @@ const cardsLoop = computed(() => {
         id: `${index}-${card.title}`
     }));
 });
+
+const scrollToFunctionalidades = () => {
+    const el = document.querySelector('#funcionalidades')
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 </script>
 
 <style scoped>
