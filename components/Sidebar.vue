@@ -6,6 +6,18 @@
     @click="closeSidebar"
   />
 
+  <!-- Botão hamburguer FIXO no mobile (fora da sidebar) -->
+  <button
+    v-if="isMobile && isCollapsed"
+    class="mobile-hamburger"
+    @click="toggleSidebar"
+    aria-label="Abrir menu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
   <aside :class="['sidebar', { 'sidebar--collapsed': isCollapsed }]">
 
     <!-- TOPO -->
@@ -149,9 +161,7 @@ function loadUserProfile(currentSession) {
     userProfile.value = { name: '', email: '', avatarUrl: '' }
     return
   }
-
   const meta = currentSession.user.user_metadata || {}
-
   userProfile.value = {
     name: capitalizeName(meta.full_name || meta.name || currentSession.user.email?.split('@')[0] || 'Usuário'),
     email: currentSession.user.email || '',
@@ -159,28 +169,26 @@ function loadUserProfile(currentSession) {
   }
 }
 
-// Inicial do nome como fallback de avatar
 const userInitials = computed(() => {
-  return userProfile.value.name
-    ? userProfile.value.name.charAt(0).toUpperCase()
-    : '?'
+  return userProfile.value.name ? userProfile.value.name.charAt(0).toUpperCase() : '?'
 })
 
-// Reage a mudanças de sessão (login/logout)
 watch(session, (newSession) => loadUserProfile(newSession), { immediate: true })
 
 // ── Resize ──
 function onResize() {
-  const wasDesktop = !isMobile.value
-  isMobile.value = window.innerWidth <= MOBILE_BP
+  const mobile = window.innerWidth <= MOBILE_BP
 
-  if (isMobile.value && wasDesktop) {
-    isCollapsed.value = true
-    emit('update:collapsed', true)
-  }
-  if (!isMobile.value && !wasDesktop === false) {
-    isCollapsed.value = false
-    emit('update:collapsed', false)
+  if (mobile !== isMobile.value) {
+    isMobile.value = mobile
+
+    if (mobile) {
+      isCollapsed.value = true
+      emit('update:collapsed', true)
+    } else {
+      isCollapsed.value = false
+      emit('update:collapsed', false)
+    }
   }
 }
 
@@ -220,6 +228,33 @@ async function sair() {
   z-index: 99;
 }
 
+/* ── Botão hamburguer FIXO no mobile (visível quando sidebar fechada) ── */
+.mobile-hamburger {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.mobile-hamburger span {
+  display: block;
+  width: 18px;
+  height: 3px;
+  background: #333;
+  border-radius: 999px;
+  margin: 0 auto;
+}
+
 /* ── Sidebar base ── */
 .sidebar {
   width: 15.625rem;
@@ -250,7 +285,7 @@ async function sair() {
   position: relative;
 }
 
-/* ── Hamburger ── */
+/* ── Hamburger dentro da sidebar (desktop) ── */
 .hamburger-button {
   position: absolute;
   left: 1rem;
@@ -399,14 +434,8 @@ async function sair() {
   flex-shrink: 0;
 }
 
-.user strong {
-  font-size: 15px;
-}
-
-.user p {
-  margin-top: 4px;
-  font-size: 12px;
-}
+.user strong { font-size: 15px; }
+.user p { margin-top: 4px; font-size: 12px; }
 
 .dot {
   width: 6px;
@@ -421,18 +450,28 @@ async function sair() {
    MOBILE — drawer behavior
 ════════════════════════════ */
 @media (max-width: 768px) {
+  /* Sidebar sempre com largura total, animada por transform */
   .sidebar {
     width: 15.625rem;
     transform: translateX(-100%);
   }
 
+  /* Aberta */
   .sidebar:not(.sidebar--collapsed) {
     transform: translateX(0);
   }
 
+  /* Fechada — completamente fora da tela */
   .sidebar--collapsed {
     width: 15.625rem;
     transform: translateX(-100%);
+  }
+}
+
+/* No desktop o botão fixo mobile não aparece */
+@media (min-width: 769px) {
+  .mobile-hamburger {
+    display: none;
   }
 }
 </style>
