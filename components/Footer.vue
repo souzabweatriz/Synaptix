@@ -1,9 +1,9 @@
 <template>
-    <footer>
+    <footer id="contato">
         <div class="footer-cta">
             <div class="cta-content">
                 <h2>Gostaria de implementar um gerenciador de estoque de EPIs em sua empresa?</h2>
-                <RouterLink to="/contato" class="cta-btn">Solicitar demonstração →</RouterLink>
+                <button class="cta-btn" @click="router.push('/Login')">Solicitar demonstração →</button>
             </div>
         </div>
 
@@ -14,12 +14,12 @@
 
             <div class="footer-links">
                 <p class="footer-links-title">Links Úteis</p>
-                <RouterLink to="/">Início</RouterLink>
-                <RouterLink to="/funcionalidades">Funcionalidades</RouterLink>
-                <RouterLink to="/contato">Contato</RouterLink>
+                <a href="#inicio" @click.prevent="scrollToSection('inicio')">Início</a>
+                <a href="#funcionalidades" @click.prevent="scrollToSection('funcionalidades')">Funcionalidades</a>
+                <a href="#contato" @click.prevent="scrollToSection('contato')">Contato</a>
             </div>
 
-            <RouterLink to="/contato" class="impl-btn">Implementar agora</RouterLink>
+            <button class="impl-btn" @click="router.push('/Login')">Implementar agora</button>
         </div>
 
         <div class="footer-bottom">
@@ -41,6 +41,20 @@
         </div>
     </footer>
 </template>
+
+<script setup>
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const scrollToSection = (id) => {
+    const el = document.querySelector(`#${id}`)
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+        // Se a seção não existir, navegação não é feita aqui; mantém comportamento atual
+    }
+}
+</script>
 
 <style scoped>
 footer {

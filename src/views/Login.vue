@@ -1,14 +1,11 @@
 <template>
   <div class="login-page">
 
-    <!-- LADO DIREITO COM IMAGEM -->
     <div class="right-side">
       <img src="/public/imagem-login.svg" alt="Background" class="login-image" />
     </div>
 
-    <!-- LADO ESQUERDO -->
     <div class="left-side">
-
       <div class="form-container">
 
         <div class="mini-logo">
@@ -16,7 +13,6 @@
         </div>
 
         <h1>Bem-vindo(a) de volta!</h1>
-
 
         <div class="divider">
           <span>forneça suas credenciais</span>
@@ -26,48 +22,39 @@
 
           <div class="input-group">
             <label for="email">E-mail</label>
-
             <input type="email" id="email" v-model="email" placeholder="mail@abc.com" />
           </div>
 
           <div class="input-group">
             <label for="password">Senha</label>
-
             <div class="password-box">
-
               <input :type="showPassword ? 'text' : 'password'" id="password" v-model="senha"
                 placeholder="Digite sua senha" />
-
               <button type="button" class="show-btn" @click="showPassword = !showPassword">
                 {{ showPassword ? 'Ocultar' : 'Mostrar' }}
               </button>
-
             </div>
           </div>
 
           <div class="options">
-
             <label>
               <input type="checkbox" />
               Lembrar senha
             </label>
-
-            <a href="#">
-              Esqueceu senha?
-            </a>
-
+            <a href="#">Esqueceu senha?</a>
           </div>
+
           <div v-if="erro" class="mensagem-erro">
             <i class="fas fa-exclamation-circle"></i>
             {{ erro }}
           </div>
+
           <button type="submit" class="botao-entrar" :disabled="carregando">
             <i v-if="carregando" class="fas fa-spinner fa-spin"></i>
             <span v-else>Entrar</span>
           </button>
 
         </form>
-
       </div>
     </div>
 
@@ -114,7 +101,6 @@ async function fazerLogin() {
 
 <style scoped>
 /* ESTRUTURA PRINCIPAL */
-
 .login-page {
   display: flex;
   width: 100%;
@@ -125,16 +111,11 @@ async function fazerLogin() {
   background-repeat: no-repeat;
 }
 
-
-/* LADO DIREITO COM IMAGEM */
-
-
 .login-image {
   display: none;
 }
 
 /* LADO ESQUERDO */
-
 .left-side {
   width: 40%;
   display: flex;
@@ -143,7 +124,6 @@ async function fazerLogin() {
 }
 
 /* FORMULÁRIO */
-
 .form-container {
   width: 100%;
   max-width: 380px;
@@ -151,7 +131,6 @@ async function fazerLogin() {
 }
 
 /* LOGO */
-
 .mini-logo {
   font-size: 2rem;
   color: #7B1E6A;
@@ -163,7 +142,6 @@ async function fazerLogin() {
 }
 
 /* TÍTULO */
-
 h1 {
   font-size: 2rem;
   color: #444;
@@ -171,7 +149,6 @@ h1 {
 }
 
 /* DIVISOR */
-
 .divider {
   margin: 1.8rem 0;
   text-align: center;
@@ -189,16 +166,10 @@ h1 {
   top: 50%;
 }
 
-.divider::before {
-  left: 0;
-}
-
-.divider::after {
-  right: 0;
-}
+.divider::before { left: 0; }
+.divider::after  { right: 0; }
 
 /* INPUTS */
-
 .input-group {
   margin-bottom: 20px;
 }
@@ -220,9 +191,7 @@ h1 {
   font-size: 14px;
 }
 
-.input-group input::placeholder {
-  color: #bbb;
-}
+.input-group input::placeholder { color: #bbb; }
 
 .input-group input:focus {
   border-color: #7B1E6A;
@@ -231,7 +200,6 @@ h1 {
 }
 
 /* SENHA */
-
 .password-box {
   position: relative;
 }
@@ -250,12 +218,9 @@ h1 {
   padding: 0;
 }
 
-.show-btn:hover {
-  opacity: 0.7;
-}
+.show-btn:hover { opacity: 0.7; }
 
 /* OPÇÕES */
-
 .options {
   display: flex;
   justify-content: space-between;
@@ -277,12 +242,9 @@ h1 {
   font-weight: 500;
 }
 
-.options a:hover {
-  text-decoration: underline;
-}
+.options a:hover { text-decoration: underline; }
 
-/* MENSAGEM DE ERRO */
-
+/* ERRO */
 .mensagem-erro {
   color: #d32f2f;
   background: #ffebee;
@@ -296,12 +258,9 @@ h1 {
   gap: 8px;
 }
 
-.mensagem-erro i {
-  flex-shrink: 0;
-}
+.mensagem-erro i { flex-shrink: 0; }
 
 /* BOTÃO */
-
 .botao-entrar {
   width: 100%;
   padding: 15px;
@@ -331,59 +290,52 @@ h1 {
 }
 
 /* ANIMAÇÃO */
-
 @keyframes fade {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* RESPONSIVO */
-
+/* ── RESPONSIVO ── */
 @media (max-width: 900px) {
-
   .login-page {
-    flex-direction: column;
+    background: #fff;
+    justify-content: center;
+    align-items: center;
   }
 
   .right-side {
-    width: 100%;
-    height: 250px;
+    display: none;
   }
 
   .left-side {
     width: 100%;
-    min-height: calc(100vh - 250px);
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
   }
 
-  h1 {
-    font-size: 30px;
+  .form-container {
+    max-width: 420px;
+    margin: 0 auto;
   }
+
+  h1 { font-size: 1.75rem; }
 }
 
-@media (max-width: 600px) {
-
+@media (max-width: 480px) {
   .left-side {
-    padding: 30px 20px;
+    padding: 2.5rem 1.25rem;
+    align-items: flex-start;
   }
 
   .form-container {
     max-width: 100%;
   }
 
-  h1 {
-    font-size: 24px;
-  }
+  h1 { font-size: 1.5rem; }
 
   .botao-entrar {
-    padding: 12px;
-    font-size: 14px;
+    padding: 13px;
+    font-size: 0.95rem;
   }
 }
 </style>
