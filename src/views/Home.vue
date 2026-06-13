@@ -38,6 +38,7 @@
             </aside>
             <img src="../../public/Images/homeImg.png" alt="Imagem de controle de estoque" class="image-aside">
         </section>
+
         <section id="funcionalidades" class="features">
             <div class="features-titles">
                 <p class="purple-p">Tecnologia que transforme o seu gerenciamento de EPIs</p>
@@ -57,6 +58,7 @@
                 </div>
             </div>
         </section>
+
         <div class="section-dashboard">
             <div class="aside-dashboard">
                 <img src="../../public/Images/dashboard1.png" alt="Dashboard">
@@ -90,11 +92,13 @@
                 </div>
             </div>
         </div>
+
         <div class="image-section">
             <h1 class="colored-text">Pensamos em cada necessidade</h1>
             <h2 class="subtitle-image-section">Esteja no controle de tudo sobre o seu estoque na palma da sua mão, aonde estiver</h2>
             <img src="../../public/Images/phone.png" alt="Celular com dados do site e gráficos com resultados simulados" class="image-section-phone">
         </div>
+
         <Footer />
     </div>
 </template>
@@ -135,146 +139,39 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* ════════════════════════════
+   BASE
+════════════════════════════ */
 .home {
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;   /* centraliza tudo horizontalmente */
     padding-top: 4.4rem;
 }
 
-/* ── IMAGE SECTION ── */
-.image-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding: 0 1.5rem;
-}
-
-.image-section-phone {
-    width: 60%;
-    height: auto;
-    display: block;
-}
-
-.subtitle-image-section {
-    font-weight: bolder;
-    font-size: 1.5rem;
-    color: black;
-    text-align: center;
-    max-width: 50rem;
-}
-
-.colored-text {
-    font-size: 1.20rem;
-    text-align: center;
-    background-image: linear-gradient(to right, #330136, #330136, #FF9E1B, #FF9E1B);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* ── FEATURES ── */
-.features-section {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: flex-end;
-}
-
-.text-section {
-    display: flex;
-    width: 50%;
-}
-
-.features-text {
-    display: flex;
-    font-weight: 600;
-    font-size: 1.75rem;
-    flex-wrap: wrap;
-    width: 40%;
-    text-align: center;
-}
-
-.features {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 0 1.5rem;
-}
-
-.features-cards {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    width: 100%;
-    margin-top: 2rem;
-}
-
-.purple-p {
-    color: #330136;
-    background-color: #683ab620;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-    border: #683ab689 0.01rem solid;
-    border-radius: 1rem;
-    height: 2rem;
-    width: 30rem;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 1rem;
-}
-
-.title-features {
-    width: 70%;
-    flex-wrap: wrap;
-    font-size: 1.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.features-titles {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-top: 3rem;
-}
-
-/* ── HERO ── */
+/* ════════════════════════════
+   HERO
+════════════════════════════ */
 .section {
-    margin-top: 0.5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: 1280px;
     gap: 3rem;
     background-color: #FAFAFA;
-    padding: 2rem 0;
-    min-height: auto;
+    padding: 3rem 2rem;
+    box-sizing: border-box;
 }
 
 .home-aside {
     display: flex;
-    margin-top: 2rem;
-    justify-content: flex-start;
-    align-items: flex-start;
     flex-direction: column;
     gap: 1.5rem;
     width: 50%;
-    flex-wrap: wrap;
-    padding-left: 5rem;
 }
+
 .image-aside {
     width: 45%;
     max-width: 500px;
@@ -283,13 +180,12 @@ onMounted(() => {
 }
 
 .title-aside {
-    font-size: 3rem;
-    margin-bottom: 0.25rem;
-    width: 80%;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin: 0;
 }
 
 .title-aside span {
-    background-image: linear-gradient(to right, #ff9408, #FF9E1B, #FF9E1B, #FF9E1B);
+    background-image: linear-gradient(to right, #ff9408, #FF9E1B);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -297,22 +193,19 @@ onMounted(() => {
 
 .subtitle-aside {
     font-weight: 300;
-    font-size: 1.2rem;
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
     color: black;
-    margin-bottom: 0.25rem;
     text-align: justify;
+    margin: 0;
 }
 
-.subtitle-aside span {
-    font-weight: 800;
-}
+.subtitle-aside span { font-weight: 800; }
 
 .items-aside {
     display: flex;
     flex-wrap: wrap;
     gap: 0.85rem;
     width: 100%;
-    transform: translateY(0.5rem);
 }
 
 .card-items-aside {
@@ -361,7 +254,6 @@ onMounted(() => {
     display: flex;
     width: 100%;
     height: 2.7rem;
-    margin-top: 0.4rem;
     border: none;
     border-radius: 0.5rem;
     align-items: center;
@@ -375,24 +267,92 @@ onMounted(() => {
     transition: background 0.2s;
 }
 
-.button-aside:hover {
-    background: #ff5e35;
+.button-aside:hover { background: #ff5e35; }
+.button-aside i { display: flex; align-items: center; font-size: 0.85rem; }
+
+/* ════════════════════════════
+   FEATURES
+════════════════════════════ */
+.features {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    padding: 0 2rem;
+    box-sizing: border-box;
 }
 
-.button-aside i {
+.features-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.purple-p {
+    color: #330136;
+    background-color: #683ab620;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: #683ab689 0.01rem solid;
+    border-radius: 1rem;
+    padding: 0.4rem 1.2rem;
+    text-align: center;
+}
+
+.title-features {
+    font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+    text-align: center;
+    max-width: 700px;
+}
+
+.features-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.features-section {
     display: flex;
     align-items: center;
-    font-size: 0.85rem;
+    justify-content: center;
+    width: 100%;
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
-/* ── DASHBOARD ── */
+.text-section {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+}
+
+.features-text {
+    font-weight: 600;
+    font-size: clamp(1.2rem, 2vw, 1.75rem);
+    text-align: center;
+    max-width: 420px;
+}
+
+/* ════════════════════════════
+   SECTION DASHBOARD
+════════════════════════════ */
 .section-dashboard {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2.5rem;
-    padding: 2rem 6rem;
+    padding: 3rem 2rem;
     width: 100%;
+    max-width: 1280px;
+    box-sizing: border-box;
 }
 
 .section-dashboard > div {
@@ -407,7 +367,7 @@ onMounted(() => {
     color: #fff;
     box-shadow: rgba(0, 0, 0, 0.597) 0px 0.7rem 1.4rem;
     transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 520ms;
-    will-change: transform;
+    box-sizing: border-box;
 }
 
 .aside-dashboard:hover,
@@ -416,9 +376,7 @@ onMounted(() => {
     box-shadow: 0 0.72rem 1.2rem rgba(51, 16, 41, 0.09);
 }
 
-.aside-dashboard-left {
-    flex-direction: row-reverse;
-}
+.aside-dashboard-left { flex-direction: row-reverse; }
 
 .section-dashboard img {
     width: 22rem;
@@ -455,81 +413,72 @@ onMounted(() => {
 .section-dashboard > div:nth-child(2) { background: linear-gradient(135deg, #5b2a86, #8b4bb0); }
 .section-dashboard > div:nth-child(3) { background: linear-gradient(135deg, #e74c3c, #ff6a35); }
 
-/* ── TABLET (≤ 1024px) ── */
+/* ════════════════════════════
+   IMAGE SECTION
+════════════════════════════ */
+.image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 0 2rem 3rem;
+    width: 100%;
+    max-width: 1280px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.colored-text {
+    font-size: 1.20rem;
+    background-image: linear-gradient(to right, #330136, #330136, #FF9E1B, #FF9E1B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle-image-section {
+    font-weight: 700;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: black;
+    max-width: 50rem;
+}
+
+.image-section-phone {
+    width: 55%;
+    max-width: 700px;
+    height: auto;
+}
+
+/* ════════════════════════════
+   TABLET (≤ 1024px)
+════════════════════════════ */
 @media (max-width: 1024px) {
     .section {
         flex-direction: column;
-        padding: 2rem;
-        gap: 2rem;
-    }
-
-    .home-aside {
-        width: 100%;
-        margin-top: 0;
         align-items: center;
         text-align: center;
     }
 
-    .title-aside {
+    .home-aside {
         width: 100%;
-        font-size: 2.4rem;
-        text-align: center;
+        align-items: center;
     }
 
-    .subtitle-aside {
-        text-align: center;
-        width: 100%;
-    }
+    .subtitle-aside { text-align: center; }
 
-    .items-aside {
-        justify-content: center;
-    }
+    .items-aside { justify-content: center; }
 
-    .button-aside {
-        max-width: 20rem;
-    }
+    .button-aside { max-width: 20rem; }
 
-    .image-aside {
-        display: none;
-    }
-
-    .features-cards {
-        flex-wrap: wrap;
-    }
-
-    .purple-p {
-        width: 100%;
-        max-width: 30rem;
-        height: auto;
-        padding: 0.4rem 1rem;
-        font-size: 0.82rem;
-    }
-
-    .title-features {
-        width: 100%;
-        font-size: 1.5rem;
-    }
+    .image-aside { display: none; }
 
     .features-section {
         flex-direction: column;
         align-items: center;
     }
 
-    .text-section {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .features-text {
-        width: 100%;
-        font-size: 1.4rem;
-        justify-content: center;
-    }
-
-    .section-dashboard {
-        padding: 2rem 1.5rem;
-        gap: 1.5rem;
-    }
+    .text-section { width: 100%; justify-content: center; }
 
     .section-dashboard > div {
         flex-direction: column !important;
@@ -542,85 +491,41 @@ onMounted(() => {
 
     .section-dashboard img {
         width: 100%;
-        max-width: 280px;
+        max-width: 320px;
     }
 
-    .image-section-phone {
-        width: 80%;
-    }
-
-    .subtitle-image-section {
-        font-size: 1.2rem;
-    }
+    .image-section-phone { width: 75%; }
 }
 
-/* ── MOBILE (≤ 640px) ── */
+/* ════════════════════════════
+   MOBILE (≤ 640px)
+════════════════════════════ */
 @media (max-width: 640px) {
-    .section {
-        padding: 1.5rem 1rem;
-    }
+    .section { padding: 2rem 1rem; }
 
-    .title-aside {
-        font-size: 2rem;
-    }
+    .card-items-aside { width: 100%; }
 
-    .subtitle-aside {
-        font-size: 1rem;
-    }
+    .button-aside { max-width: 100%; }
 
-    .card-items-aside {
-        width: 100%;
-    }
+    .features { padding: 0 1rem; }
 
-    .button-aside {
-        max-width: 100%;
-    }
+    .section-dashboard { padding: 2rem 1rem; gap: 1.5rem; }
 
-    .features {
-        padding: 0 1rem;
-    }
+    .section-dashboard > div { padding: 1.25rem 1rem; }
 
-    .title-features {
-        font-size: 1.3rem;
-    }
-
-    .section-dashboard {
-        padding: 1.5rem 1rem;
-    }
-
-    .section-dashboard > div {
-        padding: 1.25rem 1rem;
-    }
-
-    .title-dashboard {
-        font-size: 1.1rem;
-    }
+    .title-dashboard { font-size: 1.1rem; }
 
     .subtitle-dashboard-one,
     .subtitle-dashboard-two,
-    .subtitle-dashboard-three {
-        font-size: 0.9rem;
-    }
+    .subtitle-dashboard-three { font-size: 0.9rem; }
 
-    .image-section-phone {
-        width: 90%;
-    }
-
-    .subtitle-image-section {
-        font-size: 1rem;
-    }
+    .image-section-phone { width: 90%; }
 }
 
-/* ── SMALL MOBILE (≤ 400px) ── */
+/* ════════════════════════════
+   SMALL MOBILE (≤ 400px)
+════════════════════════════ */
 @media (max-width: 400px) {
-    .title-aside {
-        font-size: 1.7rem;
-    }
-
-    .subtitle-aside {
-        font-size: 0.9rem;
-    }
-
     .card-items-aside i {
         margin-left: 0.6rem;
         width: 2.2rem;
@@ -628,16 +533,8 @@ onMounted(() => {
         font-size: 0.8rem;
     }
 
-    .title-items-aside {
-        font-size: 0.72rem;
-    }
+    .title-items-aside { font-size: 0.72rem; }
 
-    .title-features {
-        font-size: 1.1rem;
-    }
-
-    .image-section-phone {
-        width: 95%;
-    }
+    .image-section-phone { width: 95%; }
 }
 </style>
