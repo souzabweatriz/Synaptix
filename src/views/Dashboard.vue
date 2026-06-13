@@ -107,41 +107,28 @@ const expensiveChart = ref([])
 onMounted(async () => {
   try {
     const { data, error } = await supabase.from('epis').select('*')
-    if (error) {
-      console.error('Erro ao buscar EPIs:', error)
-      return
-    }
+    if (error) { console.error('Erro ao buscar EPIs:', error); return }
 
     const rows = data || []
     totalEPIs.value = rows.length
-
     semEstoque.value = rows.filter(r => !(r.quantidade) || Number(r.quantidade) <= 0).length
 
     const byQuantity = rows.slice().sort((a, b) => (Number(b.quantidade) || 0) - (Number(a.quantidade) || 0))
     maiorQuantidadeNome.value = byQuantity.length ? (byQuantity[0].nome || '') : ''
 
-    const topQty = byQuantity.slice(0, 5).map(r => ({
-      label: r.nome || '—',
-      value: Number(r.quantidade) || 0
-    }))
+    const topQty = byQuantity.slice(0, 5).map(r => ({ label: r.nome || '—', value: Number(r.quantidade) || 0 }))
     const maxVal = topQty.length ? Math.max(...topQty.map(i => i.value)) : 1
     quantityChart.value = topQty.map(i => ({ ...i, width: maxVal ? Math.round((i.value / maxVal) * 100) : 0 }))
 
     const byPrice = rows.slice().sort((a, b) => (Number(b.preco) || 0) - (Number(a.preco) || 0))
-    const topExp = byPrice.slice(0, 4).map(r => ({
-      label: r.nome || '—',
-      price: Number(r.preco) || 0
-    }))
+    const topExp = byPrice.slice(0, 4).map(r => ({ label: r.nome || '—', price: Number(r.preco) || 0 }))
     const highest = topExp.length ? topExp[0].price : 1
     expensiveChart.value = topExp.map(e => ({ ...e, margin: highest ? Math.round((e.price / highest) * 100) : 0 }))
 
     const { count, error: retiradaError } = await supabase
       .from('retirada_epis')
       .select('*', { count: 'exact', head: true })
-
-    if (!retiradaError) {
-      retiradosHoje.value = count || 0
-    }
+    if (!retiradaError) retiradosHoje.value = count || 0
 
   } catch (err) {
     console.error('Erro ao carregar dashboard:', err)
@@ -161,15 +148,13 @@ onMounted(async () => {
 /* ── Conteúdo principal ── */
 .conteudo {
   flex: 1;
-  /* margem padrão: sidebar expandida (250px) */
   margin-left: 250px;
   padding: 30px;
   color: #ffffff;
-  min-width: 0; /* impede overflow em flex */
+  min-width: 0;
   transition: margin-left 0.25s ease;
 }
 
-/* sidebar recolhida */
 .conteudo--collapsed {
   margin-left: 80px;
 }
@@ -267,7 +252,6 @@ onMounted(async () => {
   font-size: 0.9rem;
 }
 
-/* ── Chip ── */
 .chip {
   flex-shrink: 0;
   background: rgba(0, 0, 0, 0.12);
@@ -279,16 +263,9 @@ onMounted(async () => {
   white-space: nowrap;
 }
 
-/* ── Bar chart ── */
-.bar-chart {
-  display: grid;
-  gap: 1rem;
-}
+.bar-chart { display: grid; gap: 1rem; }
 
-.bar-row {
-  display: grid;
-  gap: 0.5rem;
-}
+.bar-row { display: grid; gap: 0.5rem; }
 
 .bar-info {
   display: flex;
@@ -312,11 +289,7 @@ onMounted(async () => {
   border-radius: 999px;
 }
 
-/* ── Price list ── */
-.price-list {
-  display: grid;
-  gap: 0.75rem;
-}
+.price-list { display: grid; gap: 0.75rem; }
 
 .price-item {
   display: flex;
@@ -328,60 +301,32 @@ onMounted(async () => {
   transition: background 0.2s ease;
 }
 
-.price-item:hover {
-  background: #e8e8e8;
-}
+.price-item:hover { background: #e8e8e8; }
 
-.price-name {
-  display: block;
-  color: #000000;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.price-subtitle {
-  margin: 0.25rem 0 0;
-  color: #333333;
-  font-size: 0.85rem;
-}
-
-.price-item strong {
-  color: #000;
-  font-size: 0.95rem;
-}
+.price-name { display: block; color: #000000; font-weight: 600; font-size: 0.9rem; }
+.price-subtitle { margin: 0.25rem 0 0; color: #333333; font-size: 0.85rem; }
+.price-item strong { color: #000; font-size: 0.95rem; }
 
 /* ════════════════════════════
    BREAKPOINTS
 ════════════════════════════ */
-
-/* Telas grandes mas sem espaço suficiente para 5 colunas */
 @media (max-width: 1400px) {
-  .stat-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  .stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* Tablet landscape / desktop pequeno */
 @media (max-width: 1100px) {
-  .stat-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .chart-card {
-    min-height: auto;
-  }
+  .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .charts-grid { grid-template-columns: 1fr; }
+  .chart-card { min-height: auto; }
 }
 
-/* Tablet portrait — sidebar some ou vira overlay */
+/* ── MOBILE — sidebar vira overlay, conteúdo ocupa tela toda ── */
 @media (max-width: 768px) {
   .conteudo,
   .conteudo--collapsed {
     margin-left: 0;
-    padding: 20px 16px;
+    /* padding-top maior para não ficar atrás do botão hamburguer fixo */
+    padding: 70px 16px 20px;
   }
 
   .shell {
@@ -393,15 +338,12 @@ onMounted(async () => {
   }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .conteudo {
-    padding: 16px 12px;
+    padding: 70px 12px 16px;
   }
 
-  .stat-grid {
-    grid-template-columns: 1fr;
-  }
+  .stat-grid { grid-template-columns: 1fr; }
 
   .stat-card {
     min-height: 110px;
@@ -413,12 +355,7 @@ onMounted(async () => {
     border-radius: 16px;
   }
 
-  .chart-card__header {
-    flex-wrap: wrap;
-  }
-
-  .price-item {
-    padding: 0.75rem;
-  }
+  .chart-card__header { flex-wrap: wrap; }
+  .price-item { padding: 0.75rem; }
 }
 </style>
